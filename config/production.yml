@@ -1,0 +1,40 @@
+imports:
+  - { resource: 'default.yml' }
+
+# Discord
+channels:
+  trivia: '855335818155917325'
+
+# Token
+token:
+  default: "xya"
+  contract_address: "0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4"
+  symbol: "XYA"
+  decimals: 18
+  network_explorer: "https://explorer.harmony.one/#"
+  rpc_url: "https://api.s0.t.hmny.io"
+  viper_pair_id: "0x1485a496f816f940c510d634e48f8c66b78dc99e"
+alternative_tokens:
+  - yin
+  - yang
+tokens:
+  xya:
+    contract_address: "0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4"
+    symbol: "XYA"
+    decimals: 18
+  yin:
+    contract_address: "0xE59AA7f9e91B4Cc6C25D3542CEcb851e0316138c"
+    symbol: "YIN"
+    decimals: 18
+  yang:
+    contract_address: "0x340042552D19211795dbe55d84FA2E63bc49B890"
+    symbol: "YANG"
+    decimals: 18
+
+# Price embed
+price_embed:
+  title: "Freyala | XYA"
+  thumbnail: "https://freyala.com/_nuxt/icons/icon_64x64.5f6a36.png"
+  chart_link: "https://www.freyala.com/chart"
+  url: "https://www.freyala.com/chart"
+  footer: "Source: Viperswap"

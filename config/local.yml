@@ -1,0 +1,30 @@
+imports:
+  - { resource: 'default.yml' }
+
+# Discord
+channels:
+  trivia: '855335818155917325'
+
+# Token
+token:
+  default: "regi"
+  contract_address: "0xD3f5650b4bE6f791B07cfdc8D6D3449abfefa4F4"
+  symbol: "REGI"
+  decimals: 18
+  network_explorer: "https://explorer.pops.one/#"
+  rpc_url: "https://api.s0.b.hmny.io"
+  viper_pair_id: "0x1485a496f816f940c510d634e48f8c66b78dc99e"
+alternative_tokens: [ ]
+tokens:
+  regi:
+    contract_address: "0xD3f5650b4bE6f791B07cfdc8D6D3449abfefa4F4"
+    symbol: "REGI"
+    decimals: 18
+
+# Price embed
+price_embed:
+  title: "Freyala | XYA"
+  thumbnail: "https://freyala.com/_nuxt/icons/icon_64x64.5f6a36.png"
+  chart_link: "https://www.freyala.com/chart"
+  url: "https://www.freyala.com/chart"
+  footer: "Source: Viperswap"
