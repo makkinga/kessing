@@ -19,17 +19,6 @@ class SendCommand extends Command
                     id     : 'to',
                     type   : 'string',
                     default: false,
-                },
-                {
-                    id    : 'token',
-                    type  : [Config.get('token.default')].concat(Config.get('alternative_tokens')),
-                    prompt: {
-                        start  : 'Which token would you like to send?',
-                        retry  : 'That\'s not a valid token. Please try again.',
-                        cancel : 'The command has been cancelled.',
-                        retries: 4,
-                        time   : 30000
-                    }
                 }
             ]
         })
@@ -55,7 +44,7 @@ class SendCommand extends Command
         }
 
         const wallet  = await Wallet.get(this, message, message.author.id)
-        const token   = args.token ?? Config.get('token.default')
+        const token   = Config.get('token.default')
         const balance = await Wallet.balance(wallet, token)
         const from    = wallet.address
         const to      = args.to

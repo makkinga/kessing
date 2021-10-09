@@ -75,7 +75,7 @@ class TipCommand extends Command
         const to   = await Wallet.recipientAddress(this, message, recipient.id)
 
         if (from === to) {
-            await React.error(this, message, `Invalid user`, `That's you, you moron!`)
+            await React.error(this, message, `Invalid user`, `You are trying to tip yourself`)
             return
         }
 

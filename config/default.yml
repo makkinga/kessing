@@ -1,6 +1,6 @@
 # General
-prefix: "!f"
-error_reporting_users: "@Gydo or @Tailchakra"
+prefix: "!"
+error_reporting_users: "@Gydo"
 owner_ids:
   - "490122972124938240"
 blacklist: [ ]
@@ -8,34 +8,35 @@ cooldown: 20000
 
 # Colors
 colors:
-  primary: "#7FCA49"
+  primary: "#FBE375"
   info: "#0EA5E9"
   error: "#FF0000"
 
 # Sea creatures
 sea_creatures:
   shrimp:
-    high: 1
+    high: 0.1
   crab:
-    low: 1
-    high: 10
+    low: 0.1
+    high: 1
   octopus:
-    low: 10
-    high: 50
+    low: 1
+    high: 3
   fish:
-    low: 50
-    high: 100
+    low: 3
+    high: 5
   dolphin:
+    low: 5
+    high: 10
+  shark:
+    low: 10
+    high: 100
+  whale:
     low: 100
     high: 500
-  shark:
-    low: 500
-    high: 1000
-  whale:
-    low: 1000
-    high: 5000
   humpback:
-    low: 5000
+    low: 500
+
 
 # Responses
 response:
@@ -83,11 +84,11 @@ response:
     - Well, if you so desire.
     - Hm, as you wish.
     - Weren’t there better options for this, %title%?
-    - Was this XYA ill-received, perchance?
+    - Was this JEWEL ill-received, perchance?
     - …If only I could’ve gotten that…
     - A bit wasteful, if you ask me.
     - You know the supply is limited, do you %title%?
-    - XYA burns with the briggest shimmer. Beautiful.
+    - JEWEL burns with the briggest shimmer. Beautiful.
   stats:
     - Hmpf, someone must have taken Luderion donations…
     - The riches of some people, incredible.
@@ -110,7 +111,7 @@ response:
     - I heard someone bought big!
     - Someone must have sold.
     - Do you think someone sold?
-    - As volatile as XYA itself, isn’t it?
+    - As volatile as JEWEL itself, isn’t it?
     - The auction house is wild today!
     - My body is ready.
     - Like ebb and flow.
@@ -119,15 +120,3 @@ response:
     - Here are your beans, %title%.
     - Complementary, my dear.
     - I’ve been told this ONE is on the house, %title%.
-  trivia_win_titles:
-    - You were victorious!
-    - You are beyond wise.
-    - You have secured victory.
-    - You are deserving of your title, my liege.
-  cat:
-    - Hail fellow Freyfolk
-    - Good day %emoji% people of Freyala
-    - What ho! how fare thee %emoji% people?
-    - Good morrow %emoji% people!
-    - Well met %emoji% people!
-    - How met %emoji% people of Freyala!

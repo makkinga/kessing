@@ -6,7 +6,7 @@ class PingCommand extends Command
     constructor()
     {
         super('getgas', {
-            aliases  : ['getgas', 'gasmeup'],
+            aliases  : ['getgas'],
             ratelimit: 1,
             channel  : 'dm',
         })
@@ -22,8 +22,7 @@ class PingCommand extends Command
         const balance = await Wallet.gasBalance(wallet)
 
         if (parseFloat(balance) >= 0.01) {
-            await message.react('👀')
-            await React.error(this, message, `Are you trying to scam me?`, `You have ${balance} ONE!`)
+            await React.error(this, message, `You are not allowed to use this command`, `Your current gas balance is ${balance} ONE`)
         } else {
             await Transaction.sendGas(this, message, process.env.BOT_WALLET_ADDRESS, wallet.address, 0.01, process.env.BOT_WALLET_PRIVATE_KEY)
 

@@ -7,7 +7,7 @@ class RainCommand extends Command
     constructor()
     {
         super('rain', {
-            aliases  : ['rain', 'ailapotmaus', 'cat'],
+            aliases  : ['rain'],
             channel  : 'guild',
             ratelimit: 1,
             args     : [
@@ -30,34 +30,20 @@ class RainCommand extends Command
     {
         await React.processing(message)
 
-        const alias = await Helpers.getAlias(message)
-
         if (!await Wallet.check(this, message, message.author.id)) {
             return
         }
 
         let amount = args.amount
-        if (alias === 'cat') {
-            amount = 5
-
-            const greetingsArray = await Config.get(`response.cat`)
-            const emojiArray     = ['🌞', '☀️', '🌻', '🌅', '🔆']
-            let greeting         = greetingsArray[Math.floor(Math.random() * greetingsArray.length)]
-            let emoji            = emojiArray[Math.floor(Math.random() * emojiArray.length)]
-            greeting             = greeting.replace('%emoji%', emoji)
-            await message.channel.send(greeting)
-        }
         const totalAmount = amount
 
-        if (alias !== 'cat') {
-            if (amount === 0) {
-                await React.error(this, message, `Tip amount incorrect`, `The tip amount is wrongly formatted or missing`)
-                return
-            }
-            if (amount < 0.01) {
-                await React.error(this, message, `Tip amount incorrect`, `The tip amount is too low`)
-                return
-            }
+        if (amount === 0) {
+            await React.error(this, message, `Tip amount incorrect`, `The tip amount is wrongly formatted or missing`)
+            return
+        }
+        if (amount < 0.01) {
+            await React.error(this, message, `Tip amount incorrect`, `The tip amount is too low`)
+            return
         }
 
         let recipients          = []

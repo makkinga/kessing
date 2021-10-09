@@ -62,7 +62,7 @@ exports.processing = async function (message) {
 }
 
 /**
- * Done7e6ce569cc1d4e3c2bb19400e8bbedb6
+ * Done
  *
  * @return {Promise<void>}
  */
@@ -77,7 +77,7 @@ exports.done = async function (message) {
 }
 
 /**
- * Done
+ * Burn
  *
  * @return {Promise<void>}
  */

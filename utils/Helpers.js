@@ -5,5 +5,5 @@
  * @return {Promise<string>}
  */
 exports.getAlias = async function (message) {
-    return message.content.match(/(?<=!f)([a-zA-Z]+)(?=\s|$)/)[0]
+    return message.content.match(/(?<=!)([a-zA-Z]+)(?=\s|$)/)[0]
 }

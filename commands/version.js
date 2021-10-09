@@ -17,7 +17,7 @@ class PingCommand extends Command
     {
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`${Config.get('token.symbol')} Tipbot version`)
+            .setTitle(`DeFi Kingdoms Tipbot version`)
             .setDescription('```' + git.tag(false) + '```')
         await message.reply(embed)
     }

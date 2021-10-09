@@ -53,7 +53,7 @@ client.on('ready', () => {
 
 async function setPresence()
 {
-    const price = parseFloat(await Token.mochiPrice()).toFixed(3)
+    const price = parseFloat(await Token.priceUsd()).toFixed(3)
 
     await client.user.setPresence({activity: {name: `${Config.get('token.symbol')} at $${price}`, type: 3}})
 }
