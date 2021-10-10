@@ -45,7 +45,6 @@ exports.get = async function (command, message, id) {
 
         return wallet
     }).catch(async error => {
-        this.log(message, error)
         await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
     })
 }
