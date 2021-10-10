@@ -1,10 +1,6 @@
 imports:
   - { resource: 'default.yml' }
 
-# Discord
-channels:
-  trivia: '855335818155917325'
-
 # Token
 token:
   default: "jewel"
