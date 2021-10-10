@@ -9,5 +9,4 @@ module.exports = {
     TipStatistics : require('./utils/TipStatistics'),
     BurnStatistics: require('./utils/BurnStatistics'),
     Token         : require('./utils/Token'),
-    Staking       : require('./utils/Staking'),
 }

@@ -1,6 +1,6 @@
-const {Command}                        = require('discord-akairo')
-const {Config, React, Wallet, Staking} = require('../utils')
-const table                            = require('text-table')
+const {Command}               = require('discord-akairo')
+const {Config, React, Wallet} = require('../utils')
+const table                   = require('text-table')
 
 class BalanceCommand extends Command
 {
@@ -32,16 +32,6 @@ class BalanceCommand extends Command
         rows.push(null)
         rows.push([`ONE`, `${gasBalance} ONE`])
         rows.push(null)
-        
-        if (process.env.ENVIRONMENT === 'production') {
-            if (await Staking.status(wallet.address)) {
-                const balance       = await Staking.balance(wallet.address)
-                const rewardBalance = await Staking.rewardBalance(wallet.address)
-
-                rows.push([`Staked ${Config.get(`token.symbol`)}`, `${balance} ${Config.get(`token.symbol`)}`])
-                rows.push([`Staking rewards`, `${rewardBalance} ${Config.get(`token.symbol`)}`])
-            }
-        }
 
         const tableRows = []
         for (let i = 0; i < rows.length; i++) {
