@@ -24,6 +24,7 @@
         "from-exponential": "^1.1.1",
         "git-rev-sync": "^3.0.1",
         "mariadb": "^2.5.4",
+        "moment": "^2.29.1",
         "sequelize": "^6.6.4",
         "simple-node-logger": "^18.12.24",
         "text-table": "^0.2.0",
