@@ -12,9 +12,21 @@ class CooldownListener extends Listener
         })
     }
 
-    exec(message, command, remaining)
+    async exec(message, command, remaining)
     {
-        React.error(command, message, `Chill out`, `${moment.duration(remaining).seconds()}s must elapse before you can poke me again`)
+        await message.react('❌')
+        await React.done(message)
+
+        const embed = command.client.util.embed()
+            .setColor(Config.get('colors.error'))
+            .setTitle(`Chill out`)
+            .setDescription(`${moment.duration(remaining).seconds()}s must elapse before you can poke me again`)
+
+        const embedMessage = await message.author.send(embed)
+
+        setTimeout(async () => {
+            await embedMessage.delete()
+        }, 2000)
     }
 }
 
