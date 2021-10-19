@@ -41,7 +41,7 @@ sea_creatures:
 # Responses
 response:
   titles:
-    - my liege
+    - Hero
     - Ser
     - master
     - your excellency
@@ -51,72 +51,42 @@ response:
     - As you please!
     - Straight away.
     - At your service.
-    - At your will.
-    - At your ready.
-    - My honor.
-    - Please, allow me.
-    - I’ll let the servants know, %title%.
     - I’ll see what I can do.
     - I’ll be on my way.
+    - They don't call me Banker Ian for nothing!
     - Will do, %title%.
     - Yes, %title%.
     - Are you sure?
     - Certainly.
-    - Superb idea!
-    - Generous, %title%.
-    - Splendid!
-    - Hm-hm.
-    - Good day, %title%.
-    - Can I help you?
+    - Excellent idea!
+    - Greetings, %title%!
   large_tip:
-    - Spreading the wealth, I see. Perhaps… I can make a suggestion for another recipient?
+    - Spreading the wealth, I see.
     - Very generous!
-    - Most gracious.
-    - More than a slight drizzle, I see.
-    - Shall I bring the umbrella, %title%?
-    - People will speak of your gift for a long time.
-    - It would be my honor.
-    - Your generosity remind me of the monarch — before, well, you know.
+    - You will be a name to remember, %title%.
+    - A true follower of Gaia.
+    - Gaia will not forget this, I am sure.
     - A grand gesture, %title%.
   burn:
-    - What?!
-    - A strange request, %title%.
+    - Irae watches over you...
     - Well, if you so desire.
-    - Hm, as you wish.
-    - Weren’t there better options for this, %title%?
     - Was this JEWEL ill-received, perchance?
-    - …If only I could’ve gotten that…
-    - A bit wasteful, if you ask me.
-    - You know the supply is limited, do you %title%?
-    - JEWEL burns with the briggest shimmer. Beautiful.
+    - Hmpf! The bank of Ian is always accepting donations.
+    - JEWEL burns bright.
   stats:
-    - Hmpf, someone must have taken Luderion donations…
     - The riches of some people, incredible.
-    - Have you heard? Countess Jenny recently found great treasure!
+    - I bet you they all live in the capital.
     - There’s always bigger fish.
     - Do not compare yourself to others.
     - How do you rank, %title%?
-    - I’ve heard a great story about number — oh, but I’d best not tell.
-  legends:
-    - Feeling sentimental, %title%?
-    - Look back, look forward.
-    - Remembering better times? I know the feeling too well…
-    - Oh, how times have changed.
-    - I still hear stories of these greats in town.
-    - I’ve heard rumours that Carroway was planning statues for this lot.
+    - An excellent start to the Age of Heroes.
   price:
-    - This bids well.
-    - Someone must have bought.
-    - Do you think someone bought?
-    - I heard someone bought big!
-    - Someone must have sold.
-    - Do you think someone sold?
-    - As volatile as JEWEL itself, isn’t it?
-    - The auction house is wild today!
-    - My body is ready.
-    - Like ebb and flow.
+    - Interesting indeed.
+    - This explains the man that came in earlier...
+    - Oh my! Are the Bank's reserves running dry?
+    - Do you think Gaia weeps?
   get_gas:
-    - A small donation from the people.
-    - Here are your beans, %title%.
-    - Complementary, my dear.
-    - I’ve been told this ONE is on the house, %title%.
+    - A small blessing from Gaia herself.
+    - Don't spend these all at once!
+    - On the house!
+    - Consider this a gift, %title%.
