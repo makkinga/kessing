@@ -43,6 +43,7 @@ class HeroCommand extends Command
                         dexterity
                         vitality
                         stamina
+                        intelligence
                         luck
                         hp
                         mp
@@ -84,13 +85,14 @@ class HeroCommand extends Command
             )
 
         let stats = [
-            ['Strength', hero.strength],
-            ['Agility', hero.agility],
-            ['Endurance', hero.endurance],
-            ['Wisdom', hero.wisdom],
-            ['Dexterity', hero.dexterity],
-            ['Vitality', hero.vitality],
-            ['Luck', hero.luck],
+            ['STR', hero.strength],
+            ['AGI', hero.agility],
+            ['END', hero.endurance],
+            ['WIS', hero.wisdom],
+            ['DEX', hero.dexterity],
+            ['VIT', hero.vitality],
+            ['INT', hero.intelligence],
+            ['LCK', hero.luck],
         ]
         embed.addField(`Stats`, '```' + table(stats) + '```')
 
