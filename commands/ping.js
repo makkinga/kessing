@@ -1,4 +1,4 @@
-const {Command}       = require('discord-akairo')
+const {Command}    = require('discord-akairo')
 
 class PingCommand extends Command
 {
