@@ -75,11 +75,12 @@ class HeroCommand extends Command
             .addFields(
                 {name: `Generation`, value: hero.generation, inline: true},
                 {name: `Rarity`, value: Hero.getRarity(hero.rarity), inline: true},
+                {name: `Level`, value: hero.level, inline: true},
             )
             .addFields(
-                {name: `Level`, value: hero.level, inline: true},
                 {name: `HP`, value: hero.hp, inline: true},
                 {name: `MP`, value: hero.mp, inline: true},
+                {name: `Stamina`, value: hero.stamina, inline: true},
             )
 
         let stats = [
@@ -89,7 +90,6 @@ class HeroCommand extends Command
             ['Wisdom', hero.wisdom],
             ['Dexterity', hero.dexterity],
             ['Vitality', hero.vitality],
-            ['Stamina', hero.stamina],
             ['Luck', hero.luck],
         ]
         embed.addField(`Stats`, '```' + table(stats) + '```')
