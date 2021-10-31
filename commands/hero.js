@@ -70,7 +70,6 @@ class HeroCommand extends Command
             .setTitle(`Hero #${args.id}`)
             .setThumbnail('https://cdn.discordapp.com/icons/861728723991527464/a_3480dd8a8f41d429341272626dfc61db.webp?size=160')
             .addField(`Name`, name)
-            .addField(`Gender`, hero.gender)
             .addFields(
                 {name: `Generation`, value: hero.generation, inline: true},
                 {name: `Rarity`, value: hero.rarity, inline: true},
