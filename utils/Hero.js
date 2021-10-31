@@ -6068,6 +6068,14 @@ const lastNames        = [
     'dúgheli'
 ]
 
+const rarities = [
+    'Common',
+    'Uncommon',
+    'Rare',
+    'Legendary',
+    'Mythic',
+]
+
 const rarityColors = [
     '#91959b', // Common
     '#6fbd81', // Uncommon
@@ -6097,6 +6105,10 @@ exports.getLastName = function (lastNameIndex) {
 
 exports.getFullName = function (gender, firstNameIndex, lastNameIndex) {
     return this.getFirstName(gender, firstNameIndex) + ' ' + this.getLastName(lastNameIndex)
+}
+
+exports.getRarity = function (rarityIndex) {
+    return rarities[rarityIndex]
 }
 
 exports.getColor = function (rarityIndex) {

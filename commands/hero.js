@@ -54,6 +54,7 @@ class HeroCommand extends Command
                         foraging
                         fishing
                         mining
+                        shiny
                       }
                     }
                 `,
@@ -70,9 +71,10 @@ class HeroCommand extends Command
             .setTitle(`Hero #${args.id}`)
             .setThumbnail('https://cdn.discordapp.com/icons/861728723991527464/a_3480dd8a8f41d429341272626dfc61db.webp?size=160')
             .addField(`Name`, name)
+            .addField(`Shiny`, hero.shiny ? 'Yes' : 'No')
             .addFields(
                 {name: `Generation`, value: hero.generation, inline: true},
-                {name: `Rarity`, value: hero.rarity, inline: true},
+                {name: `Rarity`, value: Hero.getRarity(hero.rarity), inline: true},
             )
             .addFields(
                 {name: `Level`, value: hero.level, inline: true},
@@ -93,10 +95,10 @@ class HeroCommand extends Command
         embed.addField(`Stats`, '```' + table(stats) + '```')
 
         let professions = [
-            ['Fishing', hero.fishing],
-            ['Foraging', hero.foraging],
-            ['Gardening', hero.gardening],
-            ['Mining', hero.mining],
+            [`Fishing${hero.profession === 'fishing' ? '*' : ''}`, hero.fishing],
+            [`Foraging${hero.profession === 'foraging' ? '*' : ''}`, hero.foraging],
+            [`Gardening${hero.profession === 'gardening' ? '*' : ''}`, hero.gardening],
+            [`Mining${hero.profession === 'mining' ? '*' : ''}`, hero.mining],
         ]
         embed.addField(`Professions`, '```' + table(professions) + '```')
 
