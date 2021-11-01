@@ -1,7 +1,7 @@
 const {Command}             = require('discord-akairo')
 const axios                 = require("axios")
 const table                 = require('text-table')
-const {Config, React, Hero} = require("../utils")
+const {React, Hero} = require("../utils")
 
 class HeroCommand extends Command
 {

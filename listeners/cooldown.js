@@ -1,6 +1,6 @@
-const {Listener} = require('discord-akairo')
-const {React}    = require("../utils")
-const moment     = require('moment')
+const {Listener}      = require('discord-akairo')
+const {Config, React} = require("../utils")
+const moment          = require('moment')
 
 class CooldownListener extends Listener
 {
@@ -22,11 +22,11 @@ class CooldownListener extends Listener
             .setTitle(`Chill out`)
             .setDescription(`${moment.duration(remaining).seconds()}s must elapse before you can poke me again`)
 
-        const embedMessage = await message.author.send(embed)
+        const embedMessage = await message.channel.send(embed)
 
         setTimeout(async () => {
             await embedMessage.delete()
-        }, 2000)
+        }, 5000)
     }
 }
 
