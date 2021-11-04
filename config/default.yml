@@ -2,7 +2,7 @@
 prefix: "!"
 error_reporting_users: "@Gydo"
 owner_ids:
-  - "490122972124938240"
+  - "891355078416543774"
 blacklist: [ ]
 cooldown: 20000
 
@@ -41,10 +41,11 @@ sea_creatures:
 # Responses
 response:
   titles:
-    - Hero
+    - Adventurer
+    - Traveller
+    - Citizen
+    - my guy
     - Ser
-    - master
-    - your excellency
   small_tip:
     - As you wish.
     - As you require.
@@ -53,7 +54,6 @@ response:
     - At your service.
     - I’ll see what I can do.
     - I’ll be on my way.
-    - They don't call me Banker Ian for nothing!
     - Will do, %title%.
     - Yes, %title%.
     - Are you sure?
@@ -67,12 +67,12 @@ response:
     - A true follower of Gaia.
     - Gaia will not forget this, I am sure.
     - A grand gesture, %title%.
+    - Look at the muscles on you!
   burn:
-    - Irae watches over you...
     - Well, if you so desire.
-    - Was this JEWEL ill-received, perchance?
-    - Hmpf! The bank of Ian is always accepting donations.
-    - JEWEL burns bright.
+    - Was this ill-received, perchance?
+    - Wow, my pockets are always accepting donations.
+    - Whoa! This burns bright.
   stats:
     - The riches of some people, incredible.
     - I bet you they all live in the capital.

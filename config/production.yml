@@ -15,3 +15,7 @@ tokens:
     contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
     symbol: "JEWEL"
     decimals: 18
+  tears:
+    contract_address: "0x24eA0D436d3c2602fbfEfBe6a16bBc304C963D04"
+    symbol: "DFKTEARS"
+    decimals: 0
