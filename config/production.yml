@@ -9,7 +9,8 @@ token:
   decimals: 18
   network_explorer: "https://explorer.harmony.one/#"
   rpc_url: "https://api.s0.t.hmny.io"
-alternative_tokens: []
+alternative_tokens:
+  - tears
 tokens:
   jewel:
     contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
