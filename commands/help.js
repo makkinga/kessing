@@ -44,6 +44,8 @@ class HelpCommand extends Command
             .addField(`${Config.get('prefix')}version`, `Show the current tipbot version\nAlias: ${Config.get('prefix')}v`)
             .addField(`${Config.get('prefix')}ping`, `Responds with "pong!" when the bot is online`)
 
+            .addField(`${Config.get('prefix')}hero <Hero ID>`, `Displays quick info about a given Hero.`)
+
         const info = this.client.util.embed()
             .setColor(Config.get('colors.info'))
             .setTitle(`:information_source: Cooldown`)
