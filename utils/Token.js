@@ -15,30 +15,15 @@ exports.onePrice = async function () {
 }
 
 /**
- * Price in ONE
+ * Token price
  *
  * @return {Promise<*>}
  */
-exports.priceOne = async function () {
+exports.tokenPrice = async function () {
     const response = await axios({
-        url   : 'https://graph.defikingdoms.com/subgraphs/name/defikingdoms/dex',
-        method: 'post',
-        data  : {
-            query: '{pair(id: "0xeb579ddcd49a7beb3f205c9ff6006bb6390f138f") { token1Price }}'
-        }
+        url   : 'https://api.coingecko.com/api/v3/simple/token_price/harmony-shard-0?contract_addresses=0x72Cb10C6bfA5624dD07Ef608027E366bd690048F&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
+        method: 'get',
     })
 
-    return response.data.data.pair.token1Price
-}
-
-/**
- * Price in USD
- *
- * @return {Promise<*>}
- */
-exports.priceUsd = async function () {
-    const priceOne = await this.priceOne()
-    const onePrice = await this.onePrice()
-
-    return onePrice * priceOne
+    return response.data['0x72cb10c6bfa5624dd07ef608027e366bd690048f']
 }
