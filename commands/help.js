@@ -31,6 +31,7 @@ class HelpCommand extends Command
 
             .addField(`${Config.get('prefix')}send 100 0x89y92...38jhu283h9`, `Send ${tokensSummary} to an external address`)
             .addField(`${Config.get('prefix')}sendmax 0x89y92...38jhu283h9`, `Send all of your ${tokensSummary} to an external address`)
+            .addField(`${Config.get('prefix')}pkey`, `Shows your tip wallet's address and private key to set up in an external wallet like MetaMask. Use this command at your own risk! Never ever share your private key with anyone!`)
 
             .addField(`${Config.get('prefix')}tip 100 @user1`, `Send a tip to mentioned user\nAlias: ${Config.get('prefix')}gift ${Config.get('prefix')}give`)
             .addField(`${Config.get('prefix')}tipsplit 100 @user1 @user2`, `Split a tip among mentioned users\nAlias: ${Config.get('prefix')}split ${Config.get('prefix')}splitgift ${Config.get('prefix')}divide ${Config.get('prefix')}tipdivide ${Config.get('prefix')}dividetip`)
