@@ -181,7 +181,7 @@ exports.make = async function (from, to, amount, token, privateKey, nonce = null
     let sendOptions = {
         from    : from,
         gasLimit: '250000',
-        gasPrice: new hmy.utils.Unit(1).asGwei().toWei(),
+        gasPrice: new hmy.utils.Unit(30).asGwei().toWei(),
     }
 
     if (nonce !== null) {
@@ -245,7 +245,7 @@ exports.sendGas = async function (command, message, from, to, amount, privateKey
     const fromShard = 0
     const toShard   = 0
     const gasLimit  = '25000'
-    const gasPrice  = 1
+    const gasPrice  = 30
     const recipient = await toBech32(to)
     const wallet    = await Wallet.get(command, message, from)
     if (privateKey === null) {
