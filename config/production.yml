@@ -8,7 +8,7 @@ token:
   symbol: "JEWEL"
   decimals: 18
   network_explorer: "https://explorer.harmony.one/#"
-  rpc_url: "https://api.s0.t.hmny.io"
+  rpc_url: "https://rpc.gainzstation.one/"
 alternative_tokens: []
 tokens:
   jewel:
