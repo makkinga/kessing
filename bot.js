@@ -45,6 +45,8 @@ const client = new BotClient()
 client.login(process.env.TOKEN)
 
 client.on('ready', () => {
+    console.log('Ready!')
+    
     DB.syncDatabase()
 
     getPrice()

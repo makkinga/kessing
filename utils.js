@@ -10,4 +10,6 @@ module.exports = {
     BurnStatistics: require('./utils/BurnStatistics'),
     Token         : require('./utils/Token'),
     Hero          : require('./utils/Hero'),
+    Mods          : require('./utils/Mods'),
+    Blacklist     : require('./utils/Blacklist'),
 }

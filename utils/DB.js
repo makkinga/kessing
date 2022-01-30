@@ -10,11 +10,18 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 /**
  * Sync database
  */
-exports.syncDatabase = function () {
-    this.wallets.sync()
-    this.transactions.sync()
-    this.tipRanks.sync()
-    this.burnRanks.sync()
+exports.syncDatabase = async function () {
+    await this.wallets.sync()
+    await this.transactions.sync()
+    await this.tipRanks.sync()
+    await this.burnRanks.sync()
+    await this.mods.sync()
+    if (!await this.mods.findOne({where: {user: '490122972124938240'}})) {
+        await this.mods.create({
+            user: '490122972124938240'
+        })
+    }
+    await this.rainBlacklist.sync()
 }
 
 /* Wallets */
@@ -61,7 +68,7 @@ exports.transactions = sequelize.define('transactions', {
         type     : Sequelize.FLOAT,
         allowNull: false,
     },
-    token    : {
+    token     : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
@@ -93,5 +100,30 @@ exports.burnRanks = sequelize.define('burn_ranks', {
     amount  : {
         type     : Sequelize.FLOAT,
         allowNull: false,
+    },
+})
+
+/* Mods */
+exports.mods = sequelize.define('mods', {
+    user: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    }
+})
+
+/* Rain Blacklist */
+exports.rainBlacklist = sequelize.define('rain_blacklist', {
+    user     : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    forever  : {
+        type     : Sequelize.BOOLEAN,
+        allowNull: false,
+        default  : false
+    },
+    timestamp: {
+        type     : Sequelize.STRING,
+        allowNull: true,
     },
 })

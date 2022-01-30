@@ -1,6 +1,6 @@
-const {Command}                                     = require('discord-akairo')
-const table                                         = require('text-table')
-const {Config, Helpers, React, Wallet, Transaction} = require('../utils')
+const {Command}                                                = require('discord-akairo')
+const table                                                    = require('text-table')
+const {Config, Helpers, React, Wallet, Transaction, Blacklist} = require('../utils')
 
 class RainCommand extends Command
 {
@@ -34,7 +34,7 @@ class RainCommand extends Command
             return
         }
 
-        let amount = args.amount
+        let amount        = args.amount
         const totalAmount = amount
 
         if (amount === 0) {
@@ -64,6 +64,10 @@ class RainCommand extends Command
                     })
 
                     if (lastMessage.author.bot) {
+                        add = false
+                    }
+
+                    if (await Blacklist.listed(lastMessage.author)) {
                         add = false
                     }
 

@@ -5,6 +5,7 @@ owner_ids:
   - "891355078416543774"
 blacklist: [ ]
 cooldown: 20000
+blacklist_time_out: 604800
 
 # Colors
 colors:
