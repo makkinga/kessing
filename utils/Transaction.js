@@ -1,40 +1,43 @@
-const {Harmony}                         = require('@harmony-js/core')
-const {ChainType, ChainID, hexToNumber} = require('@harmony-js/utils')
-const {BN, toBech32}                    = require('@harmony-js/crypto')
-const {BigNumber}                       = require('bignumber.js')
-const artifact                          = require('../artifact.json')
-const Config                            = require('./Config')
-const DB                                = require('./DB')
-const React                             = require('./React')
-const Wallet                            = require('./Wallet')
-const TipStatistics                     = require('./TipStatistics')
-const BurnStatistics                    = require('./BurnStatistics')
-const Log                               = require('./Log')
+const {ethers}       = require('ethers')
+const {Harmony}      = require('@harmony-js/core')
+const {ChainType}    = require('@harmony-js/utils')
+const {toBech32}     = require('@harmony-js/crypto')
+const Config         = require('./Config')
+const DB             = require('./DB')
+const React          = require('./React')
+const Wallet         = require('./Wallet')
+const TipStatistics  = require('./TipStatistics')
+const BurnStatistics = require('./BurnStatistics')
+const Log            = require('./Log')
+const {MessageEmbed} = require("discord.js")
 
 /**
  * Add to Queue
  *
- * @param command
- * @param message
+ * @param interaction
  * @param from
  * @param to
  * @param amount
  * @param token
  * @param recipient
+ * @param rainTotalAmount
+ * @param rainTotalRecipients
  * @return {Promise<void>}
  */
-exports.addToQueue = async function (command, message, from, to, amount, token, recipient = null) {
+exports.addToQueue = async function (interaction, from, to, amount, token, recipient = null, rainTotalAmount = null, rainTotalRecipients = null) {
     await DB.transactions.create({
-        message  : message.id,
-        author   : message.author.id,
-        recipient: recipient,
-        from     : from,
-        to       : to,
-        amount   : amount,
-        token    : token,
+        message            : interaction.id,
+        author             : interaction.user.id,
+        recipient          : recipient,
+        from               : from,
+        to                 : to,
+        amount             : amount,
+        rainTotalAmount    : rainTotalAmount,
+        rainTotalRecipients: rainTotalRecipients,
+        token              : token,
     }).catch(async error => {
-        Log.error(error, message)
-        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+        Log.error(error)
+        await React.error(interaction, 37, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
     })
 }
 
@@ -42,212 +45,149 @@ exports.addToQueue = async function (command, message, from, to, amount, token, 
  * Run transaction queue
  *
  * @return {Promise<void>}
- * @param command
- * @param message
+ * @param interaction
  * @param author
- * @param notifyAuthor
- * @param notifyRecipient
- * @param send
- * @param burn
+ * @param options
+ * @param notification
  */
-exports.runQueue = async function (command, message, author, notifyAuthor = false, notifyRecipient = false, send = false, burn = false, win = false) {
+exports.runQueue = async function (interaction, author, options, notification) {
     const processing = await DB.transactions.count({where: {author: author, processing: true}}) > 0
     const hasQueue   = await DB.transactions.count({where: {author: author}}) > 0
     if (processing || !hasQueue) {
         return
     }
 
-    const hmy = new Harmony(
-        Config.get('token.rpc_url'),
-        {
-            chainType: ChainType.Harmony,
-            chainId  : Config.get('chain_id'),
-        },
-    )
-
-    const wallet     = await Wallet.get(command, message, author)
-    const privateKey = await Wallet.privateKey(wallet)
-    const queue      = await DB.transactions.findAll({where: {message: message.id}})
-    const lastNonce  = await hmy.blockchain.getTransactionCount({address: wallet.address}, 'pending')
-    let nonce        = null
+    const wallet             = await Wallet.get(interaction, author)
+    const privateKey         = await Wallet.privateKey(wallet)
+    const queue              = await DB.transactions.findAll({where: {message: interaction.id}})
+    const provider           = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
+    const transactionOptions = {gasPrice: await provider.getGasPrice(), gasLimit: 250000}
+    const signer             = new ethers.Wallet(privateKey, provider)
+    const lastNonce          = await signer.getTransactionCount()
 
     for (let i = 0; i < queue.length; i++) {
-        nonce = '0x' + (parseInt(hexToNumber(lastNonce.result)) + i).toString(16)
+        const artifact           = require(`../artifacts/${process.env.ENVIRONMENT}/${queue[i].token}.json`)
+        const contract           = new ethers.Contract(artifact.address, artifact.abi, provider).connect(signer)
+        transactionOptions.nonce = '0x' + (parseInt(lastNonce) + i).toString(16)
 
-        await this.make(queue[i].from, queue[i].to, queue[i].amount, queue[i].token, privateKey, nonce)
-            .then(async response => {
-                if (response.success) {
-                    DB.transactions.destroy({
-                        where: {
-                            id: queue[i].id
-                        }
-                    }).catch(async error => {
-                        Log.error(error, message)
-                        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
-                    })
+        try {
+            // Transaction
+            const tx = await contract.transfer(queue[i].to, ethers.utils.parseEther(queue[i].amount.toString()), transactionOptions)
 
-                    if (notifyAuthor) {
-                        await React.success(command, message, response.message)
-                    } else {
-                        await React.success(command, message)
-                    }
+            await tx.wait(1)
 
-                    if (notifyRecipient) {
-                        const recipient = await command.client.users.cache.get(queue[i].recipient)
+            console.log(`Transaction #${i + 1}`)
 
-                        const embed = command.client.util.embed()
-                            .setColor(Config.get('colors.primary'))
-                        if (!win) {
-                            embed
-                                .setTitle(`You got tipped!`)
-                                .setDescription(`@${message.author.username} tipped you ${queue[i].amount} ${Config.get('token.symbol')} in <#${message.channel.id}>`)
-                        } else {
-                            const titleArray   = await Config.get(`response.trivia_win_titles`)
-                            const randomTitle  = titleArray[Math.floor(Math.random() * titleArray.length)]
-
-                            embed
-                                .setTitle(randomTitle)
-                                .setDescription(`You received your prize of ${queue[i].amount} ${Config.get('token.symbol')}`)
-                        }
-                        await recipient.send(embed)
-                    }
-
-                    if (!send && !burn) {
-                        await TipStatistics.addAmountToRanking(message.author.username, queue[i].amount)
-                    }
-
-                    if (burn) {
-                        await BurnStatistics.addAmountToRanking(message.author.username, queue[i].amount)
-                        await React.burn(message)
-                    }
-
-                    if (!send) {
-                        await React.seaCreature(message, queue[i].amount)
-                    }
-                } else {
-                    await DB.transactions.destroy({
-                        where: {
-                            from: queue[i].from
-                        }
-                    })
-
-                    Log.debug(response.message, message)
-                    await React.error(command, message, `An error has occurred`, `Error: ${response.message}\n\nPlease contact ${Config.get('error_reporting_users')}`)
+            // Remove from transaction queue
+            DB.transactions.destroy({
+                where: {
+                    id: queue[i].id
                 }
+            }).catch(async error => {
+                Log.error(error, interaction)
+                return await React.error(interaction, 38, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
             })
-            .catch(async error => {
-                await DB.transactions.destroy({
-                    where: {
-                        author: queue[i].author
+
+            // Update statistics
+            switch (options.transactionType) {
+                case 'tip' :
+                case 'rain' :
+                case 'gift' :
+                    await TipStatistics.addAmountToRanking(interaction.user.username, queue[i].amount)
+                    break
+                case 'burn' :
+                    await BurnStatistics.addAmountToRanking(interaction.user.username, queue[i].amount)
+                    break
+            }
+
+            // Notifications
+            if (notification.reply) {
+                const recipient                = await interaction.client.users.cache.get(queue[i].recipient)
+                let replyTitle                 = ``
+                let replyDescription           = null
+                let recipientNotificationTitle = ``
+
+                switch (options.transactionType) {
+                    case 'tip' :
+                        replyDescription = `💵 Tipped <@${recipient.id}> ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)}`
+                        break
+                    case 'rain' :
+                        replyTitle       = `☂️ Raining ${queue[i].rainTotalAmount} ${Config.get(`tokens.${queue[i].token}.symbol`)}!`
+                        replyDescription = `Rained ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} on ${i + 1}/${queue[i].rainTotalRecipients} members`
+                        break
+                    case 'burn' :
+                        replyDescription = `🔥 Burned ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)}`
+                        break
+                    case 'send' :
+                        replyDescription = `💵 Sent ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} to ${queue[i].to}`
+                        break
+                }
+
+                const embed = new MessageEmbed()
+                    .setColor(Config.get('colors.primary'))
+                if (replyTitle) {
+                    embed.setTitle(replyTitle)
+                }
+                if (replyDescription) {
+                    embed.setDescription(replyDescription)
+                }
+
+                const reply = await interaction.editReply({embeds: [embed], ephemeral: notification.ephemeral})
+
+                if (options.transactionType === 'tip' || options.transactionType === 'rain') {
+                    if (typeof recipient !== 'undefined') {
+                        const embed = new MessageEmbed()
+                            .setColor(Config.get('colors.primary'))
+                            .setTitle(recipientNotificationTitle)
+                            .setDescription(`@${interaction.user.username} tipped you ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} in <#${interaction.channel.id}>`)
+                        await recipient.send(embed).catch(async error => {
+                            if (error.code === 50007) {
+                                console.warn(`Cannot send DM to ${recipient.username}`)
+                            }
+                        })
                     }
-                })
+                }
 
-                Log.error(error, message)
-                await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
-            })
-    }
-
-    await this.runQueue(command, message, author, notifyAuthor, notifyRecipient, send, burn)
-}
-
-/**
- * Make transaction
- *
- * @param from
- * @param to
- * @param amount
- * @param token
- * @param privateKey
- * @param nonce
- * @return {Promise<{success: boolean, message: string}>}
- */
-exports.make = async function (from, to, amount, token, privateKey, nonce = null) {
-    let txHash, receipt, error
-    let confirmation      = null
-    const hmy             = new Harmony(
-        Config.get('token.rpc_url'),
-        {
-            chainType: ChainType.Harmony,
-            chainId  : Config.get('chain_id'),
-        },
-    )
-    const contract        = hmy.contracts.createContract(artifact.abi, Config.get(`tokens.${token}.contract_address`))
-    const oneToHexAddress = (address) => hmy.crypto.getAddress(address).basicHex
-    const weiAmount       = new BN(
-        new BigNumber(parseFloat(amount)).multipliedBy(Math.pow(10, Config.get(`tokens.${token}.decimals`))).toFixed(),
-        10
-    )
-
-    let sendOptions = {
-        from    : from,
-        gasLimit: '250000',
-        gasPrice: new hmy.utils.Unit(30).asGwei().toWei(),
-    }
-
-    if (nonce !== null) {
-        sendOptions.nonce = nonce
-    }
-
-    hmy.wallet.addByPrivateKey(privateKey)
-    try {
-        await contract.methods.transfer(to, weiAmount)
-            .send(sendOptions)
-            .on('transactionHash', (_hash) => {
-                txHash = _hash
-            })
-            .on('receipt', (_receipt) => {
-                receipt = _receipt
-            })
-            .on('confirmation', (_confirmation) => {
-                confirmation = _confirmation
-            })
-            .on('error', (_error) => {
-                error = _error
-            })
-    } catch (error) {
-        return {
-            success: false,
-            message: `Transfer error: ${error}`,
+                // Reactions
+                if (notification.react) {
+                    switch (options.transactionType) {
+                        case 'tip' :
+                        case 'rain' :
+                            await React.seaCreature(reply, queue[i].amount)
+                            break
+                        case 'burn' :
+                            await React.seaCreature(reply, queue[i].amount)
+                            await React.burn(reply)
+                            break
+                    }
+                }
+            }
+        } catch (error) {
+            console.error(error)
+            return await React.error(interaction, 39, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
         }
     }
 
-    if (confirmation !== 'CONFIRMED') {
-        return {
-            success: false,
-            message: `The transaction was rejected: ${txHash}`,
-        }
-    }
-    if (error) {
-        return {
-            success: false,
-            message: `Failed to send transaction`,
-        }
-    }
-
-    return {
-        success: true,
-        message: `${Config.get('token.network_explorer')}/tx/${txHash}`,
-    }
+    await this.runQueue(interaction, author, options, notification)
 }
 
 /**
  * Make gas transaction
  *
- * @param command
- * @param message
+ * @param interaction
  * @param from
  * @param to
  * @param amount
  * @param privateKey
  * @return {Promise<{result: boolean, message: string}>}
  */
-exports.sendGas = async function (command, message, from, to, amount, privateKey = null) {
+exports.sendGas = async function (interaction, from, to, amount, privateKey = null) {
     const fromShard = 0
     const toShard   = 0
     const gasLimit  = '25000'
     const gasPrice  = 30
     const recipient = await toBech32(to)
-    const wallet    = await Wallet.get(command, message, from)
+    const wallet    = await Wallet.get(interaction, from)
     if (privateKey === null) {
         privateKey = await Wallet.privateKey(wallet)
     }

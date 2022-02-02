@@ -1,61 +1,83 @@
 require('dotenv').config()
-const {AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler} = require('discord-akairo')
-const {Config, DB, Token}                                               = require('./utils')
+const fs                                          = require('fs')
+const {Client, Collection, Intents, MessageEmbed} = require('discord.js')
+const {Token, Config, DB, React}                  = require('./utils')
+const moment                                      = require("moment")
+const {Op}                                        = require("sequelize")
 
-class BotClient extends AkairoClient
-{
-    constructor()
-    {
-        super({
-            ownerID: Config.get('owner_ids')
-        })
+// Create a new client instance
+const client = new Client({
+    intents : [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_PRESENCES,
+        Intents.FLAGS.GUILD_MEMBERS
+    ],
+    partials: ['GUILD_MESSAGES', 'GUILDS', 'GUILD_MESSAGE_REACTIONS', 'USER', 'GUILD_MEMBER', 'GUILD_MEMBERS'],
+})
 
-        /* Command handler */
-        this.commandHandler = new CommandHandler(this, {
-            directory      : './commands/',
-            prefix         : Config.get('prefix'),
-            defaultCooldown: Config.get('cooldown'),
-        })
+client.commands    = new Collection()
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`)
 
-        /* Inhibitor handler */
-        this.inhibitorHandler = new InhibitorHandler(this, {
-            directory: './inhibitors/'
-        })
-        this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
-
-        /* Listener handler */
-        this.listenerHandler = new ListenerHandler(this, {
-            directory: './listeners/'
-        })
-        this.listenerHandler.setEmitters({
-            commandHandler  : this.commandHandler,
-            inhibitorHandler: this.inhibitorHandler,
-            listenerHandler : this.listenerHandler,
-        })
-        this.commandHandler.useListenerHandler(this.listenerHandler)
-
-        /* Load handlers */
-        this.inhibitorHandler.loadAll()
-        this.listenerHandler.loadAll()
-        this.commandHandler.loadAll()
-    }
+    client.commands.set(command.data.name, command)
 }
 
-const client = new BotClient()
-client.login(process.env.TOKEN)
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return
 
-client.on('ready', () => {
+    const command = client.commands.get(interaction.commandName)
+
+    if (!command) return
+
+    try {
+        await command.execute(interaction)
+    } catch (error) {
+        console.error(error)
+        return await React.error(interaction, 6, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+    }
+})
+
+// Greet new members
+// client.on('guildMemberAdd', member => {
+//     client.channels.fetch(Config.get('channels.general')).then(channel => {
+//         channel.send(`Hi there <@${member.id}>, Welcome to Freyala! May I recommend visiting our City Tour Guide: https://docs.freyala.com/freyala`)
+//     })
+// })
+
+// Login to Discord with your client's token
+client.login(process.env.DISCORD_TOKEN).then(async () => {
     console.log('Ready!')
-    
-    DB.syncDatabase()
 
-    getPrice()
-    setPresence()
+    await DB.syncDatabase()
+
+    await sendReminders()
+    await getPrice()
+    await setPresence()
+    setInterval(sendReminders, 30000)
     setInterval(getPrice, 60000)
     setInterval(setPresence, 5000)
 })
 
+// Send reminders
+async function sendReminders()
+{
+    const reminders = await DB.reminders.findAll({where: {timestamp: {[Op.lt]: moment().unix()}}})
 
+    for (let i = 0; i < reminders.length; i++) {
+        const embed = new MessageEmbed()
+            .setColor(Config.get('colors.primary'))
+            .setThumbnail(Config.get('token.thumbnail'))
+            .setTitle(`Let me remind you of`)
+            .setDescription(reminders[i].message)
+
+        await client.users.cache.get(reminders[i].user).send({embeds: [embed]})
+
+        await DB.reminders.destroy({where: {id: reminders[i].id}})
+    }
+}
+
+// Set price presence
 let priceUsd = 0
 let priceOne = 0
 let presence = 'usd'
@@ -63,11 +85,11 @@ let presence = 'usd'
 async function setPresence()
 {
     if (presence === 'usd') {
-        await client.user.setPresence({activity: {name: `${Config.get('token.symbol')} at ${priceOne} ONE`, type: 3}})
+        await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at ${priceOne} ONE`, type: 3}]})
 
         presence = 'one'
     } else {
-        await client.user.setPresence({activity: {name: `${Config.get('token.symbol')} at $${priceUsd}`, type: 3}})
+        await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at $${priceUsd}`, type: 3}]})
 
         presence = 'usd'
     }

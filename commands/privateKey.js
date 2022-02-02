@@ -1,21 +1,16 @@
-const {Command}               = require('discord-akairo')
+const {SlashCommandBuilder}   = require('@discordjs/builders')
 const {Config, React, Wallet} = require('../utils')
 const table                   = require('text-table')
+const {MessageEmbed}          = require("discord.js")
 
-class PkeyCommand extends Command
-{
-    constructor()
-    {
-        super('pkey', {
-            aliases  : ['pkey', 'privatekey'],
-            channel  : 'dm',
-            ratelimit: 1,
-        })
-    }
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('private-key')
+        .setDescription(`Reveals your private key`),
 
-    async exec(message)
+    async execute(interaction)
     {
-        const wallet = await Wallet.get(this, message, message.author.id)
+        const wallet = await Wallet.get(interaction, interaction.user.id)
 
         let addresses = []
         for (const key in Config.get('tokens')) {
@@ -25,19 +20,14 @@ class PkeyCommand extends Command
             ])
         }
 
-        const embed = this.client.util.embed()
+        const embed = new MessageEmbed()
             .setColor(Config.get('colors.error'))
-            .setTitle(`Please store this private key in a safe place. This message will be removed in 60 seconds.`)
+            .setThumbnail(Config.get('token.thumbnail'))
+            .setTitle(`Please store this private key in a safe place. This message will be removed in 30 seconds.`)
             .setDescription(`Note: You can import this private key into MetaMask or another wallet. However, never share your private key with anyone else.`)
             .addField(`Your address`, '```' + wallet.address + '```')
             .addField(`Your private key`, '```' + Wallet.privateKey(wallet) + '```')
             .addField(`Contract addresses to import`, '```' + table(addresses) + '```')
-        const msg   = await message.author.send(embed)
-
-        setTimeout(async function () {
-            await msg.delete()
-        }, 60000)
-    }
+        await interaction.reply({embeds: [embed], ephemeral: true})
+    },
 }
-
-module.exports = PkeyCommand

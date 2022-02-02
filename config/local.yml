@@ -1,17 +1,24 @@
 imports:
   - { resource: 'default.yml' }
 
-# Token
+# Gas
+gas:
+  amount: 0.1
+  max_balance: 0.01
+  time_out: 31556926
+
+# Tokens
 token:
   default: "jewel"
-  contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
   symbol: "JEWEL"
   decimals: 18
-  network_explorer: "https://explorer.harmony.one/#"
-  rpc_url: "https://api.s0.t.hmny.io"
-alternative_tokens: []
+  thumbnail: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
+alternative_tokens: [ ]
 tokens:
   jewel:
-    contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
     symbol: "JEWEL"
     decimals: 18
+
+# Network
+network_explorer: "https://explorer.pops.one/#"
+rpc_url: "https://api.s0.b.hmny.io"

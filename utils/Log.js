@@ -17,6 +17,8 @@ exports.debug = function (data, message) {
  * @param error
  */
 exports.error = function (error, message) {
+    console.error(error)
+
     const log = require('simple-node-logger').createRollingFileLogger({
         errorEventName : 'error',
         logDirectory   : `${__dirname}/../logs/`,

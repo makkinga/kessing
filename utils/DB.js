@@ -13,15 +13,11 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 exports.syncDatabase = async function () {
     await this.wallets.sync()
     await this.transactions.sync()
+    await this.transactions.truncate()
     await this.tipRanks.sync()
     await this.burnRanks.sync()
-    await this.mods.sync()
-    if (!await this.mods.findOne({where: {user: '490122972124938240'}})) {
-        await this.mods.create({
-            user: '490122972124938240'
-        })
-    }
-    await this.rainBlacklist.sync()
+    await this.reminders.sync()
+    await this.gas.sync()
 }
 
 /* Wallets */
@@ -44,35 +40,43 @@ exports.wallets = sequelize.define('wallets', {
 
 /* Transactions */
 exports.transactions = sequelize.define('transactions', {
-    message   : {
+    message            : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    author    : {
+    author             : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    recipient : {
+    recipient          : {
         type     : Sequelize.STRING,
         allowNull: true,
     },
-    from      : {
+    from               : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    to        : {
+    to                 : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    amount    : {
+    amount             : {
         type     : Sequelize.FLOAT,
         allowNull: false,
     },
-    token     : {
+    rainTotalAmount    : {
+        type     : Sequelize.FLOAT,
+        allowNull: true,
+    },
+    rainTotalRecipients: {
+        type     : Sequelize.INTEGER,
+        allowNull: true,
+    },
+    token              : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    processing: {
+    processing         : {
         type     : Sequelize.BOOLEAN,
         allowNull: true,
         default  : false,
@@ -103,27 +107,34 @@ exports.burnRanks = sequelize.define('burn_ranks', {
     },
 })
 
-/* Mods */
-exports.mods = sequelize.define('mods', {
+/* Reminders */
+exports.reminders = sequelize.define('reminders', {
     user: {
         type     : Sequelize.STRING,
         allowNull: false,
-    }
+    },
+    channel: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    timestamp  : {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+    },
+    message  : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
 })
 
-/* Rain Blacklist */
-exports.rainBlacklist = sequelize.define('rain_blacklist', {
-    user     : {
+/* Gas transactions */
+exports.gas = sequelize.define('gas', {
+    user: {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    forever  : {
-        type     : Sequelize.BOOLEAN,
+    timestamp  : {
+        type     : Sequelize.INTEGER,
         allowNull: false,
-        default  : false
-    },
-    timestamp: {
-        type     : Sequelize.STRING,
-        allowNull: true,
     },
 })

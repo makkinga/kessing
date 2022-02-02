@@ -1,54 +1,58 @@
-const Config = require('./Config')
+const Config         = require('./Config')
+const {MessageEmbed} = require("discord.js")
 
 /**
  * Success
  *
- * @param command
- * @param message
+ * @param interaction
  * @param title
  * @param description
+ * @param edit
  * @return {Promise<void>}
  */
-exports.success = async function (command, message, title = null, description = null) {
-    await message.react('✅')
-    await this.done(message)
+exports.success = async function (interaction, title, description = null, edit = false) {
+    const embed = new MessageEmbed()
+        .setColor(Config.get('colors.primary'))
+        .setTitle(title)
 
-    if (title !== null) {
-        const embed = command.client.util.embed()
-            .setColor(Config.get('colors.primary'))
-            .setTitle(title)
+    if (description !== null) {
+        embed.setDescription(description)
+    }
 
-        if (description !== null) {
-            embed.setDescription(description)
-        }
-
-        await message.author.send(embed)
+    if (edit) {
+        await interaction.editReply({embeds: [embed], ephemeral: true})
+    } else {
+        await interaction.reply({embeds: [embed], ephemeral: true})
     }
 }
 
 /**
  * Error
  *
- * @param command
- * @param message
+ * @param interaction
+ * @param code
  * @param title
  * @param description
+ * @param edit
  * @return {Promise<void>}
  */
-exports.error = async function (command, message, title = null, description = null) {
-    await message.react('❌')
-    await this.done(message)
+exports.error = async function (interaction, code, title, description = null, edit = false) {
+    const embed = new MessageEmbed()
+        .setColor(Config.get('colors.error'))
+        .setTitle(title)
 
-    if (title !== null) {
-        const embed = command.client.util.embed()
-            .setColor(Config.get('colors.error'))
-            .setTitle(title)
+    if (description !== null) {
+        embed.setDescription(description)
+    }
 
-        if (description !== null) {
-            embed.setDescription(description)
-        }
+    if (code) {
+        embed.addField(`Error code`, `E${code.toString().padStart(3, '0')}`)
+    }
 
-        await message.author.send(embed)
+    if (edit) {
+        await interaction.editReply({embeds: [embed], ephemeral: true})
+    } else {
+        await interaction.reply({embeds: [embed], ephemeral: true})
     }
 }
 
@@ -62,7 +66,7 @@ exports.processing = async function (message) {
 }
 
 /**
- * Done
+ * Done7e6ce569cc1d4e3c2bb19400e8bbedb6
  *
  * @return {Promise<void>}
  */
@@ -77,12 +81,12 @@ exports.done = async function (message) {
 }
 
 /**
- * Burn
+ * Done
  *
  * @return {Promise<void>}
  */
 exports.burn = async function (message) {
-    await message.react('🔥')
+    // await message.react('🔥')
     await message.react('💀')
     await this.done(message)
 }
@@ -126,13 +130,13 @@ exports.seaCreature = async function (message, amount) {
 /**
  * Message
  *
- * @param message
+ * @param interaction
  * @param type
  * @param amount
  * @return {Promise<void>}
  */
-exports.message = async function (message, type, amount = null) {
-    if (Math.floor(Math.random() * 20) === 1) {
+exports.message = async function (interaction, type, amount = null) {
+    if (Math.floor(Math.random() * 10) === 1) {
         if (type === 'tip') {
             if (parseFloat(amount) >= parseFloat(Config.get('sea_creatures.dolphin.low'))) {
                 type = 'large_tip'
@@ -146,6 +150,6 @@ exports.message = async function (message, type, amount = null) {
         let randomMessage  = messageArray[Math.floor(Math.random() * messageArray.length)]
         randomMessage      = randomMessage.replace('%title%', randomTitle)
 
-        await message.reply(randomMessage)
+        await interaction.channel.send(`<@${interaction.user.id}>, ${randomMessage}`)
     }
 }
