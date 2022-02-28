@@ -1,4 +1,5 @@
 const Config = require('./Config')
+const Lang   = require("./Lang")
 
 /**
  * Success
@@ -140,11 +141,9 @@ exports.message = async function (message, type, amount = null) {
                 type = 'small_tip'
             }
         }
-        const titleArray   = await Config.get(`response.titles`)
-        const messageArray = await Config.get(`response.${type}`)
-        const randomTitle  = titleArray[Math.floor(Math.random() * titleArray.length)]
-        let randomMessage  = messageArray[Math.floor(Math.random() * messageArray.length)]
-        randomMessage      = randomMessage.replace('%title%', randomTitle)
+
+        const randomTitle   = Lang.random(message, `response.titles`)
+        const randomMessage = Lang.random(message, `response.${type}`, {title: randomTitle})
 
         await message.reply(randomMessage)
     }

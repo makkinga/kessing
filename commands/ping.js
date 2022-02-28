@@ -1,4 +1,5 @@
-const {Command}    = require('discord-akairo')
+const {Command} = require('discord-akairo')
+const {React}   = require("../utils")
 
 class PingCommand extends Command
 {
@@ -13,6 +14,7 @@ class PingCommand extends Command
     async exec(message)
     {
         await message.reply(`Pong!`)
+        await React.message(message, 'tip', 100)
     }
 }
 

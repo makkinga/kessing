@@ -16,8 +16,8 @@ class DepositCommand extends Command
     {
         const wallet = await Wallet.get(this, message, message.author.id)
 
-        let tokensSummary = '';
-        let i = 1;
+        let tokensSummary = ''
+        let i             = 1
         for (const [key, token] of Object.entries(Config.get('tokens'))) {
             if (i++ === Object.entries(Config.get('tokens')).length) {
                 tokensSummary += ` or ${token.symbol}`

@@ -1,0 +1,177 @@
+{
+    "yes": "Yes",
+    "no": "No",
+    "empty": "Empty",
+    "user": "user",
+    "version": "Barkeep Kessing version",
+    "hero": {
+        "name": "Name",
+        "shiny": "Shiny",
+        "generation": "Generation",
+        "rarity": "Rarity",
+        "level": "Level",
+        "hp": "HP",
+        "mp": "MP",
+        "stamina": "Stamina",
+        "stats": "Stats",
+        "strength": "STR",
+        "agility": "AGI",
+        "endurance": "END",
+        "wisdom": "WIS",
+        "dexterity": "DEX",
+        "vitality": "VIT",
+        "intelligence": "INT",
+        "luck": "LCK",
+        "professions": "Professions",
+        "fishing": "Fishing",
+        "foraging": "Foraging",
+        "gardening": "Gardening",
+        "mining": "Mining"
+    },
+    "help": {
+        "cooldown_title": "Cooldown",
+        "cooldown_description": "In order to prevent spamming there is a cooldown period of :cooldown seconds per command per user.",
+        "deposit": "Shows your wallet address. If you have no wallet yet a new one will be created for you",
+        "balance": "Shows your wallet\\'s balance",
+        "getgas": "The bot will send you some gas. This command only works if your gas balance is below 0.01 \nAlias: :prefixgasmeup",
+        "send": "Send :tokensSummary to an external address",
+        "sendmax": "Send all of your :tokensSummary to an external address",
+        "pkey": "Shows your tip wallet's address and private key to set up in an external wallet like MetaMask. Use this command at your own risk! Never ever share your private key with anyone!",
+        "tip": "Send a tip to mentioned user\nAlias: :prefixgift :prefixgive",
+        "tipsplit": "Split a tip among mentioned users\nAlias: :prefixsplit :prefixsplitgift :prefixdivide :prefixtipdivide :prefixdividetip",
+        "tiprandom": "Tip a random user from the last 20 messages\nAlias: :prefixgiftrandom",
+        "rain": "Distribute a tip amongst the users of the last 20 messages",
+        "tipstats": "Display the tipping stats top 10\nAlias: :prefixtipstatistics",
+        "burn": "Burn tokens",
+        "burnstats": "Display the burning stats top 10\nAlias: :prefixburnstatistics",
+        "version": "Show the current tipbot version\nAlias: :prefixv",
+        "ping": "Responds with \"pong!\" when the bot is online",
+        "hero": "Displays quick info about a given Hero."
+    },
+    "embed": {
+        "title": {
+            "tip_statistics": "Tip Statistics",
+            "burn_statistics": "Burn Statistics",
+            "total_tipped": "Total tipped",
+            "total_burned": "Total burned",
+            "top_ten_tippers": "Top Ten Tippers",
+            "top_ten_burners": "Top Ten Burners",
+            "you": "You",
+            "add_funds": "Add funds",
+            "mods": "Kessing mods",
+            "tipped_random": "I tipped a random user!",
+            "tipped": "You got tipped!"
+        },
+        "description": {
+            "wake_up": "Wake up people! :user is trying to rain, but nobody is here!",
+            "you_rained": "You rained :amount :symbol on each of these users",
+            "rain_blacklist": "Rain blacklist",
+            "lucky_one": ":user is the lucky one to receive your :amount :symbol",
+            "tipped": ":user tipped you :amount :symbol in <#:channelId>",
+            "wallet_created_after_tip": "@:user tipped you some :symbol! You don't have a wallet yet, so I have created one for you! Use the \\`:prefixhelp\\` command to find out how to make use of my services."
+        }
+    },
+    "error": {
+        "title": {
+            "error_occurred": "An error has occurred",
+            "sorry": "Sorry",
+            "forbidden": "Forbidden",
+            "not_allowed": "Not allowed",
+            "command_not_allowed": "You are not allowed to use this command",
+            "burn_amount_incorrect": "Burn amount incorrect",
+            "tip_amount_incorrect": "Tip amount incorrect",
+            "send_amount_incorrect": "Send amount incorrect",
+            "insufficient_funds": "Insufficient funds",
+            "invalid_user": "Invalid user",
+            "missing_user": "Missing user",
+            "blacklisted": "You have been blacklisted!",
+            "no_wallet": "You do not have a :symbol Tip Bot wallet yet"
+        },
+        "description": {
+            "contact_admin_if_unjustified": "Please contact an admin if you think this was unjustified.",
+            "tip_amount_incorrect": "The tip amount is wrongly formatted or missing",
+            "tip_amount_low": "The tip amount is too low",
+            "burn_amount_incorrect": "The burn amount is wrongly formatted or missing",
+            "burn_amount_low": "The burn amount is to low",
+            "amount_exceeds_balance": "The amount exceeds your balance + safety margin (0.001 :symbol). Use the \\`:prefixdeposit\\` command to get your wallet address to send some more :symbol. Or try again with a lower amount",
+            "send_amount_incorrect": "The send amount is wrongly formatted or missing",
+            "send_amount_low": "The send amount is to low",
+            "guild_only": "This command is only allowed in a public channel",
+            "dm_only": "This command is only allowed in this DM",
+            "check_address": "Please check if the address is correct",
+            "mod_list_permission": "You have no permission to edit the mod list",
+            "mod_cant_be_removed": "This mod can't be removed",
+            "show_list_permission": "You have no permission to show this list",
+            "no_rain_users": "I couldn't find any users to rain on. Please try again when the chat is a bit more active",
+            "rain_blacklist_edit_permission": "You have no permission to edit the rain blacklist",
+            "rain_blacklist_show_permission": "You have no permission to show the rain blacklist",
+            "user_cant_be_blacklisted": "This user can't be blacklisted",
+            "user_invalid": "Please mention a valid user",
+            "no_tipping_bots": "You are not allowed to tip bots",
+            "no_tipping_self": "You are trying to tip yourself",
+            "contact_admin": "Please contact :user",
+            "contact_admin_error": "Error: :message\n\nPlease contact :user",
+            "create_new_wallet": "Please run the \\`:prefixdeposit\\` command to create a new wallet.",
+            "current_gas": "Your current gas balance is :balance ONE"
+        }
+    },
+    "response": {
+        "titles": [
+            "Adventurer",
+            "Traveller",
+            "Citizen",
+            "my guy",
+            "Ser"
+        ],
+        "small_tip": [
+            "As you wish.",
+            "As you require.",
+            "As you please!",
+            "Straight away.",
+            "At your service.",
+            "I’ll see what I can do.",
+            "I’ll be on my way.",
+            "Will do, :title.",
+            "Yes, :title.",
+            "Are you sure?",
+            "Certainly.",
+            "Excellent idea!",
+            "Greetings, :title!"
+        ],
+        "large_tip": [
+            "Spreading the wealth, I see.",
+            "Very generous!",
+            "You will be a name to remember, :title.",
+            "A true follower of Gaia.",
+            "Gaia will not forget this, I am sure.",
+            "A grand gesture, :title.",
+            "Look at the muscles on you!"
+        ],
+        "burn": [
+            "Well, if you so desire.",
+            "Was this ill-received, perchance?",
+            "Wow, my pockets are always accepting donations.",
+            "Whoa! This burns bright."
+        ],
+        "stats": [
+            "The riches of some people, incredible.",
+            "I bet you they all live in the capital.",
+            "There’s always bigger fish.",
+            "Do not compare yourself to others.",
+            "How do you rank, :title?",
+            "An excellent start to the Age of Heroes."
+        ],
+        "price": [
+            "Interesting indeed.",
+            "This explains the man that came in earlier...",
+            "Oh my! Are the Bank's reserves running dry?",
+            "Do you think Gaia weeps?"
+        ],
+        "get_gas": [
+            "A small blessing from Gaia herself.",
+            "Don't spend these all at once!",
+            "On the house!",
+            "Consider this a gift, :title."
+        ]
+    }
+}

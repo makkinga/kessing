@@ -1,6 +1,6 @@
-const {Command}             = require('discord-akairo')
-const {React, Mods, Config} = require('../utils')
-const table                 = require("text-table")
+const {Command}                   = require('discord-akairo')
+const {React, Mods, Config, Lang} = require('../utils')
+const table                       = require("text-table")
 
 class ModsCommand extends Command
 {
@@ -14,7 +14,7 @@ class ModsCommand extends Command
     async exec(message, args)
     {
         if (!await Mods.isMod(message.author)) {
-            await React.error(this, message, `Forbidden`, `You have no permission to show this list`)
+            await React.error(this, message, Lang.trans(message, 'error.title.forbidden'), Lang.trans(message, 'error.description.show_list_permission'))
 
             return
         }
@@ -29,7 +29,7 @@ class ModsCommand extends Command
 
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .addField(`Kessing mods`, '```' + table(rows) + '```')
+            .addField(Lang.trans(message, 'embed.title.mods'), '```' + table(rows) + '```')
         await message.channel.send(embed)
     }
 }

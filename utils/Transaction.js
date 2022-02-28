@@ -10,6 +10,7 @@ const Wallet                            = require('./Wallet')
 const TipStatistics                     = require('./TipStatistics')
 const BurnStatistics                    = require('./BurnStatistics')
 const Log                               = require('./Log')
+const {Lang}                            = require("../utils")
 
 /**
  * Add to Queue
@@ -34,7 +35,7 @@ exports.addToQueue = async function (command, message, from, to, amount, token, 
         token    : token,
     }).catch(async error => {
         Log.error(error, message)
-        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+        await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.contact_admin', {user: Config.get('error_reporting_users')}))
     })
 }
 
@@ -83,7 +84,7 @@ exports.runQueue = async function (command, message, author, notifyAuthor = fals
                         }
                     }).catch(async error => {
                         Log.error(error, message)
-                        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+                        await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.contact_admin', {user: Config.get('error_reporting_users')}))
                     })
 
                     if (notifyAuthor) {
@@ -97,18 +98,14 @@ exports.runQueue = async function (command, message, author, notifyAuthor = fals
 
                         const embed = command.client.util.embed()
                             .setColor(Config.get('colors.primary'))
-                        if (!win) {
-                            embed
-                                .setTitle(`You got tipped!`)
-                                .setDescription(`@${message.author.username} tipped you ${queue[i].amount} ${Config.get('token.symbol')} in <#${message.channel.id}>`)
-                        } else {
-                            const titleArray   = await Config.get(`response.trivia_win_titles`)
-                            const randomTitle  = titleArray[Math.floor(Math.random() * titleArray.length)]
+                            .setTitle(Lang.trans(message, 'embed.title.tipped'))
+                            .setDescription(Lang.trans(message, 'embed.description.tipped', {
+                                user     : message.author.username,
+                                amount   : queue[i].amount,
+                                symbol   : Config.get('token.symbol'),
+                                channelId: message.channel.id
+                            }))
 
-                            embed
-                                .setTitle(randomTitle)
-                                .setDescription(`You received your prize of ${queue[i].amount} ${Config.get('token.symbol')}`)
-                        }
                         await recipient.send(embed)
                     }
 
@@ -132,7 +129,7 @@ exports.runQueue = async function (command, message, author, notifyAuthor = fals
                     })
 
                     Log.debug(response.message, message)
-                    await React.error(command, message, `An error has occurred`, `Error: ${response.message}\n\nPlease contact ${Config.get('error_reporting_users')}`)
+                    await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.contact_admin', {user: Config.get('error_reporting_users')}))
                 }
             })
             .catch(async error => {
@@ -143,7 +140,7 @@ exports.runQueue = async function (command, message, author, notifyAuthor = fals
                 })
 
                 Log.error(error, message)
-                await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+                await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.contact_admin', {user: Config.get('error_reporting_users')}))
             })
     }
 

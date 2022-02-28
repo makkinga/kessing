@@ -1,5 +1,5 @@
-const {Command}                    = require('discord-akairo')
-const {React, Wallet, Transaction} = require('../utils')
+const {Command}                          = require('discord-akairo')
+const {React, Wallet, Transaction, Lang} = require('../utils')
 
 class PingCommand extends Command
 {
@@ -22,7 +22,7 @@ class PingCommand extends Command
         const balance = await Wallet.gasBalance(wallet)
 
         if (parseFloat(balance) >= 0.1) {
-            await React.error(this, message, `You are not allowed to use this command`, `Your current gas balance is ${balance} ONE`)
+            await React.error(this, message, Lang.trans(message, 'error.title.command_not_allowed'), Lang.trans(message, 'error.description.current_gas', {balance: balance}))
         } else {
             await Transaction.sendGas(this, message, process.env.BOT_WALLET_ADDRESS, wallet.address, 0.25, process.env.BOT_WALLET_PRIVATE_KEY)
 

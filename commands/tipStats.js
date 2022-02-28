@@ -1,8 +1,8 @@
-const {Command}                      = require('discord-akairo')
-const table                          = require('text-table')
-const {Config, TipStatistics, React} = require('../utils')
+const {Command}                            = require('discord-akairo')
+const table                                = require('text-table')
+const {Config, TipStatistics, React, Lang} = require('../utils')
 
-class TipstatsCommand extends Command
+class TipStatsCommand extends Command
 {
     constructor()
     {
@@ -39,10 +39,10 @@ class TipstatsCommand extends Command
 
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`💵 Tip Statistics`)
-            .addField(`Total tipped`, '```' + table(totalRows) + '```')
-            .addField(`Top Ten Tippers`, '```' + table(topTenRows) + '```')
-            .addField(`You`, '```' + table(authorRows) + '```')
+            .setTitle(`💵 ${Lang.trans(message, 'embed.title.tip_statistics')}`)
+            .addField(Lang.trans(message, 'embed.title.total_tipped'), '```' + table(totalRows) + '```')
+            .addField(Lang.trans(message, 'embed.title.top_ten_tippers'), '```' + table(topTenRows) + '```')
+            .addField(Lang.trans(message, 'embed.title.you'), '```' + table(authorRows) + '```')
 
         await message.channel.send(embed)
 
@@ -50,4 +50,4 @@ class TipstatsCommand extends Command
     }
 }
 
-module.exports = TipstatsCommand
+module.exports = TipStatsCommand

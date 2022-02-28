@@ -1,4 +1,4 @@
-const {Command}                    = require('discord-akairo')
+const {Command}                            = require('discord-akairo')
 const {Config, React, Wallet, Transaction} = require('../utils')
 
 class SendMaxCommand extends Command
@@ -6,10 +6,10 @@ class SendMaxCommand extends Command
     constructor()
     {
         super('sendmax', {
-            aliases: ['sendmax'],
-            channel: 'dm',
+            aliases  : ['sendmax'],
+            channel  : 'dm',
             ratelimit: 1,
-            args   : [
+            args     : [
                 {
                     id     : 'to',
                     type   : 'string',
@@ -32,7 +32,7 @@ class SendMaxCommand extends Command
         const balance = await Wallet.balance(wallet, token)
         const from    = wallet.address
         const to      = args.to
-        const amount  = parseFloat(balance) - 0.001
+        const amount  = parseFloat(balance) - 0.01
 
         Transaction.addToQueue(this, message, from, to, amount, token).then(() => {
             Transaction.runQueue(this, message, message.author.id, true, false, true, false)

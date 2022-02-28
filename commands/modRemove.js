@@ -1,5 +1,5 @@
-const {Command}     = require('discord-akairo')
-const {React, Mods} = require('../utils')
+const {Command}           = require('discord-akairo')
+const {React, Mods, Lang} = require('../utils')
 
 class ModRemoveCommand extends Command
 {
@@ -22,13 +22,13 @@ class ModRemoveCommand extends Command
         await React.processing(message)
 
         if (!await Mods.isMod(message.author)) {
-            await React.error(this, message, `Forbidden`, `You have no permission to edit the mod list`)
+            await React.error(this, message, Lang.trans(message, 'error.title.forbidden'), Lang.trans(message, 'error.description.mod_list_permission'))
 
             return
         }
 
         if (args.member.id === '891355078416543774') {
-            await React.error(this, message, `Forbidden`, `This mod can't be removed`)
+            await React.error(this, message, Lang.trans(message, 'error.title.forbidden'), Lang.trans(message, 'error.description.mod_cant_be_removed'))
 
             return
         }

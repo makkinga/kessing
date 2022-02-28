@@ -1,8 +1,8 @@
-const {Command}                = require('discord-akairo')
-const table                    = require('text-table')
-const {Config, BurnStatistics} = require('../utils')
+const {Command}                      = require('discord-akairo')
+const table                          = require('text-table')
+const {Config, BurnStatistics, Lang} = require('../utils')
 
-class BurnstatsCommand extends Command
+class BurnStatsCommand extends Command
 {
     constructor()
     {
@@ -40,13 +40,13 @@ class BurnstatsCommand extends Command
 
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`🔥 Burn Statistics`)
-            .addField(`Total burned`, '```' + table(totalRows) + '```')
-            .addField(`Top Ten Burners`, '```' + table(topTenRows) + '```')
-            .addField(`You`, '```' + table(authorRows) + '```')
+            .setTitle(`🔥 ${Lang.trans(message, 'embed.title.burn_statistics')}`)
+            .addField(Lang.trans(message, 'embed.title.total_burned'), '```' + table(totalRows) + '```')
+            .addField(Lang.trans(message, 'embed.title.top_ten_burners'), '```' + table(topTenRows) + '```')
+            .addField(Lang.trans(message, 'embed.title.you'), '```' + table(authorRows) + '```')
 
         await message.channel.send(embed)
     }
 }
 
-module.exports = BurnstatsCommand
+module.exports = BurnStatsCommand

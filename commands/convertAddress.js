@@ -1,6 +1,6 @@
-const {Command}        = require('discord-akairo')
-const {Config, React}  = require('../utils')
-const {HarmonyAddress} = require('@harmony-js/crypto')
+const {Command}             = require('discord-akairo')
+const {Config, React, Lang} = require('../utils')
+const {HarmonyAddress}      = require('@harmony-js/crypto')
 
 class ConvertAddressCommand extends Command
 {
@@ -30,7 +30,7 @@ class ConvertAddressCommand extends Command
 
             await message.channel.send(embed)
         } catch (err) {
-            await React.error(this, message, `An error has occurred`, `Please check if the address is correct`)
+            await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.check_address'))
         }
     }
 }

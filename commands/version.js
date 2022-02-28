@@ -1,6 +1,6 @@
-const {Command} = require('discord-akairo')
-const {Config}  = require('../utils')
-const git       = require('git-rev-sync')
+const {Command}      = require('discord-akairo')
+const {Config, Lang} = require('../utils')
+const git            = require('git-rev-sync')
 
 
 class PingCommand extends Command
@@ -17,7 +17,7 @@ class PingCommand extends Command
     {
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`DeFi Kingdoms Tipbot version`)
+            .setTitle(Lang.trans('version'))
             .setDescription('```' + git.tag(false) + '```')
         await message.reply(embed)
     }

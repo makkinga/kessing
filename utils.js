@@ -12,4 +12,5 @@ module.exports = {
     Hero          : require('./utils/Hero'),
     Mods          : require('./utils/Mods'),
     Blacklist     : require('./utils/Blacklist'),
+    Lang          : require('./utils/Lang'),
 }

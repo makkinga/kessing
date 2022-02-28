@@ -1,14 +1,15 @@
 require('dotenv').config()
-const {Harmony}                                         = require('@harmony-js/core')
-const {Account}                                         = require('@harmony-js/account')
-const {HttpProvider, Messenger}                         = require('@harmony-js/network')
-const {ChainType, ChainID, hexToNumber, fromWei, Units} = require('@harmony-js/utils')
-const {BigNumber}                                       = require('bignumber.js')
-const artifact                                          = require('../artifact.json')
-const CryptoJS                                          = require('crypto-js')
-const Config                                            = require('./Config')
-const DB                                                = require('./DB')
-const React                                             = require('./React')
+const {Harmony}                                = require('@harmony-js/core')
+const {Account}                                = require('@harmony-js/account')
+const {HttpProvider, Messenger}                = require('@harmony-js/network')
+const {ChainType, hexToNumber, fromWei, Units} = require('@harmony-js/utils')
+const {BigNumber}                              = require('bignumber.js')
+const artifact                                 = require('../artifact.json')
+const CryptoJS                                 = require('crypto-js')
+const Config                                   = require('./Config')
+const DB                                       = require('./DB')
+const React                                    = require('./React')
+const {Lang}                                   = require("../utils")
 
 /**
  * Check wallet
@@ -22,7 +23,7 @@ exports.check = async function (command, message, id) {
     const wallet = await DB.wallets.findOne({where: {user: id}})
 
     if (wallet == null) {
-        await React.error(command, message, `You do not have a ${Config.get('token.symbol')} Tip Bot wallet yet`, `Please run the \`${Config.get('prefix')}deposit\` command to create a new wallet.`)
+        await React.error(command, message, Lang.trans(message, 'error.title.no_wallet', {symbol: Config.get('token.symbol')}), Lang.trans(message, 'error.description.create_new_wallet', {prefix: Config.get('prefix')}))
 
         return false
     } else {
@@ -45,7 +46,7 @@ exports.get = async function (command, message, id) {
 
         return wallet
     }).catch(async error => {
-        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+        await React.error(this, message, Lang.trans(message, 'error.title.error_occurred'), Lang.trans(message, 'error.description.contact_admin', {user: Config.get('error_reporting_users')}))
     })
 }
 
@@ -84,7 +85,7 @@ exports.balance = async function (wallet, token) {
             chainId  : Config.get('chain_id'),
         },
     )
-    
+
     const contract   = hmy.contracts.createContract(artifact.abi, Config.get(`tokens.${token}.contract_address`))
     const weiBalance = await contract.methods.balanceOf(wallet.address).call()
 
@@ -139,7 +140,11 @@ exports.recipientAddress = async function (command, message, id) {
         const newWallet = await this.create(id)
         const recipient = await command.client.users.cache.get(id)
 
-        recipient.send(`@${message.author.username} tipped you some ${Config.get('token.symbol')}! You don't have a wallet yet, so I have created one for you! Use the \`${Config.get('prefix')}help\` command to find out how to make use of my services.`)
+        recipient.send(Lang.trans(message, 'embed.description.wallet_created_after_tip', {
+            user  : message.author.username,
+            symbol: Config.get('token.symbol'),
+            prefix: Config.get('prefix'),
+        }))
 
         to = newWallet.address
     }

@@ -1,5 +1,5 @@
-const {Inhibitor}     = require('discord-akairo')
-const {Config, React} = require('../utils')
+const {Inhibitor}           = require('discord-akairo')
+const {Config, React, Lang} = require('../utils')
 
 class BlacklistInhibitor extends Inhibitor
 {
@@ -16,7 +16,7 @@ class BlacklistInhibitor extends Inhibitor
         const blacklisted = blacklist.includes(message.author.id)
 
         if (blacklisted) {
-            React.error(this, message, `You have been blacklisted!`, `Please contact an admin if you think this was unjustified.`)
+            React.error(this, message, Lang.trans(message, 'error.title.blacklisted'), Lang.trans(message, 'error.description.contact_admin_if_unjustified'))
         }
 
         return blacklisted

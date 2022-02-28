@@ -1,5 +1,5 @@
-const {Command}                            = require('discord-akairo')
-const {Config, React, Wallet, Transaction} = require('../utils')
+const {Command}                                  = require('discord-akairo')
+const {Config, React, Wallet, Transaction, Lang} = require('../utils')
 
 class BurnCommand extends Command
 {
@@ -35,11 +35,11 @@ class BurnCommand extends Command
         const amount = args.amount
 
         if (amount === 0) {
-            await React.error(this, message, `Burn amount incorrect`, `The burn amount is wrongly formatted or missing`)
+            await React.error(this, message, Lang.trans(message, 'error.title.burn_amount_incorrect'), Lang.trans(message, 'error.description.burn_amount_incorrect'))
             return
         }
         if (amount < 0.01) {
-            await React.error(this, message, `Burn amount incorrect`, `The burn amount is to low`)
+            await React.error(this, message, Lang.trans(message, 'error.title.burn_amount_incorrect'), Lang.trans(message, 'error.description.burn_amount_low'))
             return
         }
 
@@ -50,7 +50,7 @@ class BurnCommand extends Command
         const to      = '0x000000000000000000000000000000000000dead'
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            await React.error(this, message, `Insufficient funds`, `The amount exceeds your balance + safety margin (0.001 ${Config.get(`tokens.${token}.symbol`)}). Use the \`${Config.get('prefix')}deposit\` command to get your wallet address to send some more ${Config.get(`tokens.${token}.symbol`)}. Or try again with a lower amount`)
+            await React.error(this, message, Lang.trans(message, 'error.title.insufficient_funds'), Lang.trans(message, 'error.description.amount_exceeds_balance', {symbol: Config.get(`tokens.${token}.symbol`), prefix: Config.get('prefix')}))
             return
         }
 

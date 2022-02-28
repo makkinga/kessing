@@ -1,5 +1,5 @@
-const {Command}                            = require('discord-akairo')
-const {Config, React, Wallet, Transaction} = require('../utils')
+const {Command}                                  = require('discord-akairo')
+const {Config, React, Wallet, Transaction, Lang} = require('../utils')
 
 class TipRandomCommand extends Command
 {
@@ -34,11 +34,11 @@ class TipRandomCommand extends Command
         const amount = args.amount
 
         if (amount === 0) {
-            await React.error(this, message, `Tip amount incorrect`, `The tip amount is wrongly formatted or missing`)
+            await React.error(this, message, Lang.trans(message, 'error.title.tip_amount_incorrect'), Lang.trans(message, 'error.description.tip_amount_incorrect'))
             return
         }
         if (amount < 0.01) {
-            await React.error(this, message, `Tip amount incorrect`, `The tip amount is too low`)
+            await React.error(this, message, Lang.trans(message, 'error.title.tip_amount_incorrect'), Lang.trans(message, 'error.description.tip_amount_low'))
             return
         }
 
@@ -73,14 +73,14 @@ class TipRandomCommand extends Command
         const balance = await Wallet.balance(wallet, token)
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            await React.error(this, message, `Insufficient funds`, `The amount exceeds your balance + safety margin (0.001 ${Config.get(`tokens.${token}.symbol`)}). Use the \`${Config.get('prefix')}deposit\` command to get your wallet address to send some more ${Config.get(`tokens.${token}.symbol`)}. Or try again with a lower amount`)
+            await React.error(this, message, Lang.trans(message, 'error.title.insufficient_funds'), Lang.trans(message, 'error.description.amount_exceeds_balance', {symbol: Config.get(`tokens.${token}.symbol`), prefix: Config.get('prefix')}))
             return
         }
 
         let recipient = recipients[Math.floor(Math.random() * recipients.length)]
         if (typeof recipient == 'undefined') {
-            await React.error(this, message, `Sorry`, `I couldn't find any users to tip. Please try again when the chat is a bit more active`)
-            await message.channel.send(`Wake up people! @${message.author.username} is trying to tip, but nobody is here!`)
+            await React.error(this, message, Lang.trans(message, 'error.title.sorry'), Lang.trans(message, 'error.description.no_rain_users'))
+            await message.channel.send(Lang.trans(message, 'embed.description.wake_up'))
 
             return
         }
@@ -95,8 +95,8 @@ class TipRandomCommand extends Command
         recipient   = this.client.users.cache.get(recipient)
         const embed = this.client.util.embed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`I tipped a random user!`)
-            .setDescription(`@${recipient.username} is the lucky one to receive your ${amount} ${Config.get(`tokens.${token}.symbol`)}`)
+            .setTitle(Lang.trans('embed.title.tipped_random'))
+            .setDescription(Lang.trans('embed.description.lucky_one', {user: recipient.username, amount: amount, symbol: Config.get(`tokens.${token}.symbol`)}))
 
         await message.author.send(embed)
 

@@ -1,5 +1,5 @@
-const {Command}                = require('discord-akairo')
-const {React, Blacklist, Mods} = require('../utils')
+const {Command}                      = require('discord-akairo')
+const {React, Blacklist, Mods, Lang} = require('../utils')
 
 class RainWhitelistCommand extends Command
 {
@@ -22,7 +22,7 @@ class RainWhitelistCommand extends Command
         await React.processing(message)
 
         if (!await Mods.isMod(message.author)) {
-            await React.error(this, message, `Forbidden`, `You have no permission to edit the rain blacklist`)
+            await React.error(this, message, Lang.trans(message, 'error.title.forbidden'), Lang.trans(message, 'error.description.rain_blacklist_edit_permission'))
 
             return
         }
