@@ -8,8 +8,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/makkinga/dfk-tipbot?style=flat-square)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/makkinga/dfk-tipbot?style=flat-square)
 
----
-
 Barkeep Kessing was built with :heart: by @Gyd0x for the DeFi Kingdoms Discord community. 
 
 Please feel free to send me feature requests, bug reports, or other questions and suggestions!
@@ -21,14 +19,10 @@ Consider buying me a coffee
 0xb2689E31b229139B52006b6Ec22C991A66c9D257
 ```
 
----
-
 ## Issues
 Feel free to submit issues and enhancement requests.
 
 Please use [issues](https://github.com/makkinga/dfk-tipbot/issues) to report specific bugs and errors.
-
----
 
 ## Contributing
 In general, I follow the "fork-and-pull" Git workflow.
