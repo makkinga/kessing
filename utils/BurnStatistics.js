@@ -1,4 +1,4 @@
-const {Sequelize} = require('sequelize');
+const {Sequelize} = require('sequelize')
 const DB          = require('./DB')
 
 /**
@@ -21,7 +21,7 @@ exports.addAmountToRanking = async function (username, amount) {
         await DB.burnRanks.create({
             username: username,
             amount  : amount,
-        });
+        })
     }
 }
 

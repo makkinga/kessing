@@ -109,15 +109,15 @@ exports.burnRanks = sequelize.define('burn_ranks', {
 
 /* Reminders */
 exports.reminders = sequelize.define('reminders', {
-    user: {
+    user     : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    channel: {
+    channel  : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    timestamp  : {
+    timestamp: {
         type     : Sequelize.INTEGER,
         allowNull: false,
     },
@@ -129,11 +129,11 @@ exports.reminders = sequelize.define('reminders', {
 
 /* Gas transactions */
 exports.gas = sequelize.define('gas', {
-    user: {
+    user     : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    timestamp  : {
+    timestamp: {
         type     : Sequelize.INTEGER,
         allowNull: false,
     },

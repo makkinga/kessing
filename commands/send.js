@@ -15,11 +15,11 @@ module.exports = {
         await interaction.deferReply({ephemeral: true})
 
         // Options
-        let amount  = interaction.options.getNumber('amount')
+        let amount    = interaction.options.getNumber('amount')
         const address = interaction.options.getString('address')
         const token   = interaction.options.getString('token')
         const max     = interaction.options.getBoolean('max') ?? false
-        
+
         // Checks
         if (!await Wallet.check(interaction)) {
             return await React.error(interaction, 25, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
@@ -35,8 +35,8 @@ module.exports = {
 
         const wallet  = await Wallet.get(interaction, interaction.user.id)
         const balance = await Wallet.balance(wallet, token)
-        const from = wallet.address
-        const to   = address
+        const from    = wallet.address
+        const to      = address
 
         if (max) {
             amount = balance - 0.001

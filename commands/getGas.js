@@ -1,7 +1,6 @@
-const {SlashCommandBuilder}                             = require('@discordjs/builders')
-const {Wallet, React, Config, Transaction, DB, Helpers} = require("../utils")
-const Log                                               = require("../utils/Log")
-const {Op}                                     = require("sequelize")
+const {SlashCommandBuilder}                    = require('@discordjs/builders')
+const {Wallet, React, Config, Transaction, DB} = require("../utils")
+const Log                                      = require("../utils/Log")
 const moment                                   = require("moment")
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
     async execute(interaction)
     {
         // Defer reply
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({ephemeral: true})
 
         // Checks
         if (!await Wallet.check(interaction)) {

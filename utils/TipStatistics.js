@@ -1,4 +1,4 @@
-const {Sequelize} = require('sequelize');
+const {Sequelize} = require('sequelize')
 const DB          = require('./DB')
 
 /**
@@ -9,19 +9,19 @@ const DB          = require('./DB')
  * @return {Promise<void>}
  */
 exports.addAmountToRanking = async function (username, amount) {
-    const ranking = await DB.tipRanks.findOne({where: {username: username}});
+    const ranking = await DB.tipRanks.findOne({where: {username: username}})
 
     if (ranking) {
         await DB.tipRanks.update({amount: parseFloat(ranking.amount + amount)}, {
             where: {
                 username: username
             }
-        });
+        })
     } else {
         await DB.tipRanks.create({
             username: username,
             amount  : amount,
-        });
+        })
     }
 }
 

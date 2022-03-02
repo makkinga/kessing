@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction)
     {
         // Defer reply
-        await interaction.deferReply({ephemeral: false});
+        await interaction.deferReply({ephemeral: false})
 
         // Options
         const amount = interaction.options.getNumber('amount')

@@ -37,7 +37,7 @@ module.exports = {
         }
 
         if (amount === 0) {
-            return await React.error(interaction,20, `Incorrect amount`, `The tip amount should be larger than 0`, true)
+            return await React.error(interaction, 20, `Incorrect amount`, `The tip amount should be larger than 0`, true)
         }
 
         if (amount < 0.01) {

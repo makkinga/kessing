@@ -13,7 +13,7 @@ module.exports = {
     {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
- 
+
         // Send embed
         const embed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
