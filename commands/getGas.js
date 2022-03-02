@@ -1,7 +1,6 @@
-const {SlashCommandBuilder}                    = require('@discordjs/builders')
-const {Wallet, React, Config, Transaction, DB} = require("../utils")
-const Log                                      = require("../utils/Log")
-const moment                                   = require("moment")
+const {SlashCommandBuilder}                         = require('@discordjs/builders')
+const {Wallet, React, Config, Transaction, DB, Log} = require('../utils')
+const moment                                        = require('moment')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -44,7 +43,7 @@ module.exports = {
             user     : interaction.user.id,
             timestamp: moment().unix(),
         }).catch(async error => {
-            Log.error(error)
+            await Log.error(interaction, 12, error)
             await React.error(interaction, 12, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
         })
 

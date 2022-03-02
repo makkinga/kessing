@@ -1,9 +1,9 @@
 require('dotenv').config()
 const fs                                          = require('fs')
 const {Client, Collection, Intents, MessageEmbed} = require('discord.js')
-const {Token, Config, DB, React}                  = require('./utils')
-const moment                                      = require("moment")
-const {Op}                                        = require("sequelize")
+const {Token, Config, DB, React, Log}             = require('./utils')
+const moment                                      = require('moment')
+const {Op}                                        = require('sequelize')
 
 // Create a new client instance
 const client = new Client({
@@ -33,17 +33,10 @@ client.on('interactionCreate', async interaction => {
     try {
         await command.execute(interaction)
     } catch (error) {
-        console.error(error)
-        return await React.error(interaction, 6, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+        await Log.error(interaction, 1, error)
+        return await React.error(interaction, 1, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
     }
 })
-
-// Greet new members
-// client.on('guildMemberAdd', member => {
-//     client.channels.fetch(Config.get('channels.general')).then(channel => {
-//         channel.send(`Hi there <@${member.id}>, Welcome to Freyala! May I recommend visiting our City Tour Guide: https://docs.freyala.com/freyala`)
-//     })
-// })
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN).then(async () => {

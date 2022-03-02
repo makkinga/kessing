@@ -42,6 +42,7 @@ exports.get = async function (interaction, id) {
 
         return wallet
     }).catch(async error => {
+        await Log.error(interaction, 41, error)
         return await React.error(interaction, 41, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
     })
 }

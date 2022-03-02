@@ -1,6 +1,6 @@
 const {SlashCommandBuilder}                    = require('@discordjs/builders')
-const {Wallet, React, Config, DB, Transaction} = require("../utils")
-const {MessageEmbed}                           = require("discord.js")
+const {Wallet, React, Config, DB, Transaction} = require('../utils')
+const {MessageEmbed}                           = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -130,7 +130,7 @@ module.exports = {
         }
 
         if (members.length === 0) {
-            await React.error(interaction, null, `Sorry`, `I couldn't find any users to rain on. Please try again when the chat is a bit more active`, true)
+            await React.error(interaction, 42, `Sorry`, `I couldn't find any users to rain on. Please try again when the chat is a bit more active`, true)
             await interaction.channel.send(`Wake up people! @${interaction.user.username} is trying to rain, but nobody is here!`)
 
             return

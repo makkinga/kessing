@@ -9,7 +9,7 @@ const Wallet         = require('./Wallet')
 const TipStatistics  = require('./TipStatistics')
 const BurnStatistics = require('./BurnStatistics')
 const Log            = require('./Log')
-const {MessageEmbed} = require("discord.js")
+const {MessageEmbed} = require('discord.js')
 
 /**
  * Add to Queue
@@ -36,7 +36,7 @@ exports.addToQueue = async function (interaction, from, to, amount, token, recip
         rainTotalRecipients: rainTotalRecipients,
         token              : token,
     }).catch(async error => {
-        Log.error(error)
+        await Log.error(interaction, 37, error)
         await React.error(interaction, 37, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
     })
 }
@@ -84,7 +84,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                     id: queue[i].id
                 }
             }).catch(async error => {
-                Log.error(error, interaction)
+                await Log.error(interaction, 38, error)
                 return await React.error(interaction, 38, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
             })
 
@@ -163,7 +163,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
             }
         } catch (error) {
-            console.error(error)
+            await Log.error(interaction, 39, error)
             return await React.error(interaction, 39, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
         }
     }

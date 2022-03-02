@@ -1,23 +1,12 @@
 /**
- * Debug
- *
- * @return {*}
- * @param data
- * @param message
- */
-exports.debug = function (data, message) {
-    console.log(data)
-}
-
-/**
  * Error
  *
- * @return {*}
- * @param message
+ * @param interaction
+ * @param code
  * @param error
  */
-exports.error = function (error, message) {
-    console.error(error)
+exports.error = function (interaction, code, error) {
+    const reference = `${interaction.user.id.slice(-3)}-${interaction.channelId.slice(-3)}-${interaction.id.slice(-3)}`
 
     const log = require('simple-node-logger').createRollingFileLogger({
         errorEventName : 'error',
@@ -27,7 +16,11 @@ exports.error = function (error, message) {
     })
 
     log.info({
-        'error'  : error,
-        'message': message,
+        'user'     : interaction.user.id,
+        'code'     : `E${code.toString().padStart(3, '0')}`,
+        'reference': reference,
+        'error'    : error,
     })
+
+    console.error(`Error E${code.toString().padStart(3, '0')} (${reference}) by user ${interaction.user.id}:`, error)
 }

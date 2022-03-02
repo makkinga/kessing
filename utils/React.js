@@ -1,5 +1,5 @@
 const Config         = require('./Config')
-const {MessageEmbed} = require("discord.js")
+const {MessageEmbed} = require('discord.js')
 
 /**
  * Success
