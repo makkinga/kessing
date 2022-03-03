@@ -193,9 +193,9 @@ exports.totalSupply = async function () {
  */
 exports.tokenPrice = async function () {
     const response = await axios({
-        url   : 'https://api.coingecko.com/api/v3/simple/token_price/harmony-shard-0?contract_addresses=0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
+        url   : 'https://api.coingecko.com/api/v3/simple/token_price/harmony-shard-0?contract_addresses=0x72Cb10C6bfA5624dD07Ef608027E366bd690048F&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
         method: 'get',
     })
 
-    return response.data['0x9b68bf4bf89c115c721105eaf6bd5164afcc51e4']
+    return response.data['0x72cb10c6bfa5624dd07ef608027e366bd690048f']
 }

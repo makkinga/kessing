@@ -75,8 +75,8 @@ async function getPrice()
     const onePrice   = await Token.onePrice()
     const priceInOne = tokenPrice.usd / onePrice
 
-    priceUsd = parseFloat(tokenPrice.usd).toFixed(3)
-    priceOne = parseFloat(priceInOne).toFixed(3)
+    priceUsd = parseFloat(tokenPrice.usd).toFixed(2)
+    priceOne = parseFloat(priceInOne).toFixed(2)
 }
 
 async function setPermissions()
