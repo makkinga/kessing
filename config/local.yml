@@ -1,6 +1,13 @@
 imports:
   - { resource: 'default.yml' }
 
+# Discord
+roles:
+  mod: '948850055819972660'
+commands:
+  blacklist: '948856330960142366'
+  whitelist: '948856330960142367'
+
 # Gas
 gas:
   amount: 0.1
@@ -13,10 +20,11 @@ token:
   symbol: "JEWEL"
   decimals: 18
   thumbnail: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
-alternative_tokens: [ ]
+alternative_tokens: []
 tokens:
   jewel:
     symbol: "JEWEL"
+    address: "0x33370aa06d52d77b838bdfcD4Be4BE2d43BB6918"
     decimals: 18
 
 # Network

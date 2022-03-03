@@ -1,6 +1,6 @@
-const {SlashCommandBuilder}                    = require('@discordjs/builders')
-const {Wallet, React, Config, DB, Transaction} = require('../utils')
-const {MessageEmbed}                           = require('discord.js')
+const {SlashCommandBuilder}                               = require('@discordjs/builders')
+const {Wallet, React, Config, DB, Transaction, Blacklist} = require('../utils')
+const {MessageEmbed}                                      = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,8 +8,8 @@ module.exports = {
         .setDescription(`Rains your JEWEL`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
         .addStringOption(option => option.setRequired(true).setName('type').setDescription(`Select the rain type`).addChoices([
-            ["Active - Split your tip amongst the last active 10 messages", "active"],
-            ["Random - Split your tip amongst 10 random wallet owner in this channel", "random"],
+            ["Active - Split your tip amongst max 10 last active members", "active"],
+            ["Random - Split your tip amongst 10 random wallet owners in this channel", "random"],
             // ["Storm - Split your tip amongst all wallet holders", "storm"]
         ]))
         .addStringOption(option => option.setRequired(false).setName('token').setDescription(`Change the token`).addChoices([
@@ -27,6 +27,7 @@ module.exports = {
         const token  = interaction.options.getString('token') ?? Config.get('token.default')
 
         // Checks
+
         if (!await Wallet.check(interaction)) {
             return await React.error(interaction, 18, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
         }
@@ -61,53 +62,61 @@ module.exports = {
         let members = []
 
         // Tip last 10 active members
-        let coveredMembers = []
         if (type === 'active') {
             const messages = await interaction.channel.messages.fetch()
 
-            await Promise.all(messages.map(async message => {
-                await message.reactions.resolve('☂️')?.users.fetch().then(async userList => {
-                    // No covered members
-                    if (userList.filter(user => user.id === interaction.user.id).size) {
-                        coveredMembers.push(message.author.id)
-                    }
+            // return
+            for (const [key, message] of messages.entries()) {
+                let match = true
 
-                    // No command interactions
-                    if (message.type === 'APPLICATION_COMMAND') {
-                        return false
-                    }
+                // No duplicates
+                if (members.includes(message.author.id)) {
+                    match = false
+                }
 
-                    // No duplicates
-                    if (members.includes(message.author.id)) {
-                        return false
-                    }
+                // No command interactions
+                if (message.type === 'APPLICATION_COMMAND') {
+                    continue
+                }
 
-                    // No bots
-                    if (message.author.bot) {
-                        return false
-                    }
+                // No bots
+                if (message.author.bot) {
+                    continue
+                }
 
-                    // Definitely not yourself
-                    if (message.author.id === interaction.user.id) {
-                        return false
-                    }
+                // Definitely not yourself
+                if (message.author.id === interaction.user.id) {
+                    continue
+                }
 
-                    // Wallet owners only
-                    if (!wallets.includes(message.author.id)) {
-                        const embed = new MessageEmbed()
-                            .setColor(Config.get('colors.primary'))
-                            .setThumbnail(Config.get('token.thumbnail'))
-                            .setTitle(`You've missed the rain ☂️`)
-                            .setDescription(`@${interaction.user.username} rained in <#${interaction.channel.id}>. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the \`/deposit\` to create a new wallet`)
+                // Wallet owners only
+                if (!wallets.includes(message.author.id)) {
+                    const embed = new MessageEmbed()
+                        .setColor(Config.get('colors.primary'))
+                        .setThumbnail(Config.get('token.thumbnail'))
+                        .setTitle(`You've missed the rain ☂️`)
+                        .setDescription(`@${interaction.user.username} rained in <#${interaction.channel.id}>. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the \`/deposit\` to create a new wallet`)
+                    try {
                         await message.author.send({embeds: [embed]})
-
-                        return false
+                    } catch (error) {
+                        if (error.code === 50007) {
+                            console.warn(`Cannot send DM to ${message.author.username}`)
+                        }
                     }
 
-                    // Push if the message survived
+                    continue
+                }
+
+                // No beggars
+                if (await Blacklist.listed(message.author)) {
+                    continue
+                }
+
+                // Push if the message survived
+                if (match) {
                     members.push(message.author.id)
-                })
-            }))
+                }
+            }
 
             // We only need max 10
             members = members.slice(0, 10)

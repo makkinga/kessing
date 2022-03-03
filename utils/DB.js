@@ -11,13 +11,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  * Sync database
  */
 exports.syncDatabase = async function () {
+    await this.transactions.truncate()
     await this.wallets.sync()
     await this.transactions.sync()
-    await this.transactions.truncate()
     await this.tipRanks.sync()
     await this.burnRanks.sync()
     await this.reminders.sync()
     await this.gas.sync()
+    await this.rainBlacklist.sync()
 }
 
 /* Wallets */
@@ -136,5 +137,22 @@ exports.gas = sequelize.define('gas', {
     timestamp: {
         type     : Sequelize.INTEGER,
         allowNull: false,
+    },
+})
+
+/* Rain Blacklist */
+exports.rainBlacklist = sequelize.define('rain_blacklist', {
+    user     : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    forever  : {
+        type     : Sequelize.BOOLEAN,
+        allowNull: false,
+        default  : false
+    },
+    timestamp: {
+        type     : Sequelize.STRING,
+        allowNull: true,
     },
 })

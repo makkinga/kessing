@@ -42,33 +42,14 @@ client.on('interactionCreate', async interaction => {
 client.login(process.env.DISCORD_TOKEN).then(async () => {
     console.log('Ready!')
 
+    await setPermissions()
     await DB.syncDatabase()
 
-    await sendReminders()
     await getPrice()
     await setPresence()
-    setInterval(sendReminders, 30000)
     setInterval(getPrice, 60000)
     setInterval(setPresence, 5000)
 })
-
-// Send reminders
-async function sendReminders()
-{
-    const reminders = await DB.reminders.findAll({where: {timestamp: {[Op.lt]: moment().unix()}}})
-
-    for (let i = 0; i < reminders.length; i++) {
-        const embed = new MessageEmbed()
-            .setColor(Config.get('colors.primary'))
-            .setThumbnail(Config.get('token.thumbnail'))
-            .setTitle(`Let me remind you of`)
-            .setDescription(reminders[i].message)
-
-        await client.users.cache.get(reminders[i].user).send({embeds: [embed]})
-
-        await DB.reminders.destroy({where: {id: reminders[i].id}})
-    }
-}
 
 // Set price presence
 let priceUsd = 0
@@ -96,4 +77,28 @@ async function getPrice()
 
     priceUsd = parseFloat(tokenPrice.usd).toFixed(3)
     priceOne = parseFloat(priceInOne).toFixed(3)
+}
+
+async function setPermissions()
+{
+    const fullPermissions = [
+        {
+            id         : await Config.get('commands.blacklist'),
+            permissions: [{
+                id        : await Config.get('roles.mod'),
+                type      : 'ROLE',
+                permission: true,
+            }],
+        },
+        {
+            id         : await Config.get('commands.whitelist'),
+            permissions: [{
+                id        : await Config.get('roles.mod'),
+                type      : 'ROLE',
+                permission: true,
+            }],
+        }
+    ]
+
+    await client.guilds.cache.get(process.env.GUILD_ID)?.commands.permissions.set({fullPermissions})
 }

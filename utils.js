@@ -9,4 +9,5 @@ module.exports = {
     TipStatistics : require('./utils/TipStatistics'),
     BurnStatistics: require('./utils/BurnStatistics'),
     Token         : require('./utils/Token'),
+    Blacklist     : require('./utils/Blacklist'),
 }

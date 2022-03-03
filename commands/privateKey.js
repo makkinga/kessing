@@ -16,14 +16,14 @@ module.exports = {
         for (const key in Config.get('tokens')) {
             addresses.push([
                 Config.get(`tokens.${key}.symbol`),
-                Config.get(`tokens.${key}.contract_address`),
+                Config.get(`tokens.${key}.address`),
             ])
         }
 
         const embed = new MessageEmbed()
             .setColor(Config.get('colors.error'))
             .setThumbnail(Config.get('token.thumbnail'))
-            .setTitle(`Please store this private key in a safe place. This message will be removed in 30 seconds.`)
+            .setTitle(`Please store this private key in a safe place. Only you can see this message, it will be removed automatically.`)
             .setDescription(`Note: You can import this private key into MetaMask or another wallet. However, never share your private key with anyone else.`)
             .addField(`Your address`, '```' + wallet.address + '```')
             .addField(`Your private key`, '```' + Wallet.privateKey(wallet) + '```')
