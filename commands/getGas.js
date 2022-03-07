@@ -36,7 +36,7 @@ module.exports = {
         }
 
         // Send gas
-        await Transaction.sendGas(interaction, 11, process.env.BOT_WALLET_ADDRESS, wallet.address, Config.get('gas.amount'), process.env.BOT_WALLET_PRIVATE_KEY)
+        await Transaction.sendGas(interaction, process.env.BOT_WALLET_ADDRESS, wallet.address, Config.get('gas.amount'), process.env.BOT_WALLET_PRIVATE_KEY)
 
         // Insert into database
         await DB.gas.create({

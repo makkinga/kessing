@@ -8,7 +8,7 @@ module.exports = {
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
         .addMentionableOption(option => option.setRequired(true).setName('recipient').setDescription(`Select the recipient`))
         .addStringOption(option => option.setRequired(false).setName('token').setDescription(`Change the token`).addChoices([
-            ["COINKx", "coinkx"]
+            ['COINKx', 'coinkx']
         ])),
 
     async execute(interaction)

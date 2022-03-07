@@ -248,7 +248,7 @@ exports.sendGas = async function (interaction, from, to, amount, privateKey = nu
 }
 
 /**
- * Get shartd info
+ * Get shard info
  * @return {Promise<*>}
  */
 exports.getShardInfo = async function (harmony) {

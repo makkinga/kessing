@@ -19,6 +19,7 @@ exports.syncDatabase = async function () {
     await this.reminders.sync()
     await this.gas.sync()
     await this.rainBlacklist.sync()
+    await this.messageCount.sync()
 }
 
 /* Wallets */
@@ -154,5 +155,21 @@ exports.rainBlacklist = sequelize.define('rain_blacklist', {
     timestamp: {
         type     : Sequelize.STRING,
         allowNull: true,
+    },
+})
+
+/* Message count */
+exports.messageCount = sequelize.define('message_count', {
+    user : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    guild: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    count: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
     },
 })

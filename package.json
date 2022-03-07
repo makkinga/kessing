@@ -25,5 +25,8 @@
         "simple-node-logger": "^18.12.24",
         "text-table": "^0.2.0",
         "tslib": "^2.2.0"
+    },
+    "devDependencies": {
+        "sync-dotenv": "^2.7.0"
     }
 }

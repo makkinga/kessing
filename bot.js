@@ -1,18 +1,18 @@
 require('dotenv').config()
-const fs                                          = require('fs')
-const {Client, Collection, Intents, MessageEmbed} = require('discord.js')
-const {Token, Config, DB, React, Log}             = require('./utils')
-const moment                                      = require('moment')
-const {Op}                                        = require('sequelize')
+const fs                              = require('fs')
+const {Client, Collection, Intents}   = require('discord.js')
+const {Token, Config, DB, React, Log} = require('./utils')
 
 // Create a new client instance
 const client = new Client({
     intents : [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.GUILD_MEMBERS
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS
     ],
-    partials: ['GUILD_MESSAGES', 'GUILDS', 'GUILD_MESSAGE_REACTIONS', 'USER', 'GUILD_MEMBER', 'GUILD_MEMBERS'],
+    partials: ['GUILD_MESSAGES', 'GUILDS', 'GUILD_MESSAGE_REACTIONS', 'USER', 'GUILD_MEMBER', 'GUILD_MEMBERS', 'MESSAGE', 'CHANNEL', 'REACTION'],
 })
 
 client.commands    = new Collection()
@@ -22,6 +22,35 @@ for (const file of commandFiles) {
 
     client.commands.set(command.data.name, command)
 }
+
+client.on('messageCreate', async message => {
+    if (!message.author.bot && message.content.split(' ').length >= 3) {
+        const count = await DB.messageCount.findAll({
+            where: {
+                user : message.author.id,
+                guild: message.guildId,
+            },
+            limit: 1,
+        })
+
+        if (count.length === 0) {
+            await DB.messageCount.create({
+                user : message.author.id,
+                guild: message.guildId,
+                count: 1
+            })
+        } else {
+            await DB.messageCount.update({
+                count: count[0].count + 1
+            }, {
+                where: {
+                    user : message.author.id,
+                    guild: message.guildId,
+                }
+            })
+        }
+    }
+})
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return
@@ -40,7 +69,12 @@ client.on('interactionCreate', async interaction => {
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN).then(async () => {
-    console.log('Ready!')
+    console.log('Connected as:')
+    console.log(`${client.user.username} #${client.user.discriminator}`)
+    console.log('Connected to:')
+    client.guilds.cache.forEach(guild => {
+        console.log(`${guild.name} | ${guild.id}`)
+    })
 
     await setPermissions()
     await DB.syncDatabase()

@@ -8,12 +8,9 @@ module.exports = {
         .setDescription(`Rains your JEWEL`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
         .addStringOption(option => option.setRequired(true).setName('type').setDescription(`Select the rain type`).addChoices([
-            ["Active - Split your tip amongst max 10 last active members", "active"],
-            ["Random - Split your tip amongst 10 random wallet owners in this channel", "random"],
-            // ["Storm - Split your tip amongst all wallet holders", "storm"]
-        ]))
-        .addStringOption(option => option.setRequired(false).setName('token').setDescription(`Change the token`).addChoices([
-            ["COINKx", "coinkx"]
+            ['Active - Split your tip amongst max 10 last active members', 'active'],
+            ['Random - Split your tip amongst 10 random wallet owners in this channel', 'random'],
+            // ['Storm - Split your tip amongst all wallet holders', 'storm']
         ])),
 
     async execute(interaction)
@@ -24,7 +21,7 @@ module.exports = {
         // Options
         const amount = interaction.options.getNumber('amount')
         const type   = interaction.options.getString('type')
-        const token  = interaction.options.getString('token') ?? Config.get('token.default')
+        const token  = Config.get('token.default')
 
         // Checks
 
