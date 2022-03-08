@@ -3,7 +3,7 @@ imports:
 
 # Discord
 roles:
-  mod: '948850055819972660'
+  mod: '949562557612564482'
 commands:
   blacklist: '948856330960142366'
   whitelist: '948856330960142367'

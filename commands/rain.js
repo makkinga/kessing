@@ -120,8 +120,25 @@ module.exports = {
         // Tip 10 random wallet owners in this channel
         if (type === 'random') {
             members = await interaction.channel.members
-            members = members.filter(member => {
-                return wallets.includes(member.user.id.toString()) && member.user.id !== interaction.user.id
+            members = members.filter(async member => {
+                let valid = true
+
+                // Wallet holders only
+                if (!wallets.includes(member.user.id.toString())) {
+                    valid = false
+                }
+
+                // // Definitely not yourself
+                if (member.user.id === interaction.user.id) {
+                    valid = false
+                }
+
+                // No beggars
+                if (await Blacklist.listed(member.user)) {
+                    valid = false
+                }
+
+                return valid
             }).map(member => member.user.id)
 
             // We only need max 10

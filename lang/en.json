@@ -62,16 +62,16 @@
         "contracts": "Contract addresses to import"
     },
     "rain": {
-        "title": "",
-        "description": "",
-        "missed_title": "You've missed the rain ☂️",
+        "missed_title": "You've missed the rain :umbrella2:",
         "missed_description": "@:user rained in :channel. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the `/deposit` to create a new wallet",
         "no_users_title": "Sorry",
         "no_users_description": "I couldn't find any users to rain on. Please try again when the chat is a bit more active",
         "wake_up": "Wake up people! @:user is trying to rain, but nobody is here!"
     },
     "rank": {
-        "title": "Top :length on :server"
+        "title": "Top :length on :listing",
+        "total": "all servers",
+        "this_server": "this server"
     },
     "tip": {
         "tip_me": "I am flattered but I cannot take this from you",
@@ -96,11 +96,11 @@
             "transaction_in_progress": "Transactions in progress"
         },
         "description": {
-            "amount_incorrect": "The burn amount is wrongly formatted or missing",
-            "amount_low": "The burn amount is too low",
+            "amount_incorrect": "The amount is wrongly formatted or missing",
+            "amount_low": "The amount is too low",
             "amount_exceeds_balance": "The amount exceeds your balance + safety margin (0.001 :symbol). Use the `/deposit` command to get your wallet address to send some more :symbol. Or try again with a lower amount",
             "contact_admin": "Please contact :user",
-            "create_new_wallet": "You have to tipping wallet yet. Please use the `/deposit` command to create a new wallet.",
+            "create_new_wallet": "You have no tipping wallet yet. Please use the `/deposit` command to create a new wallet.",
             "wait_for_queue": "Please wait for your current queue to be processed",
             "tipped_without_wallet": "@:user tipped you some :symbol! You don't have a wallet yet, so I have created one for you! Use the `/help` command to find out how to make use of my services."
         }

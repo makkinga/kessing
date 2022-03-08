@@ -8,9 +8,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName(`rank`)
         .setDescription(`Display the message top ranking`)
-        .addStringOption(option => option.setRequired(true).setName('server').setDescription(`Select a server`).addChoices([
-            ['This server', 'active'],
-            ['Main server', 'main'],
+        .addStringOption(option => option.setRequired(true).setName('listing').setDescription(`Select a server`).addChoices([
+            ['This server', 'server'],
+            ['Total', 'total'],
         ]))
         .addNumberOption(option => option.setRequired(true).setName('length').setDescription(`Select the list length`).addChoices([
             ['Top 5', 5],
@@ -25,8 +25,8 @@ module.exports = {
         await interaction.deferReply({ephemeral: false})
 
         // Options
-        const server = interaction.options.getString('server')
-        const length = interaction.options.getNumber('length')
+        const listing = interaction.options.getString('listing')
+        const length  = interaction.options.getNumber('length')
 
         // Gather data
         const top = await DB.messageCount.findAll({
@@ -39,7 +39,7 @@ module.exports = {
 
         // Build tables
         let topRows = []
-        if (server === 'main') {
+        if (listing === 'total') {
             const topTotal = await DB.messageCount.findAll({
                 order     : [[Sequelize.col('count'), 'DESC']],
                 group     : ['user'],
@@ -70,10 +70,10 @@ module.exports = {
         }
 
         // Send embed
-        const onServer = server === 'main' ? 'Main server' : 'This server'
+        const listingName = listing === 'total' ? Lang.trans(interaction, 'rank.total') : Lang.trans(interaction, 'rank.this_server')
         const embed    = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setAuthor({name: Lang.trans(interaction, 'rank.title'), iconURL: Config.get('bot.server_icon')})
+            .setAuthor({name: Lang.trans(interaction, 'rank.title', {length: length, listing: listingName}), iconURL: Config.get('bot.server_icon')})
             .setDescription('```' + table(topRows) + '```')
 
         await interaction.editReply({embeds: [embed]})

@@ -23,13 +23,13 @@ module.exports = {
             // Reply
             const embed = new MessageEmbed()
                 .setColor(Config.get('colors.primary'))
-                .setAuthor({name: Lang.trans(interaction, 'blacklist.successfully_whitelisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
+                .setAuthor({name: Lang.trans(interaction, 'whitelist.successfully_whitelisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
             await interaction.editReply({embeds: [embed], ephemeral: true})
         } else {
             // Reply
             const embed = new MessageEmbed()
                 .setColor(Config.get('colors.warning'))
-                .setAuthor({name: Lang.trans(interaction, 'blacklist.successfully_whitelisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
+                .setAuthor({name: Lang.trans(interaction, 'whitelist.successfully_whitelisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
             await interaction.editReply({embeds: [embed], ephemeral: true})
         }
     },

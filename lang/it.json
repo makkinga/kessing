@@ -62,9 +62,7 @@
         "contracts": "Indirizzi del contratto da importare"
     },
     "rain": {
-        "title": "",
-        "description": "",
-        "missed_title": "Hai perso la pioggia ☂️",
+        "missed_title": "Hai perso la pioggia :umbrella2:",
         "missed_description": "@:user ha fatto piovere in :channel. Sfortunatamente ti sei perso la pioggia perché non hai ancora impostato il tuo portafoglio per le mance. Se vuoi prendere la prossima pioggia, usa `/deposit` per creare un nuovo portafoglio",
         "no_users_title": "Scusa",
         "no_users_description": "Non sono riuscito a trovare utenti su cui far piovere. Riprova quando la chat è un po' più attiva",
@@ -81,7 +79,7 @@
     "transaction": {
         "tip_description": ":dollar: ha dato una mancia a <@:user> di :amount :symbol",
         "rain_title": ":cloud_rain: Stanno piovendo :amount :symbol!",
-        "rain_description": "Sono piovuti :amount :symbol su :count/:total members",
+        "rain_description": "Sono piovuti :amount :symbol su :count/:total membri",
         "burn_description": ":fire: bruciati :amount :symbol",
         "send_description": ":money_with_wings: inviati :amount :symbol a :to",
         "tipped_description": "@:user ti ha dato una mancia di :amount :symbol in :channel"

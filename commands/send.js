@@ -6,8 +6,7 @@ module.exports = {
         .setName('send')
         .setDescription(`Send your JEWEL to an external address`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip (will be ignored when max is set to true)`))
-        .addStringOption(option => option.setRequired(true).setName('address').setDescription(`Enter the address`))
-        .addBooleanOption(option => option.setRequired(false).setName('max').setDescription(`Send the max amount?`)),
+        .addStringOption(option => option.setRequired(true).setName('address').setDescription(`Enter the address`)),
 
     async execute(interaction)
     {
@@ -17,8 +16,8 @@ module.exports = {
         // Options
         let amount    = interaction.options.getNumber('amount')
         const address = interaction.options.getString('address')
-        const token   = interaction.options.getString('token')
         const max     = interaction.options.getBoolean('max') ?? false
+        const token   = Config.get('token.default')
 
         // Checks
         if (!await Wallet.check(interaction)) {

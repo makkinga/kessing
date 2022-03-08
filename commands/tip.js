@@ -6,10 +6,7 @@ module.exports = {
         .setName('tip')
         .setDescription(`Send a tip another user`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
-        .addMentionableOption(option => option.setRequired(true).setName('recipient').setDescription(`Select the recipient`))
-        .addStringOption(option => option.setRequired(false).setName('token').setDescription(`Change the token`).addChoices([
-            ['COINKx', 'coinkx']
-        ])),
+        .addMentionableOption(option => option.setRequired(true).setName('recipient').setDescription(`Select the recipient`)),
 
     async execute(interaction)
     {
@@ -19,7 +16,7 @@ module.exports = {
         // Options
         const amount    = interaction.options.getNumber('amount')
         const recipient = interaction.options.getMentionable('recipient')
-        const token     = interaction.options.getString('token') ?? Config.get('token.default')
+        const token     = Config.get('token.default')
 
         // Checks
         if (!await Wallet.check(interaction)) {
