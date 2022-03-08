@@ -1,6 +1,6 @@
-const {SlashCommandBuilder} = require('@discordjs/builders')
-const {Blacklist, Config}   = require('../utils')
-const {MessageEmbed}        = require('discord.js')
+const {SlashCommandBuilder}     = require('@discordjs/builders')
+const {Blacklist, Config, Lang} = require('../utils')
+const {MessageEmbed}            = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,13 +35,13 @@ module.exports = {
             // Reply
             const embed = new MessageEmbed()
                 .setColor(Config.get('colors.primary'))
-                .setAuthor({name: `@${member.user.username} was successfully blacklisted`, iconURL: Config.get('bot.server_icon')})
+                .setAuthor({name: Lang.trans(interaction, 'blacklist.successfully_blacklisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
             await interaction.editReply({embeds: [embed], ephemeral: true})
         } else {
             // Reply
             const embed = new MessageEmbed()
                 .setColor(Config.get('colors.warning'))
-                .setAuthor({name: `@${member.user.username} is already blacklisted`, iconURL: Config.get('bot.server_icon')})
+                .setAuthor({name: Lang.trans(interaction, 'blacklist.already_blacklisted', {user: member.user.username}), iconURL: Config.get('bot.server_icon')})
             await interaction.editReply({embeds: [embed], ephemeral: true})
         }
     },

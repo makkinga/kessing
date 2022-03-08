@@ -1,7 +1,7 @@
 const {SlashCommandBuilder}   = require('@discordjs/builders')
 const {MessageEmbed}          = require('discord.js')
-const table                   = require('text-table')
-const {Wallet, React, Config} = require('../utils')
+const table                         = require('text-table')
+const {Wallet, React, Config, Lang} = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 7, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
+            return await React.error(interaction, 7, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         // Get balances and create table rows
@@ -26,13 +26,13 @@ module.exports = {
         let rows = []
         rows.push(['JEWEL', `${balance} JEWEL`])
         rows.push([])
-        rows.push([`Gas`, `${gasBalance} ONE`])
+        rows.push([Lang.trans(interaction, 'balance.gas'), `${gasBalance} ONE`])
         rows.push([])
 
         // Send embed
         const embed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setAuthor({name: `Your balances`, iconURL: Config.get('bot.server_icon')})
+            .setAuthor({name: Lang.trans(interaction, 'balance.title'), iconURL: Config.get('bot.server_icon')})
             .setDescription('```' + table(rows) + '```')
 
         await interaction.editReply({embeds: [embed], ephemeral: true})

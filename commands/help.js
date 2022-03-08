@@ -1,6 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders')
-const {MessageEmbed}        = require('discord.js')
-const {Config}              = require('../utils')
+const {MessageEmbed} = require('discord.js')
+const {Config, Lang} = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,14 +15,14 @@ module.exports = {
         // Create embeds
         const gettingStartedEmbed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setAuthor({name: `${Config.get('bot.name')} | Help`, iconURL: Config.get('bot.icon')})
-            .setTitle(`Getting started`)
-            .setDescription(`${Config.get('bot.name')} uses Discord's built-in slash commands. Type \`/\` and it will show you a list of it's commands, along with the various options to use them. All sensitive information is sent privately and can only be seen by you.`)
-            .addField(`Bug reporting`, `Please report any bugs to <@490122972124938240>. For help on setting up or using this bot please contact one of the Discord mods.`)
+            .setAuthor({name: `${Config.get('bot.name')} | ${Lang.trans(interaction, 'help.title')}`, iconURL: Config.get('bot.icon')})
+            .setTitle(Lang.trans(interaction, 'help.getting_started_title'))
+            .setDescription(Lang.trans(interaction, 'help.getting_started_description', {bot: Config.get('bot.name'), }))
+            .addField(Lang.trans(interaction, 'help.bug_reporting_title'), Lang.trans(interaction, 'help.bug_reporting_description', {user: '<@490122972124938240>'}))
 
         const commandsEmbed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setAuthor({name: `${Config.get('bot.name')} | Help`, iconURL: Config.get('bot.icon')})
+            .setAuthor({name: `${Config.get('bot.name')} | ${Lang.trans(interaction, 'help.title')}`, iconURL: Config.get('bot.icon')})
         for (let [command, data] of interaction.client.commands) {
             if (command !== 'help') {
                 let options    = []

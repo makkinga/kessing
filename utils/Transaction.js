@@ -10,6 +10,7 @@ const TipStatistics  = require('./TipStatistics')
 const BurnStatistics = require('./BurnStatistics')
 const Log            = require('./Log')
 const {MessageEmbed} = require('discord.js')
+const {Lang}         = require("../utils")
 
 /**
  * Add to Queue
@@ -37,7 +38,7 @@ exports.addToQueue = async function (interaction, from, to, amount, token, recip
         token              : token,
     }).catch(async error => {
         await Log.error(interaction, 37, error)
-        await React.error(interaction, 37, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+        await React.error(interaction, 37, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
     })
 }
 
@@ -85,7 +86,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
             }).catch(async error => {
                 await Log.error(interaction, 38, error)
-                return await React.error(interaction, 38, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+                return await React.error(interaction, 38, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
             })
 
             // Update statistics
@@ -105,21 +106,30 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 const recipient                = await interaction.client.users.cache.get(queue[i].recipient)
                 let replyTitle                 = ``
                 let replyDescription           = null
-                let recipientNotificationTitle = ``
 
                 switch (options.transactionType) {
                     case 'tip' :
-                        replyDescription = `💵 Tipped <@${recipient.id}> ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)}`
+                        replyDescription = Lang.trans(interaction, 'transaction.tip_description', {user: recipient.id, amount: queue[i].amount, symbol: Config.get(`tokens.${queue[i].token}.symbol`)})
                         break
                     case 'rain' :
-                        replyTitle       = `☂️ Raining ${queue[i].rainTotalAmount} ${Config.get(`tokens.${queue[i].token}.symbol`)}!`
-                        replyDescription = `Rained ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} on ${i + 1}/${queue[i].rainTotalRecipients} members`
+                        replyTitle       = Lang.trans(interaction, 'transaction.rain_title', {amount: queue[i].rainTotalAmount, symbol: Config.get(`tokens.${queue[i].token}.symbol`)})
+                        replyDescription = `Rained :amount :symbol on :count/:total members`
+                        replyDescription = Lang.trans(interaction, 'transaction.rain_description', {
+                            amount: queue[i].amount,
+                            symbol: Config.get(`tokens.${queue[i].token}.symbol`),
+                            count: i + 1,
+                            total: queue[i].rainTotalRecipients
+                        })
                         break
                     case 'burn' :
-                        replyDescription = `🔥 Burned ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)}`
+                        replyDescription = Lang.trans(interaction, 'transaction.burn_description', {amount: queue[i].amount, symbol: Config.get(`tokens.${queue[i].token}.symbol`)})
                         break
                     case 'send' :
-                        replyDescription = `💵 Sent ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} to ${queue[i].to}`
+                        replyDescription = Lang.trans(interaction, 'transaction.send_description', {
+                            amount: queue[i].amount,
+                            symbol: Config.get(`tokens.${queue[i].token}.symbol`),
+                            to: queue[i].to
+                        })
                         break
                 }
 
@@ -138,8 +148,12 @@ exports.runQueue = async function (interaction, author, options, notification) {
                     if (typeof recipient !== 'undefined') {
                         const embed = new MessageEmbed()
                             .setColor(Config.get('colors.primary'))
-                            .setTitle(recipientNotificationTitle)
-                            .setDescription(`@${interaction.user.username} tipped you ${queue[i].amount} ${Config.get(`tokens.${queue[i].token}.symbol`)} in <#${interaction.channel.id}>`)
+                            .setDescription(Lang.trans(interaction, 'transaction.rain_description', {
+                                user: interaction.user.username,
+                                amount: queue[i].amount,
+                                symbol: Config.get(`tokens.${queue[i].token}.symbol`),
+                                channel: `<#${interaction.channel.id}>`
+                            }))
                         await recipient.send(embed).catch(async error => {
                             if (error.code === 50007) {
                                 console.warn(`Cannot send DM to ${recipient.username}`)
@@ -164,7 +178,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
             }
         } catch (error) {
             await Log.error(interaction, 39, error)
-            return await React.error(interaction, 39, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+            return await React.error(interaction, 39, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
         }
     }
 

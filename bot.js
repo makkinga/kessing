@@ -63,7 +63,7 @@ client.on('interactionCreate', async interaction => {
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
-        return await React.error(interaction, 1, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
     }
 })
 

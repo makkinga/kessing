@@ -1,6 +1,6 @@
-const {SlashCommandBuilder}                               = require('@discordjs/builders')
-const {Wallet, React, Config, DB, Transaction, Blacklist} = require('../utils')
-const {MessageEmbed}                                      = require('discord.js')
+const {SlashCommandBuilder}                                     = require('@discordjs/builders')
+const {Wallet, React, Config, DB, Transaction, Blacklist, Lang} = require('../utils')
+const {MessageEmbed}                                            = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +10,6 @@ module.exports = {
         .addStringOption(option => option.setRequired(true).setName('type').setDescription(`Select the rain type`).addChoices([
             ['Active - Split your tip amongst max 10 last active members', 'active'],
             ['Random - Split your tip amongst 10 random wallet owners in this channel', 'random'],
-            // ['Storm - Split your tip amongst all wallet holders', 'storm']
         ])),
 
     async execute(interaction)
@@ -24,22 +23,21 @@ module.exports = {
         const token  = Config.get('token.default')
 
         // Checks
-
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 18, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
+            return await React.error(interaction, 18, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         const processing = await DB.transactions.count({where: {author: interaction.user.id, processing: true}}) > 0
         if (processing) {
-            return await React.error(interaction, 19, `Transactions in progress`, `Please wait for your current queue to be processed`, true)
+            return await React.error(interaction, 19, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
         }
 
         if (amount === 0) {
-            return await React.error(interaction, 20, `Incorrect amount`, `The tip amount should be larger than 0`, true)
+            return await React.error(interaction, 20, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
         }
 
         if (amount < 0.01) {
-            return await React.error(interaction, 21, `Incorrect amount`, `The tip amount is too low`, true)
+            return await React.error(interaction, 21, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
         }
 
         const wallet  = await Wallet.get(interaction, interaction.user.id)
@@ -47,7 +45,7 @@ module.exports = {
         const from    = wallet.address
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            return await React.error(interaction, 22, `Insufficient funds`, `The amount exceeds your balance + safety margin (0.001 ${Config.get(`tokens.${token}.symbol`)}). Use the \`/deposit\` command to get your wallet address to send some more ${Config.get(`tokens.${token}.symbol`)}. Or try again with a lower amount`, true)
+            return await React.error(interaction, 22, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
         }
 
         // Get all wallet owners
@@ -91,8 +89,8 @@ module.exports = {
                     const embed = new MessageEmbed()
                         .setColor(Config.get('colors.primary'))
                         .setThumbnail(Config.get('token.thumbnail'))
-                        .setTitle(`You've missed the rain ☂️`)
-                        .setDescription(`@${interaction.user.username} rained in <#${interaction.channel.id}>. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the \`/deposit\` to create a new wallet`)
+                        .setTitle(Lang.trans(interaction, 'rain.missed_title'))
+                        .setDescription(Lang.trans(interaction, 'rain.missed_description', {user: interaction.user.username, channel: `<#${interaction.channel.id}>`}))
                     try {
                         await message.author.send({embeds: [embed]})
                     } catch (error) {
@@ -136,8 +134,8 @@ module.exports = {
         }
 
         if (members.length === 0) {
-            await React.error(interaction, 42, `Sorry`, `I couldn't find any users to rain on. Please try again when the chat is a bit more active`, true)
-            await interaction.channel.send(`Wake up people! @${interaction.user.username} is trying to rain, but nobody is here!`)
+            await React.error(interaction, 42, Lang.trans(interaction, 'rain.no_users_title'), Lang.trans(interaction, 'rain.no_users_description'), true)
+            await interaction.channel.send(Lang.trans(interaction, 'rain.wake_up'))
 
             return
         }

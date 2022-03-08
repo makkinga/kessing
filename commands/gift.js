@@ -1,6 +1,6 @@
 const {SlashCommandBuilder, time}                     = require('@discordjs/builders')
 const {MessageEmbed, MessageActionRow, MessageButton} = require('discord.js')
-const {Config, Transaction, Wallet, React, DB}        = require('../utils')
+const {Config, Transaction, Wallet, React, DB, Lang}  = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,20 +18,20 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 43, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
+            return await React.error(interaction, 43, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         const processing = await DB.transactions.count({where: {author: interaction.user.id, processing: true}}) > 0
         if (processing) {
-            return await React.error(interaction, 44, `Transactions in progress`, `Please wait for your current queue to be processed`, true)
+            return await React.error(interaction, 44, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
         }
 
         if (amount === 0) {
-            return await React.error(interaction, 45, `Incorrect amount`, `The tip amount should be larger than 0`, true)
+            return await React.error(interaction, 45, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
         }
 
         if (amount < 0.01) {
-            return await React.error(interaction, 46, `Incorrect amount`, `The tip amount is too low`, true)
+            return await React.error(interaction, 46, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
         }
 
         const wallet  = await Wallet.get(interaction, interaction.user.id)
@@ -39,20 +39,20 @@ module.exports = {
         const from    = wallet.address
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            return await React.error(interaction, 47, `Insufficient funds`, `The amount exceeds your balance + safety margin (0.001 ${Config.get(`token.symbol`)}). Use the \`${Config.get('prefix')}deposit\` command to get your wallet address to send some more ${Config.get(`tokens.${token}.symbol`)}. Or try again with a lower amount`, true)
+            return await React.error(interaction, 47, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
         }
 
         // Send embed and button
         const timestamp = Date.now()
         const embed     = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`@${interaction.user.username} sent a gift of ${amount} ${Config.get('token.symbol')}`)
-            .setDescription(`Be the first to click the button below and claim this gift!`)
+            .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: Config.get('token.symbol')}))
+            .setDescription(Lang.trans(interaction, 'gift.description'))
 
         const button = new MessageActionRow()
             .addComponents(new MessageButton()
                 .setCustomId(`claim_${timestamp}`)
-                .setLabel('Claim this gift!')
+                .setLabel(Lang.trans(interaction, 'gift.button'))
                 .setStyle('SUCCESS')
                 .setEmoji('🎁'),
             )
@@ -64,13 +64,13 @@ module.exports = {
         collector.on('collect', async i => {
             if (i.customId === `claim_${timestamp}`) {
                 const claimedEmbed = new MessageEmbed()
-                    .setTitle(`@${interaction.user.username} sent a gift of ${amount} ${Config.get('token.symbol')}`)
-                    .setDescription(`Be the first to click the button below and claim this gift!`)
+                    .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: Config.get('token.symbol')}))
+                    .setDescription(Lang.trans(interaction, 'gift.description'))
 
                 const claimedButton = new MessageActionRow()
                     .addComponents(new MessageButton()
                         .setCustomId(`claimed_${timestamp}`)
-                        .setLabel(`This gift was claimed by @${i.user.username}`)
+                        .setLabel(Lang.trans(interaction, 'gift.button_claimed', {user: i.user.username}))
                         .setStyle('SECONDARY')
                         .setEmoji('🎁')
                         .setDisabled(true)

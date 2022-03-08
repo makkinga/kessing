@@ -1,6 +1,6 @@
-const {SlashCommandBuilder}                         = require('@discordjs/builders')
-const {Wallet, React, Config, Transaction, DB, Log} = require('../utils')
-const moment                                        = require('moment')
+const {SlashCommandBuilder}                               = require('@discordjs/builders')
+const {Wallet, React, Config, Transaction, DB, Log, Lang} = require('../utils')
+const moment                                              = require('moment')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,7 +14,7 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 8, `No wallet`, `You have to tipping wallet yet. Please use the \`/deposit\` to create a new wallet`, true)
+            return await React.error(interaction, 8, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         // Gather data
@@ -24,7 +24,7 @@ module.exports = {
         // Check for time out
         const timeout = await DB.gas.findOne({where: {user: interaction.user.id}})
         if (timeout && timeout.timestamp + Config.get('gas.time_out') > moment().unix()) {
-            return await React.error(interaction, 9, `Time-out`, `Please wait for your time-out to end ${moment.unix(timeout.timestamp + Config.get('gas.time_out')).fromNow()}`, true)
+            return await React.error(interaction, 9, Lang.trans(interaction, 'gas.time-out_title'), Lang.trans(interaction, 'gas.time-out_description', {end: moment.unix(timeout.timestamp + Config.get('gas.time_out')).fromNow()}), true)
         }
 
         // Destroy any left over time-outs
@@ -32,7 +32,7 @@ module.exports = {
 
         // Check for exploits
         if (parseFloat(balance) >= Config.get('gas.max_balance')) {
-            return await React.error(interaction, 10, `Are you trying to scam me?`, `You have ${balance} ONE!`, true)
+            return await React.error(interaction, 10, Lang.trans(interaction, 'gas.max_balance_title'), Lang.trans(interaction, 'gas.max_balance_title', {balance: balance}), true)
         }
 
         // Send gas
@@ -44,9 +44,9 @@ module.exports = {
             timestamp: moment().unix(),
         }).catch(async error => {
             await Log.error(interaction, 12, error)
-            await React.error(interaction, 12, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+            await React.error(interaction, 12, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
         })
 
-        await React.success(interaction, `Success!`, 'Some gas was sent to your wallet', true)
+        await React.success(interaction, Lang.trans(interaction, 'gas.success_title'), Lang.trans(interaction, 'gas.success_description'), true)
     },
 }

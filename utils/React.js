@@ -1,4 +1,5 @@
 const Config         = require('./Config')
+const Lang   = require('./Lang')
 const {MessageEmbed} = require('discord.js')
 
 /**
@@ -66,7 +67,7 @@ exports.processing = async function (message) {
 }
 
 /**
- * Done7e6ce569cc1d4e3c2bb19400e8bbedb6
+ * Done
  *
  * @return {Promise<void>}
  */
@@ -81,12 +82,12 @@ exports.done = async function (message) {
 }
 
 /**
- * Done
+ * Burn
  *
  * @return {Promise<void>}
  */
 exports.burn = async function (message) {
-    // await message.react('🔥')
+    await message.react('🔥')
     await message.react('💀')
     await this.done(message)
 }
@@ -144,11 +145,9 @@ exports.message = async function (interaction, type, amount = null) {
                 type = 'small_tip'
             }
         }
-        const titleArray   = await Config.get(`response.titles`)
-        const messageArray = await Config.get(`response.${type}`)
-        const randomTitle  = titleArray[Math.floor(Math.random() * titleArray.length)]
-        let randomMessage  = messageArray[Math.floor(Math.random() * messageArray.length)]
-        randomMessage      = randomMessage.replace('%title%', randomTitle)
+
+        const randomTitle   = Lang.random(interaction, `response.titles`)
+        const randomMessage = Lang.random(interaction, `response.${type}`, {title: randomTitle})
 
         await interaction.channel.send(`<@${interaction.user.id}>, ${randomMessage}`)
     }

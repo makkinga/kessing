@@ -1,14 +1,13 @@
 require('dotenv').config()
-const {Harmony}                                = require('@harmony-js/core')
-const {Account}                                = require('@harmony-js/account')
-const {HttpProvider, Messenger}                = require('@harmony-js/network')
-const {ChainType, hexToNumber, fromWei, Units} = require('@harmony-js/utils')
-const {BigNumber}                              = require('bignumber.js')
-const CryptoJS                                 = require('crypto-js')
-const Config                                   = require('./Config')
-const DB                                       = require('./DB')
-const React                                    = require('./React')
-const {ethers}                                 = require('ethers')
+const {Account}                 = require('@harmony-js/account')
+const {HttpProvider, Messenger} = require('@harmony-js/network')
+const {ChainType}               = require('@harmony-js/utils')
+const CryptoJS                  = require('crypto-js')
+const Config                    = require('./Config')
+const DB                        = require('./DB')
+const React                     = require('./React')
+const {ethers}                  = require('ethers')
+const {Lang, Log}               = require("../utils")
 
 /**
  * Check wallet
@@ -20,7 +19,7 @@ exports.check = async function (interaction) {
     const wallet = await DB.wallets.findOne({where: {user: interaction.user.id}})
 
     if (wallet == null) {
-        await React.error(interaction, 40, `You do not have a ${Config.get('token.symbol')} Tip Bot wallet yet`, `Please run the \`/deposit\` command to create a new wallet.`, true)
+        await React.error(interaction, 40, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
 
         return false
     } else {
@@ -43,7 +42,7 @@ exports.get = async function (interaction, id) {
         return wallet
     }).catch(async error => {
         await Log.error(interaction, 41, error)
-        return await React.error(interaction, 41, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+        return await React.error(interaction, 41, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
     })
 }
 
@@ -124,7 +123,10 @@ exports.recipientAddress = async function (interaction, id, member = null) {
         const newWallet = await this.create(id)
 
         try {
-            await member.send(`@${interaction.user.username} tipped you some ${Config.get('token.symbol')}! You don't have a wallet yet, so I have created one for you! Use the \`/help\` command to find out how to make use of my services.`)
+            await member.send(Lang.trans(interaction, 'error.description.tipped_without_wallet', {
+                user: interaction.user.username,
+                symbol: Config.get('token.symbol'),
+            }))
         } catch (error) {
             console.error(error)
         }

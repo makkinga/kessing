@@ -7,6 +7,22 @@ roles:
 commands:
   blacklist: '948856330960142366'
   whitelist: '948856330960142367'
+## ISO 639-1
+locales:
+  ### Chinese
+  "000000000000000001": "zh"
+  ### Japanese
+  "000000000000000002": "ja"
+  ### Italian
+  "000000000000000003": "it"
+  ### Malay
+  "000000000000000004": "ms"
+  ### Russian
+  "000000000000000005": "ru"
+  ### Spanish
+  "000000000000000006": "es"
+  ### Tagalog
+  "000000000000000007": "tl"
 
 # Gas
 gas:
@@ -20,7 +36,7 @@ token:
   symbol: "JEWEL"
   decimals: 18
   thumbnail: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
-alternative_tokens: []
+alternative_tokens: [ ]
 tokens:
   jewel:
     symbol: "JEWEL"
