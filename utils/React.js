@@ -38,6 +38,8 @@ exports.success = async function (interaction, title, description = null, edit =
  * @return {Promise<void>}
  */
 exports.error = async function (interaction, code, title, description = null, edit = false) {
+    const reference = `${interaction.user.id.slice(-3)}-${interaction.channelId.slice(-3)}-${interaction.id.slice(-3)}`
+
     const embed = new MessageEmbed()
         .setColor(Config.get('colors.error'))
         .setTitle(title)
@@ -47,7 +49,8 @@ exports.error = async function (interaction, code, title, description = null, ed
     }
 
     if (code) {
-        embed.addField(`Error code`, `E${code.toString().padStart(3, '0')}`)
+        embed.addField(`Error code`, `E${code.toString().padStart(3, '0')}`, true)
+        embed.addField(`Reference`, reference, true)
     }
 
     if (edit) {
