@@ -1,7 +1,7 @@
 require('dotenv').config()
-const fs                              = require('fs')
-const {Client, Collection, Intents}   = require('discord.js')
-const {Token, Config, DB, React, Log} = require('./utils')
+const fs                                    = require('fs')
+const {Client, Collection, Intents}         = require('discord.js')
+const {Token, Config, DB, React, Log, Lang} = require('./utils')
 
 // Create a new client instance
 const client = new Client({
@@ -63,7 +63,7 @@ client.on('interactionCreate', async interaction => {
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
-        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
+        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     }
 })
 

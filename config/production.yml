@@ -20,7 +20,7 @@ token:
   symbol: "JEWEL"
   decimals: 18
   thumbnail: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
-alternative_tokens: []
+alternative_tokens: [ ]
 tokens:
   jewel:
     symbol: "JEWEL"

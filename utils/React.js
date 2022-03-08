@@ -1,5 +1,5 @@
 const Config         = require('./Config')
-const Lang   = require('./Lang')
+const Lang           = require('./Lang')
 const {MessageEmbed} = require('discord.js')
 
 /**

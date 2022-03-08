@@ -15,6 +15,7 @@ module.exports = {
         await interaction.deferReply({ephemeral: true})
 
         // Send embed
+        moment.locale(Config.get(`locales.${interaction.guildId}`) ?? 'en')
         const embed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
             .setAuthor({name: `${Config.get('bot.name')} | ${Lang.trans(interaction, 'about.title')}`, iconURL: Config.get('bot.icon')})
@@ -24,7 +25,7 @@ module.exports = {
             .addField(Lang.trans(interaction, 'about.license'), 'MIT', true)
             .addField(Lang.trans(interaction, 'about.source'), `https://github.com/makkinga/dfk-tipbot`)
             .addField(Lang.trans(interaction, 'about.coffee_title'), Lang.trans(interaction, 'about.coffee_description', {bot: Config.get('bot.name')}) + '```' + '0xb2689E31b229139B52006b6Ec22C991A66c9D257' + '```')
-            .addField(Lang.trans(interaction, 'about.contributors'), `<@221734683417772042>, <@891355078416543774>`)
+            .addField(Lang.trans(interaction, 'about.contributors'), `<@221734683417772042>, <@607946034546475042>, <@891355078416543774>, ${Lang.trans(interaction, 'and')} <@842662223721267210>`)
 
         await interaction.editReply({embeds: [embed], ephemeral: true})
     },

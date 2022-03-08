@@ -4,14 +4,15 @@ const get    = require('lodash.get')
 /**
  * Translate message
  *
- * @param message
+ * @param interaction
  * @param key
  * @param params
  */
-exports.trans = function (message, key, params = {}) {
-    const locale = message.channel.type !== 'dm' ? Config.get(`locales.${message.guild.id}`) : 'en'
-    const lang   = require(`../lang/${locale}.json`)
-    let string   = get(lang, key)
+exports.trans = function (interaction, key, params = {}) {
+    const locale = Config.get(`locales.${interaction.guildId}`) ?? 'en'
+
+    const lang = require(`../lang/${locale}.json`)
+    let string = get(lang, key)
 
     for (const [key, value] of Object.entries(params)) {
         string = string.replace(`:${key}`, value)
@@ -23,12 +24,12 @@ exports.trans = function (message, key, params = {}) {
 /**
  * Translate random message
  *
- * @param message
+ * @param interaction
  * @param key
  * @param params
  */
-exports.random = function (message, key, params = {}) {
-    const locale = message.channel.type !== 'dm' ? Config.get(`locales.${message.guild.id}`) : 'en'
+exports.random = function (interaction, key, params = {}) {
+    const locale = Config.get(`locales.${interaction.guildId}`) ?? 'en'
     const lang   = require(`../lang/${locale}.json`)
     let array    = get(lang, key)
     let string   = array[Math.floor(Math.random() * array.length)]

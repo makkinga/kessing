@@ -1,6 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders')
-const {MessageEmbed} = require('discord.js')
-const {Config, Lang} = require('../utils')
+const {MessageEmbed}        = require('discord.js')
+const {Config, Lang}        = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
             .setColor(Config.get('colors.primary'))
             .setAuthor({name: `${Config.get('bot.name')} | ${Lang.trans(interaction, 'help.title')}`, iconURL: Config.get('bot.icon')})
             .setTitle(Lang.trans(interaction, 'help.getting_started_title'))
-            .setDescription(Lang.trans(interaction, 'help.getting_started_description', {bot: Config.get('bot.name'), }))
+            .setDescription(Lang.trans(interaction, 'help.getting_started_description', {bot: Config.get('bot.name'),}))
             .addField(Lang.trans(interaction, 'help.bug_reporting_title'), Lang.trans(interaction, 'help.bug_reporting_description', {user: '<@490122972124938240>'}))
 
         const commandsEmbed = new MessageEmbed()

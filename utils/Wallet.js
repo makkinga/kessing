@@ -7,7 +7,8 @@ const Config                    = require('./Config')
 const DB                        = require('./DB')
 const React                     = require('./React')
 const {ethers}                  = require('ethers')
-const {Lang, Log}               = require("../utils")
+const Log                       = require('./Log')
+const Lang                      = require('./Lang')
 
 /**
  * Check wallet
@@ -42,7 +43,7 @@ exports.get = async function (interaction, id) {
         return wallet
     }).catch(async error => {
         await Log.error(interaction, 41, error)
-        return await React.error(interaction, 41, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
+        return await React.error(interaction, 41, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     })
 }
 
@@ -124,7 +125,7 @@ exports.recipientAddress = async function (interaction, id, member = null) {
 
         try {
             await member.send(Lang.trans(interaction, 'error.description.tipped_without_wallet', {
-                user: interaction.user.username,
+                user  : interaction.user.username,
                 symbol: Config.get('token.symbol'),
             }))
         } catch (error) {

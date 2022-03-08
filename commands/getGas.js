@@ -44,7 +44,7 @@ module.exports = {
             timestamp: moment().unix(),
         }).catch(async error => {
             await Log.error(interaction, 12, error)
-            await React.error(interaction, 12, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin'), true)
+            await React.error(interaction, 12, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
         })
 
         await React.success(interaction, Lang.trans(interaction, 'gas.success_title'), Lang.trans(interaction, 'gas.success_description'), true)

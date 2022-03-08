@@ -1,7 +1,7 @@
 const {SlashCommandBuilder} = require('@discordjs/builders')
-const table              = require('text-table')
-const {Config, DB, Lang} = require('../utils')
-const {MessageEmbed}     = require('discord.js')
+const table                 = require('text-table')
+const {Config, DB, Lang}    = require('../utils')
+const {MessageEmbed}        = require('discord.js')
 const {Sequelize}           = require('sequelize')
 
 module.exports = {
@@ -71,7 +71,7 @@ module.exports = {
 
         // Send embed
         const onServer = server === 'main' ? 'Main server' : 'This server'
-        const embed = new MessageEmbed()
+        const embed    = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
             .setAuthor({name: Lang.trans(interaction, 'rank.title'), iconURL: Config.get('bot.server_icon')})
             .setDescription('```' + table(topRows) + '```')

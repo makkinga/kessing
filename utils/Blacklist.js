@@ -1,5 +1,4 @@
 const DB     = require('./DB')
-const Config = require('./Config')
 const {Op}   = require('sequelize')
 const moment = require('moment')
 
