@@ -5,6 +5,7 @@
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/makkinga/dfk-tipbot?label=version&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/makkinga/dfk-tipbot?style=flat-square)
+![StyleCI](https://github.styleci.io/repos/414885047/shield)
 ![GitHub last commit](https://img.shields.io/github/last-commit/makkinga/dfk-tipbot?style=flat-square)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/makkinga/dfk-tipbot?style=flat-square)
 
