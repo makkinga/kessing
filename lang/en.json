@@ -101,6 +101,7 @@
             "amount_incorrect": "The amount is wrongly formatted or missing",
             "amount_low": "The amount is too low",
             "amount_exceeds_balance": "The amount exceeds your balance + safety margin (0.001 :symbol). Use the `/deposit` command to get your wallet address to send some more :symbol. Or try again with a lower amount",
+            "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
             "contact_admin": "Please contact :user",
             "create_new_wallet": "You have no tipping wallet yet. Please use the `/deposit` command to create a new wallet.",
             "wait_for_queue": "Please wait for your current queue to be processed",

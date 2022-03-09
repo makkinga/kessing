@@ -99,6 +99,7 @@
             "amount_incorrect": "L'importo da bruciare è formattata male o mancante",
             "amount_low": "L'importo da bruciare è troppo bassa",
             "amount_exceeds_balance": "L'importo supera il tuo bilancio + il margine di sicurezza (0.001 :symbol). Usa il comando `/deposit` per visualizzare l'indirizzo del tuo portafoglio per mandarti più :symbol. Oppure riprova con un importo minore",
+            "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
             "contact_admin": "Contatta :user",
             "create_new_wallet": "Devi ancora creare il portafoglio per le mance. Usa il comando `/deposit` per creare un nuovo portafoglio.",
             "wait_for_queue": "Attendi l'elaborazione della coda corrente",

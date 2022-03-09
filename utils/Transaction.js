@@ -183,22 +183,18 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
             }
         } catch (error) {
-            await Log.error(interaction, 5, error)
-            return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+            await DB.transactions.update({processing: false}, {
+                where: {
+                    id: queue[i].id
+                }
+            })
 
-
-            // await DB.transactions.update({processing: false}, {
-            //                 where: {
-            //                     id: queue[i].id
-            //                 }
-            //             })
-            //
-            //             if (error.code === 'INSUFFICIENT_FUNDS') {
-            //                 return await React.error(interaction, null, `Insufficient funds`, `Your balance is too low to make this transaction`, true)
-            //             } else {
-            //                 await Log.error(interaction, 9, error)
-            //                 return await React.error(interaction, 9, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
-            //             }
+            if (error.code === 'INSUFFICIENT_FUNDS') {
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_gas_balance'), true)
+            } else {
+                await Log.error(interaction, 5, error)
+                return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+            }
         }
     }
 
