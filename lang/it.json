@@ -63,6 +63,14 @@
         "key": "La tua chiave privata",
         "contracts": "Indirizzi del contratto da importare"
     },
+    "queue": {
+        "title": "Transaction queue",
+        "footer": "Use /clear-queue to clear your queue",
+        "no_queue": "No queue",
+        "nothing_to_clear_title": "Nothing to clear",
+        "nothing_to_clear_description": "There are no transactions in your queue",
+        "cleared_successfully": "Your transaction queue was cleared successfully"
+    },
     "rain": {
         "missed_title": "Hai perso la pioggia :umbrella2:",
         "missed_description": "@:user ha fatto piovere in :channel. Sfortunatamente ti sei perso la pioggia perché non hai ancora impostato il tuo portafoglio per le mance. Se vuoi prendere la prossima pioggia, usa `/deposit` per creare un nuovo portafoglio",

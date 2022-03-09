@@ -63,6 +63,14 @@
         "key": "Your private key",
         "contracts": "Contract addresses to import"
     },
+    "queue": {
+        "title": "Transaction queue",
+        "footer": "Use /clear-queue to clear your queue",
+        "no_queue": "No queue",
+        "nothing_to_clear_title": "Nothing to clear",
+        "nothing_to_clear_description": "There are no transactions in your queue",
+        "cleared_successfully": "Your transaction queue was cleared successfully"
+    },
     "rain": {
         "missed_title": "You've missed the rain :umbrella2:",
         "missed_description": "@:user rained in :channel. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the `/deposit` to create a new wallet",
