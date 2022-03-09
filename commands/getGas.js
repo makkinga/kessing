@@ -14,7 +14,7 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 8, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         // Gather data
@@ -24,7 +24,7 @@ module.exports = {
         // Check for time out
         const timeout = await DB.gas.findOne({where: {user: interaction.user.id}})
         if (timeout && timeout.timestamp + Config.get('gas.time_out') > moment().unix()) {
-            return await React.error(interaction, 9, Lang.trans(interaction, 'gas.time-out_title'), Lang.trans(interaction, 'gas.time-out_description', {end: moment.unix(timeout.timestamp + Config.get('gas.time_out')).fromNow()}), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'gas.time-out_title'), Lang.trans(interaction, 'gas.time-out_description', {end: moment.unix(timeout.timestamp + Config.get('gas.time_out')).fromNow()}), true)
         }
 
         // Destroy any left over time-outs
@@ -32,7 +32,7 @@ module.exports = {
 
         // Check for exploits
         if (parseFloat(balance) >= Config.get('gas.max_balance')) {
-            return await React.error(interaction, 10, Lang.trans(interaction, 'gas.max_balance_title'), Lang.trans(interaction, 'gas.max_balance_title', {balance: balance}), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'gas.max_balance_title'), Lang.trans(interaction, 'gas.max_balance_description', {balance: balance}), true)
         }
 
         // Send gas
@@ -43,8 +43,8 @@ module.exports = {
             user     : interaction.user.id,
             timestamp: moment().unix(),
         }).catch(async error => {
-            await Log.error(interaction, 12, error)
-            await React.error(interaction, 12, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+            await Log.error(interaction, 2, error)
+            await React.error(interaction, 2, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
         })
 
         await React.success(interaction, Lang.trans(interaction, 'gas.success_title'), Lang.trans(interaction, 'gas.success_description'), true)

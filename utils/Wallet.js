@@ -20,7 +20,7 @@ exports.check = async function (interaction) {
     const wallet = await DB.wallets.findOne({where: {user: interaction.user.id}})
 
     if (wallet == null) {
-        await React.error(interaction, 40, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
+        await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
 
         return false
     } else {
@@ -42,8 +42,8 @@ exports.get = async function (interaction, id) {
 
         return wallet
     }).catch(async error => {
-        await Log.error(interaction, 41, error)
-        return await React.error(interaction, 41, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+        await Log.error(interaction, 6, error)
+        return await React.error(interaction, 6, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     })
 }
 

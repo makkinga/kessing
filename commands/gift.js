@@ -18,20 +18,20 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 43, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         const processing = await DB.transactions.count({where: {author: interaction.user.id, processing: true}}) > 0
         if (processing) {
-            return await React.error(interaction, 44, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
         }
 
         if (amount === 0) {
-            return await React.error(interaction, 45, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
         }
 
         if (amount < 0.01) {
-            return await React.error(interaction, 46, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
         }
 
         const wallet  = await Wallet.get(interaction, interaction.user.id)
@@ -39,7 +39,7 @@ module.exports = {
         const from    = wallet.address
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            return await React.error(interaction, 47, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
         }
 
         // Send embed and button

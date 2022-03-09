@@ -21,15 +21,15 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 25, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         if (amount === 0) {
-            return await React.error(interaction, 26, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
         }
 
         if (amount < 0.01) {
-            return await React.error(interaction, 27, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
         }
 
         const wallet  = await Wallet.get(interaction, interaction.user.id)
@@ -42,7 +42,7 @@ module.exports = {
         }
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            return await React.error(interaction, 28, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
         }
 
         Transaction.addToQueue(interaction, from, to, amount, token).then(() => {

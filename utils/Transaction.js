@@ -37,8 +37,8 @@ exports.addToQueue = async function (interaction, from, to, amount, token, recip
         rainTotalRecipients: rainTotalRecipients,
         token              : token,
     }).catch(async error => {
-        await Log.error(interaction, 37, error)
-        await React.error(interaction, 37, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+        await Log.error(interaction, 3, error)
+        await React.error(interaction, 3, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     })
 }
 
@@ -85,8 +85,8 @@ exports.runQueue = async function (interaction, author, options, notification) {
                     id: queue[i].id
                 }
             }).catch(async error => {
-                await Log.error(interaction, 38, error)
-                return await React.error(interaction, 38, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+                await Log.error(interaction, 4, error)
+                return await React.error(interaction, 4, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
             })
 
             // Update statistics
@@ -177,8 +177,8 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
             }
         } catch (error) {
-            await Log.error(interaction, 39, error)
-            return await React.error(interaction, 39, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+            await Log.error(interaction, 5, error)
+            return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
         }
     }
 

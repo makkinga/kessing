@@ -15,7 +15,7 @@ module.exports = {
 
         // Checks
         if (!await Wallet.check(interaction)) {
-            return await React.error(interaction, 7, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
         // Get balances and create table rows

@@ -7,6 +7,22 @@ roles:
 commands:
   blacklist: ''
   whitelist: ''
+## ISO 639-1
+locales:
+  ### Chinese
+  "000000000000000001": "zh"
+  ### Japanese
+  "000000000000000002": "ja"
+  ### Italian
+  "897510706537177139": "it"
+  ### Malay
+  "000000000000000004": "ms"
+  ### Russian
+  "000000000000000005": "ru"
+  ### Spanish
+  "000000000000000006": "es"
+  ### Tagalog
+  "000000000000000007": "tl"
 
 # Gas
 gas:
