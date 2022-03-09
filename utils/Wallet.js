@@ -42,8 +42,8 @@ exports.get = async function (interaction, id) {
 
         return wallet
     }).catch(async error => {
-        await Log.error(interaction, 6, error)
-        return await React.error(interaction, 6, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+        await Log.error(interaction, 7, error)
+        return await React.error(interaction, 7, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     })
 }
 

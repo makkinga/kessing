@@ -73,6 +73,12 @@ exports.runQueue = async function (interaction, author, options, notification) {
 
         try {
             // Transaction
+            await DB.transactions.update({processing: true}, {
+                where: {
+                    id: queue[i].id
+                }
+            })
+
             const tx = await contract.transfer(queue[i].to, ethers.utils.parseEther(queue[i].amount.toString()), transactionOptions)
 
             await tx.wait(1)
@@ -167,7 +173,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                     switch (options.transactionType) {
                         case 'tip' :
                         case 'rain' :
-                            await React.seaCreature(reply, queue[i].amount)
+                            await React.seaCreature(reply, queue[i].rainTotalAmount)
                             break
                         case 'burn' :
                             await React.seaCreature(reply, queue[i].amount)
@@ -179,6 +185,20 @@ exports.runQueue = async function (interaction, author, options, notification) {
         } catch (error) {
             await Log.error(interaction, 5, error)
             return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+
+
+            // await DB.transactions.update({processing: false}, {
+            //                 where: {
+            //                     id: queue[i].id
+            //                 }
+            //             })
+            //
+            //             if (error.code === 'INSUFFICIENT_FUNDS') {
+            //                 return await React.error(interaction, null, `Insufficient funds`, `Your balance is too low to make this transaction`, true)
+            //             } else {
+            //                 await Log.error(interaction, 9, error)
+            //                 return await React.error(interaction, 9, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`, true)
+            //             }
         }
     }
 
@@ -189,75 +209,27 @@ exports.runQueue = async function (interaction, author, options, notification) {
  * Make gas transaction
  *
  * @param interaction
- * @param from
  * @param to
  * @param amount
- * @param privateKey
- * @return {Promise<{result: boolean, message: string}>}
+ * @return {Promise<void>}
  */
-exports.sendGas = async function (interaction, from, to, amount, privateKey = null) {
-    const fromShard = 0
-    const toShard   = 0
-    const gasLimit  = '25000'
-    const gasPrice  = 30
-    const recipient = await toBech32(to)
-    const wallet    = await Wallet.get(interaction, from)
-    if (privateKey === null) {
-        privateKey = await Wallet.privateKey(wallet)
-    }
-    const hmy = new Harmony(
-        Config.get('token.rpc_url'),
-        {
-            chainType: ChainType.Harmony,
-            chainId  : Config.get('chain_id'),
-        },
-    )
+exports.sendGas = async function (interaction, to, amount) {
+    const provider           = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
+    const signer             = new ethers.Wallet(process.env.BOT_WALLET_PRIVATE_KEY, provider)
 
-    const tx = hmy.transactions.newTx({
-        to       : recipient,
-        value    : new hmy.utils.Unit(amount).asEther().toWei().toString(),
-        gasLimit : gasLimit,
-        shardID  : typeof fromShard === 'string' ? Number.parseInt(fromShard, 10) : fromShard,
-        toShardID: typeof toShard === 'string' ? Number.parseInt(toShard, 10) : toShard,
-        gasPrice : new hmy.utils.Unit(gasPrice).asGwei().toWei().toString(),
-    })
-
-    hmy.utils.address
-
-    await this.getShardInfo(hmy)
-
-    const account  = hmy.wallet.addByPrivateKey(privateKey)
-    const signedTx = await account.signTransaction(tx)
-
-    signedTx
-        .observed()
-        .on('transactionHash', (txHash) => {
-            // console.log('--- hash ---');
-            // console.log(txHash);
-        })
-        .on('error', (error) => {
-            return {
-                result : false,
-                message: 'Failed to sign transaction',
-            }
+    try {
+        // Transaction
+        const tx = await signer.sendTransaction({
+            to: to,
+            value: ethers.utils.parseEther(amount.toString()),
+            gasPrice: await provider.getGasPrice(),
+            gasLimit: 300000,
         })
 
-    const [sentTxn, txHash] = await signedTx.sendTransaction()
-    const confirmedTx       = await sentTxn.confirm(txHash)
-
-    let explorerLink
-    if (confirmedTx.isConfirmed()) {
-        explorerLink = `${Config.get('token.network_explorer')}/tx/${txHash}`
-    } else {
-        return {
-            result : false,
-            message: `Can not confirm transaction ${txHash}`,
-        }
-    }
-
-    return {
-        result : true,
-        message: explorerLink,
+        await tx.wait(1)
+    } catch (error) {
+        await Log.error(interaction, 6, error)
+        return await React.error(interaction, 6, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     }
 }
 

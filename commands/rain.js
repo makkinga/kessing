@@ -167,7 +167,5 @@ module.exports = {
         }
 
         await Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'rain'}, {reply: true, react: true, ephemeral: false})
-
-        await React.message(interaction, 'tip', amount)
     },
 }
