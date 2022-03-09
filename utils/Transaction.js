@@ -210,14 +210,14 @@ exports.runQueue = async function (interaction, author, options, notification) {
  * @return {Promise<void>}
  */
 exports.sendGas = async function (interaction, to, amount) {
-    const provider           = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
-    const signer             = new ethers.Wallet(process.env.BOT_WALLET_PRIVATE_KEY, provider)
+    const provider = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
+    const signer   = new ethers.Wallet(process.env.BOT_WALLET_PRIVATE_KEY, provider)
 
     try {
         // Transaction
         const tx = await signer.sendTransaction({
-            to: to,
-            value: ethers.utils.parseEther(amount.toString()),
+            to      : to,
+            value   : ethers.utils.parseEther(amount.toString()),
             gasPrice: await provider.getGasPrice(),
             gasLimit: 300000,
         })

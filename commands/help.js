@@ -27,7 +27,7 @@ module.exports = {
             if (command !== 'help') {
                 let options    = []
                 let hasOptions = false
-                let lock = data.data.defaultPermission === false ? ':lock: ' : '';
+                let lock       = data.data.defaultPermission === false ? ':lock: ' : ''
                 if (data.data.options.length) {
                     hasOptions = true
                     for (let option of data.data.options) {

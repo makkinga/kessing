@@ -71,7 +71,7 @@ module.exports = {
 
         // Send embed
         const listingName = listing === 'total' ? Lang.trans(interaction, 'rank.total') : Lang.trans(interaction, 'rank.this_server')
-        const embed    = new MessageEmbed()
+        const embed       = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
             .setAuthor({name: Lang.trans(interaction, 'rank.title', {length: length, listing: listingName}), iconURL: Config.get('bot.server_icon')})
             .setDescription('```' + table(topRows) + '```')

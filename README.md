@@ -1,6 +1,7 @@
 ![Logo DFK](https://storageapi.fleek.co/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/logo_dfk_full.png)
 
 # Barkeep Kessing
+
 #### DeFi Kingdoms Discord Tipbot
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/makkinga/dfk-tipbot?label=version&style=flat-square)
@@ -14,6 +15,7 @@ Barkeep Kessing was built with :heart: by @Gyd0x for the DeFi Kingdoms Discord c
 Please feel free to send me feature requests, bug reports, or other questions and suggestions!
 
 ## Enjoy Barkeep Kessing?
+
 Consider buying me a coffee
 
 ```
@@ -21,11 +23,13 @@ Consider buying me a coffee
 ```
 
 ## Issues
+
 Feel free to submit issues and enhancement requests.
 
 Please use [issues](https://github.com/makkinga/dfk-tipbot/issues) to report specific bugs and errors.
 
 ## Contributing
+
 In general, I follow the "fork-and-pull" Git workflow.
 
 1. Fork the repo on GitHub
