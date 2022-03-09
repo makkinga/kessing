@@ -12,11 +12,11 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  */
 exports.syncDatabase = async function () {
     await this.transactions.truncate()
+    await this.pendingGifts.sync()
     await this.wallets.sync()
     await this.transactions.sync()
     await this.tipRanks.sync()
     await this.burnRanks.sync()
-    await this.reminders.sync()
     await this.gas.sync()
     await this.rainBlacklist.sync()
     await this.messageCount.sync()
@@ -85,6 +85,14 @@ exports.transactions = sequelize.define('transactions', {
     }
 })
 
+/* Active gifts */
+exports.pendingGifts = sequelize.define('pending_gifts', {
+    author: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    }
+})
+
 /* Tip ranking */
 exports.tipRanks = sequelize.define('tip_ranks', {
     username: {
@@ -105,26 +113,6 @@ exports.burnRanks = sequelize.define('burn_ranks', {
     },
     amount  : {
         type     : Sequelize.FLOAT,
-        allowNull: false,
-    },
-})
-
-/* Reminders */
-exports.reminders = sequelize.define('reminders', {
-    user     : {
-        type     : Sequelize.STRING,
-        allowNull: false,
-    },
-    channel  : {
-        type     : Sequelize.STRING,
-        allowNull: false,
-    },
-    timestamp: {
-        type     : Sequelize.INTEGER,
-        allowNull: false,
-    },
-    message  : {
-        type     : Sequelize.STRING,
         allowNull: false,
     },
 })

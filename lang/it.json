@@ -45,7 +45,9 @@
         "title": "@:user ha donato :amount :symbol",
         "description": "Prova ad essere il primo a fare clic sul pulsante qui sotto e richiedi questo regalo!",
         "button": "Richiedi questo regalo!",
-        "button_claimed": "Questo dono è stato ricevuto da @:user"
+        "button_claimed": "Questo dono è stato ricevuto da @:user",
+        "pending_title": "Pending gift",
+        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift"
     },
     "help": {
         "title": "Aiuto",

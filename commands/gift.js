@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, time}                     = require('@discordjs/builders')
+const {SlashCommandBuilder}                           = require('@discordjs/builders')
 const {MessageEmbed, MessageActionRow, MessageButton} = require('discord.js')
 const {Config, Transaction, Wallet, React, DB, Lang}  = require('../utils')
 
@@ -24,6 +24,11 @@ module.exports = {
         const processing = await DB.transactions.count({where: {author: interaction.user.id, processing: true}}) > 0
         if (processing) {
             return await React.error(interaction, null, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
+        }
+
+        const hasPendingGift = await DB.pendingGifts.count({where: {author: interaction.user.id}}) > 0
+        if (hasPendingGift) {
+            return await React.error(interaction, null, `Pending gift`, `You have a pending gift, please wait for it to be claimed before sending a new gift`, true)
         }
 
         if (amount === 0) {
@@ -59,6 +64,10 @@ module.exports = {
 
         await interaction.editReply({embeds: [embed], components: [button], ephemeral: false})
 
+        await DB.pendingGifts.create({
+            author: interaction.user.id
+        })
+
         const collector = interaction.channel.createMessageComponentCollector()
 
         collector.on('collect', async i => {
@@ -80,7 +89,13 @@ module.exports = {
                 const to = await Wallet.recipientAddress(i, i.member.user.id, i.member)
 
                 Transaction.addToQueue(interaction, from, to, amount, Config.get('token.default')).then(() => {
-                    Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'gift'}, {reply: false, react: false, ephemeral: false})
+                    Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'gift'}, {reply: false, react: false, ephemeral: false}).then(async () => {
+                        await DB.pendingGifts.destroy({
+                            where: {
+                                author: interaction.user.id
+                            }
+                        })
+                    })
                 })
             }
         })

@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setDefaultPermission(false)
         .setName(`whitelist`)
-        .setDescription(`Remove member from the blacklist`)
+        .setDescription(`Add members to the whitelist`)
         .addMentionableOption(option => option.setRequired(true).setName('member').setDescription(`Select the member to blacklist`)),
 
     async execute(interaction)

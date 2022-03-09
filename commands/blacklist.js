@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setDefaultPermission(false)
         .setName(`blacklist`)
-        .setDescription(`Manage the blacklist`)
+        .setDescription(`Add members to the blacklist`)
         .addMentionableOption(option => option.setRequired(true).setName('member').setDescription(`Select the member to blacklist`))
         .addNumberOption(option => option.setRequired(true).setName('duration').setDescription(`Select the duration of the blacklisting`).addChoices([
             ['Forever', 0],

@@ -5,7 +5,7 @@ const moment                                              = require('moment')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(`get-gas`)
-        .setDescription(`We will send you some gas. This only works if your balance is below 0.1 ONE`),
+        .setDescription(`We will send you some gas. This only works once and when your balance is below ${Config.get('gas.max_balance')} ONE`),
 
     async execute(interaction)
     {

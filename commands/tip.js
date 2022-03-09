@@ -4,7 +4,7 @@ const {Config, React, Wallet, Transaction, DB, Lang} = require('../utils')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tip')
-        .setDescription(`Send a tip another user`)
+        .setDescription(`Send a tip to another member`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
         .addMentionableOption(option => option.setRequired(true).setName('recipient').setDescription(`Select the recipient`)),
 

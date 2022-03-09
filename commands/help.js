@@ -27,15 +27,16 @@ module.exports = {
             if (command !== 'help') {
                 let options    = []
                 let hasOptions = false
+                let lock = data.data.defaultPermission === false ? ':lock: ' : '';
                 if (data.data.options.length) {
                     hasOptions = true
                     for (let option of data.data.options) {
                         options.push(`[${option.required ? 'required' : 'optional'}: ${option.name}]`)
                     }
                 }
-                command = hasOptions ? `${command} \`${options.join(' ')}\`` : command
+                command = hasOptions ? `${command} \`${options.join(' ')}\`` : `${command}`
 
-                commandsEmbed.addField(`/${command}`, data.data.description)
+                commandsEmbed.addField(`${lock}/${command}`, data.data.description)
             }
         }
 

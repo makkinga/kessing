@@ -45,7 +45,9 @@
         "title": "@:user sent a gift of :amount :symbol",
         "description": "Be the first to click the button below and claim this gift!",
         "button": "Claim this gift!",
-        "button_claimed": "This gift was claimed by @:user"
+        "button_claimed": "This gift was claimed by @:user",
+        "pending_title": "Pending gift",
+        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift"
     },
     "help": {
         "title": "Help",
