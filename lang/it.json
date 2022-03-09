@@ -100,11 +100,13 @@
             "amount_incorrect": "L'importo è sbagliato",
             "insufficient_funds": "Fondi insufficenti",
             "invalid_user": "Utente non valido",
+            "invalid_address": "Invalid address",
             "no_wallet": "Nessun portafoglio",
             "transaction_in_progress": "Transazione in corso"
         },
         "description": {
             "amount_incorrect": "L'importo da bruciare è formattata male o mancante",
+            "invalid_address": "Please check for typo's",
             "amount_low": "L'importo da bruciare è troppo bassa",
             "amount_exceeds_balance": "L'importo supera il tuo bilancio + il margine di sicurezza (0.001 :symbol). Usa il comando `/deposit` per visualizzare l'indirizzo del tuo portafoglio per mandarti più :symbol. Oppure riprova con un importo minore",
             "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",

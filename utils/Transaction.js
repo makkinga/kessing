@@ -1,16 +1,14 @@
-const {ethers}       = require('ethers')
-const {Harmony}      = require('@harmony-js/core')
-const {ChainType}    = require('@harmony-js/utils')
-const {toBech32}     = require('@harmony-js/crypto')
-const Config         = require('./Config')
-const DB             = require('./DB')
-const React          = require('./React')
-const Wallet         = require('./Wallet')
-const TipStatistics  = require('./TipStatistics')
-const BurnStatistics = require('./BurnStatistics')
-const Log            = require('./Log')
-const Lang           = require('./Lang')
-const {MessageEmbed} = require('discord.js')
+const {ethers}         = require('ethers')
+const {HarmonyAddress} = require('@harmony-js/crypto')
+const Config           = require('./Config')
+const DB               = require('./DB')
+const React            = require('./React')
+const Wallet           = require('./Wallet')
+const TipStatistics    = require('./TipStatistics')
+const BurnStatistics   = require('./BurnStatistics')
+const Log              = require('./Log')
+const Lang             = require('./Lang')
+const {MessageEmbed}   = require('discord.js')
 
 /**
  * Add to Queue
@@ -79,7 +77,9 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
             })
 
-            const tx = await contract.transfer(queue[i].to, ethers.utils.parseEther(queue[i].amount.toString()), transactionOptions)
+            const hmyAddress = new HarmonyAddress(queue[i].to)
+
+            const tx = await contract.transfer(hmyAddress.basicHex, ethers.utils.parseEther(queue[i].amount.toString()), transactionOptions)
 
             await tx.wait(1)
 
@@ -191,6 +191,8 @@ exports.runQueue = async function (interaction, author, options, notification) {
 
             if (error.code === 'INSUFFICIENT_FUNDS') {
                 return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_gas_balance'), true)
+            } else if ((error.code === 'UNSUPPORTED_OPERATION' && error.operation === 'ENS') || error.toString().includes('is an invalid address format')) {
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.invalid_address'), Lang.trans(interaction, 'error.description.invalid_address'), true)
             } else {
                 await Log.error(interaction, 5, error)
                 return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)

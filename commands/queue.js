@@ -34,7 +34,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
             .setAuthor({name: Lang.trans(interaction, 'queue.title'), iconURL: Config.get('bot.server_icon')})
-            .setFooter(Lang.trans(interaction, 'queue.footer'))
+            .setFooter({text: Lang.trans(interaction, 'queue.footer')})
         if (rows.length) {
             embed.setDescription('```' + table(rows) + '```')
         } else {

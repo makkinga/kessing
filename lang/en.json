@@ -102,11 +102,13 @@
             "amount_incorrect": "Amount incorrect",
             "insufficient_funds": "Insufficient funds",
             "invalid_user": "Invalid user",
+            "invalid_address": "Invalid address",
             "no_wallet": "No wallet",
             "transaction_in_progress": "Transactions in progress"
         },
         "description": {
             "amount_incorrect": "The amount is wrongly formatted or missing",
+            "invalid_address": "Please check for typo's",
             "amount_low": "The amount is too low",
             "amount_exceeds_balance": "The amount exceeds your balance + safety margin (0.001 :symbol). Use the `/deposit` command to get your wallet address to send some more :symbol. Or try again with a lower amount",
             "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
