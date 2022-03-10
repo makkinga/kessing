@@ -82,8 +82,11 @@ module.exports = {
 
         const collector = interaction.channel.createMessageComponentCollector({filter})
 
+        let claimed = false
+
         collector.on('collect', async i => {
-            if (i.customId === `claim_${timestamp}`) {
+            if (i.customId === `claim_${timestamp}` && claimed === false) {
+                claimed = true
                 const claimedEmbed = new MessageEmbed()
                     .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: Config.get('token.symbol')}))
                     .setDescription(Lang.trans(interaction, 'gift.description'))

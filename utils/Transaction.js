@@ -68,7 +68,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
     for (let i = 0; i < queue.length; i++) {
         const artifact           = require(`../artifacts/${process.env.ENVIRONMENT}/${queue[i].token}.json`)
         const contract           = new ethers.Contract(artifact.address, artifact.abi, provider).connect(signer)
-        // transactionOptions.nonce = '0x' + (parseInt(lastNonce) + i).toString(16)
+        transactionOptions.nonce = '0x' + (parseInt(lastNonce) + i).toString(16)
 
         try {
             // Transaction
