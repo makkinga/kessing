@@ -1,6 +1,6 @@
 const {SlashCommandBuilder}                           = require('@discordjs/builders')
-const {MessageEmbed, MessageActionRow, MessageButton} = require('discord.js')
-const {Config, Transaction, Wallet, React, DB, Lang}  = require('../utils')
+const {MessageEmbed, MessageActionRow, MessageButton}           = require('discord.js')
+const {Config, Transaction, Wallet, React, DB, Lang, Blacklist} = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -68,7 +68,19 @@ module.exports = {
             author: interaction.user.id
         })
 
-        const collector = interaction.channel.createMessageComponentCollector()
+        // Get all wallet owners
+        let wallets = await DB.wallets.findAll({
+            attributes: ['user']
+        })
+        wallets     = wallets.filter(wallet => wallet.user !== process.env.BOT_WALLET_ADDRESS).map(wallet => wallet.user)
+
+        const filter = async i => {
+            const beggar = await Blacklist.listed(i.user)
+
+            return wallets.includes(i.user.id) && !beggar
+        }
+
+        const collector = interaction.channel.createMessageComponentCollector({filter})
 
         collector.on('collect', async i => {
             if (i.customId === `claim_${timestamp}`) {
@@ -88,7 +100,7 @@ module.exports = {
 
                 const to = await Wallet.recipientAddress(i, i.member.user.id, i.member)
 
-                Transaction.addToQueue(interaction, from, to, amount, Config.get('token.default')).then(() => {
+                Transaction.addToQueue(interaction, from, to, amount, Config.get('token.default'), i.member.user.id).then(() => {
                     Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'gift'}, {reply: false, react: false, ephemeral: false}).then(async () => {
                         await DB.pendingGifts.destroy({
                             where: {

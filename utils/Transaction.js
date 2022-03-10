@@ -68,7 +68,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
     for (let i = 0; i < queue.length; i++) {
         const artifact           = require(`../artifacts/${process.env.ENVIRONMENT}/${queue[i].token}.json`)
         const contract           = new ethers.Contract(artifact.address, artifact.abi, provider).connect(signer)
-        transactionOptions.nonce = '0x' + (parseInt(lastNonce) + i).toString(16)
+        // transactionOptions.nonce = '0x' + (parseInt(lastNonce) + i).toString(16)
 
         try {
             // Transaction
@@ -84,7 +84,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
 
             await tx.wait(1)
 
-            console.log(`Transaction #${i + 1}`)
+            console.log(`Transaction #${i + 1} - Nonce #${lastNonce}`)
 
             // Remove from transaction queue
             DB.transactions.destroy({
@@ -113,6 +113,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 const recipient      = await interaction.client.users.cache.get(queue[i].recipient)
                 let replyTitle       = ``
                 let replyDescription = null
+                let replyMessage     = null
 
                 switch (options.transactionType) {
                     case 'tip' :
@@ -127,6 +128,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
                             count : i + 1,
                             total : queue[i].rainTotalRecipients
                         })
+                        replyMessage     = options.message
                         break
                     case 'burn' :
                         replyDescription = Lang.trans(interaction, 'transaction.burn_description', {amount: queue[i].amount, symbol: Config.get(`tokens.${queue[i].token}.symbol`)})
@@ -147,6 +149,9 @@ exports.runQueue = async function (interaction, author, options, notification) {
                 }
                 if (replyDescription) {
                     embed.setDescription(replyDescription)
+                }
+                if (replyMessage) {
+                    embed.addField('Message', replyMessage)
                 }
 
                 const reply = await interaction.editReply({embeds: [embed], ephemeral: notification.ephemeral})
@@ -219,8 +224,8 @@ exports.sendGas = async function (interaction, to, amount) {
     try {
         // Transaction
         const tx = await signer.sendTransaction({
-            to      : to,
-            value   : ethers.utils.parseEther(amount.toString()),
+            to   : to,
+            value: ethers.utils.parseEther(amount.toString()),
             // gasPrice: await provider.getGasPrice(),
             gasPrice: ethers.utils.parseUnits('30', 'gwei'),
             gasLimit: 300000,

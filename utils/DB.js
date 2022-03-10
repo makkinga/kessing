@@ -12,6 +12,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  */
 exports.syncDatabase = async function () {
     await this.transactions.truncate()
+    await this.pendingGifts.truncate()
     await this.pendingGifts.sync()
     await this.wallets.sync()
     await this.transactions.sync()
