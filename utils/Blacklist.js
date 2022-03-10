@@ -1,13 +1,12 @@
+const DB     = require('./DB')
 const {Op}   = require('sequelize')
 const moment = require('moment')
-const DB     = require('./DB')
-const Config = require('./Config')
 
 /**
  * Adds user to blacklist
  */
-exports.add = async function (user, forever) {
-    const timestamp = moment().unix() + Config.get('blacklist_time_out')
+exports.add = async function (user, forever, duration = 0) {
+    const timestamp = moment().unix() + duration
 
     await DB.rainBlacklist.create({
         user     : user.id,

@@ -1,0 +1,176 @@
+{
+    "or": "o",
+    "and": "e",
+    "about": {
+        "title": "About",
+        "description": ":bot è stato creato con il :heart: da :user per la comunità Discord di DeFi Kingdoms. Non esitare a inviarmi richieste di funzionalità, segnalazioni di bug o altre domande e suggerimenti!",
+        "version": "Versione",
+        "last_updated": "Ultimo aggiornamento",
+        "license": "Licenza",
+        "source": "Sorgente",
+        "coffee_title": "Donami un caffè",
+        "coffee_description": "Ti piace :bot? Potresti donarmi un caffè",
+        "contributors": "Contributori"
+    },
+    "balance": {
+        "title": "I tuoi saldi",
+        "gas": "Gas"
+    },
+    "blacklist": {
+        "successfully_blacklisted": "@:user è stato inserito con successo nella blacklist",
+        "already_blacklisted": "@:user è già nella blacklist"
+    },
+    "whitelist": {
+        "successfully_whitelisted": "@:user  è stato inserito con successo nella whitelist",
+        "already_whitelisted": "@:user è già nella whitelist"
+    },
+    "deposit": {
+        "disclaimer_title": "Esclusione di responsabilità",
+        "disclaimer_description": "Si prega di non utilizzarlo come portafoglio principale, ma solo per dare una mancia su Discord. Non depositare grandi somme di :symbol su questo portafoglio. Usa questo portafoglio a tuo rischio",
+        "title": "L'indirizzo del tuo portafoglio",
+        "add_funds_title": "Aggiungi fondi",
+        "add_funds_description": "Per aggiungere fondi a questo portafoglio, vai sul tuo portafoglio principale e invia alcuni :tokensSummary a questo indirizzo. Per confermare la transazione, puoi controllare il tuo saldo usando il comando `/balance`. Divertiti a dare la mancia!",
+        "gas_title": "Gas",
+        "gas_description": "Per pagare i costi delle transazioni è necessario depositare anche una piccola somma di ONE. \n\n Non hai ONE? Non preoccuparti, puoi usare il comando `/get-gas` e riceverai un pò di gas per iniziare, offre la casa!"
+    },
+    "gas": {
+        "time-out_title": "Timeout",
+        "time-out_description": "Attendi la scadenza del timeout :end",
+        "max_balance_title": "Stai cercando di raggirarmi?",
+        "max_balance_description": "Hai :balance ONE!",
+        "success_title": "Ha funzionato!",
+        "success_description": "Un po' di gas è stato inviato sul tuo portafoglio"
+    },
+    "gift": {
+        "title": "@:user ha donato :amount :symbol",
+        "description": "Prova ad essere il primo a fare clic sul pulsante qui sotto e richiedi questo regalo!",
+        "button": "Richiedi questo regalo!",
+        "button_claimed": "Questo dono è stato ricevuto da @:user",
+        "pending_title": "Pending gift",
+        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift"
+    },
+    "help": {
+        "title": "Aiuto",
+        "getting_started_title": "Come iniziare",
+        "getting_started_description": ":bot usa i comandi slash predefiniti di Discord. Digita `/` e ti mostrerà una lista dei suoi comandi, e ti mostrerà un elenco dei suoi comandi, insieme alle varie opzioni per usarli. Tutte le informazioni sensibili vengono inviate privatamente e possono essere visualizzate solo da te.",
+        "bug_reporting_title": "Segnalazione di bug",
+        "bug_reporting_description": "Si prega di segnalare eventuali bug a :user. Per assistenza sulla configurazione o l'utilizzo di questo bot, contatta uno dei moderatori di Discord."
+    },
+    "private_key": {
+        "title": "Si prega di conservare questa chiave privata in un luogo sicuro. Solo tu puoi vedere questo messaggio, verrà rimosso automaticamente.",
+        "description": "Nota: puoi importare questa chiave privata in MetaMask o in un altro portafoglio. Tuttavia, non condividere mai la tua chiave privata con nessun altro.",
+        "address": "Il tuo indirizzo",
+        "key": "La tua chiave privata",
+        "contracts": "Indirizzi del contratto da importare"
+    },
+    "queue": {
+        "title": "Transaction queue",
+        "footer": "Use /clear-queue to clear your queue",
+        "no_queue": "No queue",
+        "nothing_to_clear_title": "Nothing to clear",
+        "nothing_to_clear_description": "There are no transactions in your queue",
+        "cleared_successfully": "Your transaction queue was cleared successfully"
+    },
+    "rain": {
+        "missed_title": "Hai perso la pioggia :umbrella2:",
+        "missed_description": "@:user ha fatto piovere in :channel. Sfortunatamente ti sei perso la pioggia perché non hai ancora impostato il tuo portafoglio per le mance. Se vuoi prendere la prossima pioggia, usa `/deposit` per creare un nuovo portafoglio",
+        "no_users_title": "Scusa",
+        "no_users_description": "Non sono riuscito a trovare utenti su cui far piovere. Riprova quando la chat è un po' più attiva",
+        "wake_up": "Sveglia gente! @:user sta cercando di far piovere, ma non c'è nessuno qui!"
+    },
+    "rank": {
+        "title": "Top :length su :server"
+    },
+    "tip": {
+        "tip_me": "Sono lusingato ma non posso accettarlo da parte tua",
+        "tip_bot": "Non è permesso dare la mancia ai bot",
+        "tip_self": "Sei tu, idiota!"
+    },
+    "transaction": {
+        "tip_description": ":dollar: ha dato una mancia a <@:user> di :amount :symbol",
+        "rain_title": ":cloud_rain: Stanno piovendo :amount :symbol!",
+        "rain_description": "Sono piovuti :amount :symbol su :count/:total membri",
+        "burn_description": ":fire: bruciati :amount :symbol",
+        "send_description": ":money_with_wings: inviati :amount :symbol a :to",
+        "tipped_description": "@:user ti ha dato una mancia di :amount :symbol in :channel"
+    },
+    "error": {
+        "title": {
+            "error_occurred": "C'è stato un errore",
+            "amount_incorrect": "L'importo è sbagliato",
+            "insufficient_funds": "Fondi insufficenti",
+            "invalid_user": "Utente non valido",
+            "invalid_address": "Invalid address",
+            "no_wallet": "Nessun portafoglio",
+            "transaction_in_progress": "Transazione in corso"
+        },
+        "description": {
+            "amount_incorrect": "L'importo da bruciare è formattata male o mancante",
+            "invalid_address": "Please check for typo's",
+            "amount_low": "L'importo da bruciare è troppo bassa",
+            "amount_exceeds_balance": "L'importo supera il tuo bilancio + il margine di sicurezza (0.001 :symbol). Usa il comando `/deposit` per visualizzare l'indirizzo del tuo portafoglio per mandarti più :symbol. Oppure riprova con un importo minore",
+            "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
+            "contact_admin": "Contatta :user",
+            "create_new_wallet": "Devi ancora creare il portafoglio per le mance. Usa il comando `/deposit` per creare un nuovo portafoglio.",
+            "wait_for_queue": "Attendi l'elaborazione della coda corrente",
+            "tipped_without_wallet": "@:user ti ha dato una mancia di :symbol! Non hai ancora un portafoglio, quindi ne ho creato uno per te! Usa il comando `/help` per scoprire come utilizzare i miei servizi."
+        }
+    },
+    "response": {
+        "titles": [
+            "Avventuriero",
+            "Viaggiatore",
+            "Cittadino",
+            "Ser"
+        ],
+        "small_tip": [
+            "Come vuoi.",
+            "Come richiedi.",
+            "Come preferisci!",
+            "Subito.",
+            "al tuo servizio.",
+            "Vedo cosa posso fare.",
+            "Mi metto subito all'opera.",
+            "Lo farò, :title.",
+            "Si, :title.",
+            "Ne sei sicuro?",
+            "Certamente.",
+            "Ottima idea!",
+            "Benvenuto, :title!"
+        ],
+        "large_tip": [
+            "Vedo che stai distribuendo ricchezza.",
+            "Molto generoso!",
+            "Il tuo nome verrà ricordato, :title.",
+            "Un vero seguace di Gaia.",
+            "Gaia non lo dimenticherà, ne sono certo.",
+            "Un gran gesto, :title."
+        ],
+        "burn": [
+            "Bene, se è quello che desideri.",
+            "Era un errore, per caso?",
+            "Wow, le mie tasche accettano sempre donazioni.",
+            "Whoa! Guarda come brucia intensamente."
+        ],
+        "stats": [
+            "Le richezze di alcuni, incredibile.",
+            "Scommetto che vivono tutti nella capitale.",
+            "C'è sempre un pesce più grande.",
+            "Non fare caso agli altri.",
+            "Qual'è la tua posizione, :title?",
+            "Un ottimo inizio per l'Età degli Eroi."
+        ],
+        "price": [
+            "Veramente interessante.",
+            "Questo spiega l'uomo che è passato prima...",
+            "Oh! Le riserve del Jeweler stanno per prosciugarsi?",
+            "Pensi che Gaia sta piangendo?"
+        ],
+        "get_gas": [
+            "Una piccola benedizione da Gaia in persona.",
+            "Non spenderli tutti in una volta!",
+            "Offre la casa!",
+            "Consideralo un dono, :title."
+        ]
+    }
+}

@@ -1,17 +1,48 @@
 imports:
   - { resource: 'default.yml' }
 
-# Token
+# Discord
+roles:
+  mod: '949562557612564482'
+commands:
+  blacklist: '948856330960142366'
+  whitelist: '948856330960142367'
+## ISO 639-1
+locales:
+  ### Chinese
+  "000000000000000001": "zh"
+  ### Japanese
+  "000000000000000002": "ja"
+  ### Italian
+  "000000000000000003": "it"
+  ### Malay
+  "000000000000000004": "ms"
+  ### Russian
+  "000000000000000005": "ru"
+  ### Spanish
+  "000000000000000006": "es"
+  ### Tagalog
+  "000000000000000007": "tl"
+
+# Gas
+gas:
+  amount: 0.1
+  max_balance: 0.01
+  time_out: 31556926
+
+# Tokens
 token:
   default: "jewel"
-  contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
   symbol: "JEWEL"
   decimals: 18
-  network_explorer: "https://explorer.harmony.one/#"
-  rpc_url: "https://api.s0.t.hmny.io"
-alternative_tokens: []
+  thumbnail: "https://storageapi.fleek.co/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/logo_dfk.png"
+alternative_tokens: [ ]
 tokens:
   jewel:
-    contract_address: "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F"
     symbol: "JEWEL"
+    address: "0x33370aa06d52d77b838bdfcD4Be4BE2d43BB6918"
     decimals: 18
+
+# Network
+network_explorer: "https://explorer.pops.one/#"
+rpc_url: "https://api.s0.b.hmny.io"

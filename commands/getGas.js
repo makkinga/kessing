@@ -1,36 +1,52 @@
-const {Command}                    = require('discord-akairo')
-const {React, Wallet, Transaction} = require('../utils')
+const {SlashCommandBuilder}                               = require('@discordjs/builders')
+const {Wallet, React, Config, Transaction, DB, Log, Lang} = require('../utils')
+const moment                                              = require('moment')
 
-class PingCommand extends Command
-{
-    constructor()
-    {
-        super('getgas', {
-            aliases  : ['getgas'],
-            ratelimit: 1,
-            channel  : 'dm',
-        })
-    }
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName(`get-gas`)
+        .setDescription(`We will send you some gas. This only works once and when your balance is below ${Config.get('gas.max_balance')} ONE`),
 
-    async exec(message)
+    async execute(interaction)
     {
-        await React.processing(message)
-        if (!await Wallet.check(this, message, message.author.id)) {
-            return
+        // Defer reply
+        await interaction.deferReply({ephemeral: true})
+
+        // Checks
+        if (!await Wallet.check(interaction)) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
-        const wallet  = await Wallet.get(this, message, message.author.id)
+
+        // Gather data
+        const wallet  = await Wallet.get(interaction, interaction.user.id)
         const balance = await Wallet.gasBalance(wallet)
 
-        if (parseFloat(balance) >= 0.1) {
-            await React.error(this, message, `You are not allowed to use this command`, `Your current gas balance is ${balance} ONE`)
-        } else {
-            await Transaction.sendGas(this, message, process.env.BOT_WALLET_ADDRESS, wallet.address, 0.25, process.env.BOT_WALLET_PRIVATE_KEY)
-
-            await React.success(this, message)
+        // Check for time out
+        const timeout = await DB.gas.findOne({where: {user: interaction.user.id}})
+        if (timeout && timeout.timestamp + Config.get('gas.time_out') > moment().unix()) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'gas.time-out_title'), Lang.trans(interaction, 'gas.time-out_description', {end: moment.unix(timeout.timestamp + Config.get('gas.time_out')).fromNow()}), true)
         }
 
-        await React.message(message, 'get_gas')
-    }
-}
+        // Destroy any left over time-outs
+        await DB.gas.destroy({where: {user: interaction.user.id}})
 
-module.exports = PingCommand
+        // Check for exploits
+        if (parseFloat(balance) >= Config.get('gas.max_balance')) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'gas.max_balance_title'), Lang.trans(interaction, 'gas.max_balance_description', {balance: balance}), true)
+        }
+
+        // Send gas
+        await Transaction.sendGas(interaction, wallet.address, Config.get('gas.amount'))
+
+        // Insert into database
+        await DB.gas.create({
+            user     : interaction.user.id,
+            timestamp: moment().unix(),
+        }).catch(async error => {
+            await Log.error(interaction, 2, error)
+            await React.error(interaction, 2, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+        })
+
+        await React.success(interaction, Lang.trans(interaction, 'gas.success_title'), Lang.trans(interaction, 'gas.success_description'), true)
+    },
+}

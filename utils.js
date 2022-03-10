@@ -1,6 +1,5 @@
 module.exports = {
     Config        : require('./utils/Config'),
-    Helpers       : require('./utils/Helpers'),
     Log           : require('./utils/Log'),
     DB            : require('./utils/DB'),
     React         : require('./utils/React'),
@@ -9,7 +8,6 @@ module.exports = {
     TipStatistics : require('./utils/TipStatistics'),
     BurnStatistics: require('./utils/BurnStatistics'),
     Token         : require('./utils/Token'),
-    Hero          : require('./utils/Hero'),
-    Mods          : require('./utils/Mods'),
     Blacklist     : require('./utils/Blacklist'),
+    Lang          : require('./utils/Lang'),
 }

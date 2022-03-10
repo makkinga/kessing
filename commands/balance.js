@@ -1,60 +1,40 @@
-const {Command}               = require('discord-akairo')
-const {Config, React, Wallet} = require('../utils')
-const table                   = require('text-table')
+const {SlashCommandBuilder}         = require('@discordjs/builders')
+const {MessageEmbed}                = require('discord.js')
+const table                         = require('text-table')
+const {Wallet, React, Config, Lang} = require('../utils')
 
-class BalanceCommand extends Command
-{
-    constructor()
-    {
-        super('balance', {
-            aliases  : ['balance'],
-            channel  : 'dm',
-            ratelimit: 1,
-        })
-    }
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('balance')
+        .setDescription(`Shows your balances`),
 
-    async exec(message)
+    async execute(interaction)
     {
-        await React.processing(message)
-        if (!await Wallet.check(this, message, message.author.id)) {
-            return
+        // Defer reply
+        await interaction.deferReply({ephemeral: true})
+
+        // Checks
+        if (!await Wallet.check(interaction)) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
-        const wallet     = await Wallet.get(this, message, message.author.id)
+
+        // Get balances and create table rows
+        const wallet     = await Wallet.get(interaction, interaction.user.id)
+        const balance    = await Wallet.balance(wallet, Config.get('token.default'))
         const gasBalance = await Wallet.gasBalance(wallet)
 
         let rows = []
+        rows.push(['JEWEL', `${balance} JEWEL`])
+        rows.push([])
+        rows.push([Lang.trans(interaction, 'balance.gas'), `${gasBalance} ONE`])
+        rows.push([])
 
-        for (const key in Config.get('tokens')) {
-            const balance = await Wallet.balance(wallet, key)
-            rows.push([Config.get(`tokens.${key}.symbol`), `${balance} ${Config.get(`tokens.${key}.symbol`)}`])
-        }
-
-        rows.push(null)
-        rows.push([`ONE`, `${gasBalance} ONE`])
-        rows.push(null)
-
-        const tableRows = []
-        for (let i = 0; i < rows.length; i++) {
-            if (rows[i] === null) {
-                tableRows.push([])
-            } else {
-                tableRows.push([
-                    rows[i][0],
-                    ':',
-                    rows[i][1],
-                ])
-            }
-        }
-
-        const embed = this.client.util.embed()
+        // Send embed
+        const embed = new MessageEmbed()
             .setColor(Config.get('colors.primary'))
-            .setTitle(`Your balances`)
-            .setDescription('```' + table(tableRows) + '```')
+            .setAuthor({name: Lang.trans(interaction, 'balance.title'), iconURL: Config.get('bot.server_icon')})
+            .setDescription('```' + table(rows) + '```')
 
-        await React.done(message)
-
-        await message.author.send(embed)
-    }
+        await interaction.editReply({embeds: [embed], ephemeral: true})
+    },
 }
-
-module.exports = BalanceCommand

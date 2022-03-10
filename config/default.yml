@@ -1,17 +1,21 @@
 # General
-prefix: "!"
 error_reporting_users: "@Gyd0x"
 owner_ids:
+  - "490122972124938240"
   - "891355078416543774"
-blacklist: [ ]
 cooldown: 20000
 blacklist_time_out: 604800
+bot:
+  name: "Barkeep Kessing"
+  icon: "https://gateway.pinata.cloud/ipfs/QmfDMuE67XLAkDJ1vmzzcffVvXupyJ5D4bh7vFpy8UQsaf"
+  server_icon: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
 
 # Colors
 colors:
   primary: "#FBE375"
   info: "#0EA5E9"
   error: "#FF0000"
+  warning: "#E7C000"
 
 # Sea creatures
 sea_creatures:
@@ -37,7 +41,6 @@ sea_creatures:
     high: 500
   humpback:
     low: 500
-
 
 # Responses
 response:

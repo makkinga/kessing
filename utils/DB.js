@@ -11,17 +11,15 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  * Sync database
  */
 exports.syncDatabase = async function () {
+    await this.transactions.truncate()
+    await this.pendingGifts.sync()
     await this.wallets.sync()
     await this.transactions.sync()
     await this.tipRanks.sync()
     await this.burnRanks.sync()
-    await this.mods.sync()
-    if (!await this.mods.findOne({where: {user: '490122972124938240'}})) {
-        await this.mods.create({
-            user: '490122972124938240'
-        })
-    }
+    await this.gas.sync()
     await this.rainBlacklist.sync()
+    await this.messageCount.sync()
 }
 
 /* Wallets */
@@ -44,38 +42,54 @@ exports.wallets = sequelize.define('wallets', {
 
 /* Transactions */
 exports.transactions = sequelize.define('transactions', {
-    message   : {
+    message            : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    author    : {
+    author             : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    recipient : {
+    recipient          : {
         type     : Sequelize.STRING,
         allowNull: true,
     },
-    from      : {
+    from               : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    to        : {
+    to                 : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    amount    : {
+    amount             : {
         type     : Sequelize.FLOAT,
         allowNull: false,
     },
-    token     : {
+    rainTotalAmount    : {
+        type     : Sequelize.FLOAT,
+        allowNull: true,
+    },
+    rainTotalRecipients: {
+        type     : Sequelize.INTEGER,
+        allowNull: true,
+    },
+    token              : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    processing: {
+    processing         : {
         type     : Sequelize.BOOLEAN,
         allowNull: true,
         default  : false,
+    }
+})
+
+/* Active gifts */
+exports.pendingGifts = sequelize.define('pending_gifts', {
+    author: {
+        type     : Sequelize.STRING,
+        allowNull: false,
     }
 })
 
@@ -103,12 +117,16 @@ exports.burnRanks = sequelize.define('burn_ranks', {
     },
 })
 
-/* Mods */
-exports.mods = sequelize.define('mods', {
-    user: {
+/* Gas transactions */
+exports.gas = sequelize.define('gas', {
+    user     : {
         type     : Sequelize.STRING,
         allowNull: false,
-    }
+    },
+    timestamp: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+    },
 })
 
 /* Rain Blacklist */
@@ -125,5 +143,21 @@ exports.rainBlacklist = sequelize.define('rain_blacklist', {
     timestamp: {
         type     : Sequelize.STRING,
         allowNull: true,
+    },
+})
+
+/* Message count */
+exports.messageCount = sequelize.define('message_count', {
+    user : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    guild: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    count: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
     },
 })

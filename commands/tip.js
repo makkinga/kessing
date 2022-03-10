@@ -1,90 +1,67 @@
-const {Command}                            = require('discord-akairo')
-const {Config, React, Wallet, Transaction} = require('../utils')
+const {SlashCommandBuilder}                          = require('@discordjs/builders')
+const {Config, React, Wallet, Transaction, DB, Lang} = require('../utils')
 
-class TipCommand extends Command
-{
-    constructor()
-    {
-        super('tip', {
-            aliases  : ['tip', 'gift', 'give'],
-            channel  : 'guild',
-            ratelimit: 1,
-            args     : [
-                {
-                    id     : 'amount',
-                    type   : 'number',
-                    default: 0
-                },
-                {
-                    id       : 'token',
-                    type     : Config.get('alternative_tokens'),
-                    unordered: true
-                },
-                {
-                    id       : 'member',
-                    type     : 'member',
-                    unordered: true
-                }
-            ]
-        })
-    }
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('tip')
+        .setDescription(`Send a tip to another member`)
+        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to tip`))
+        .addMentionableOption(option => option.setRequired(true).setName('recipient').setDescription(`Select the recipient`)),
 
-    async exec(message, args)
+    async execute(interaction)
     {
-        if (!await Wallet.check(this, message, message.author.id)) {
-            return
+        // Defer reply
+        await interaction.deferReply({ephemeral: false})
+
+        // Options
+        const amount    = interaction.options.getNumber('amount')
+        const recipient = interaction.options.getMentionable('recipient')
+        const token     = Config.get('token.default')
+
+        // Checks
+        if (!await Wallet.check(interaction)) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
         }
 
-        const amount    = args.amount
-        const token     = args.token ?? Config.get('token.default')
-        const users     = message.mentions.users.filter(function (user) {
-            return !user.bot
-        })
-        const recipient = users.first()
+        const processing = await DB.transactions.count({where: {author: interaction.user.id, processing: true}}) > 0
+        if (processing) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.transaction_in_progress'), Lang.trans(interaction, 'error.description.wait_for_queue'), true)
+        }
 
         if (amount === 0) {
-            await React.error(this, message, `Tip amount incorrect`, `The tip amount is wrongly formatted or missing`)
-            return
-        }
-        if (amount < 0.01) {
-            await React.error(this, message, `Tip amount incorrect`, `The tip amount is too low`)
-            return
-        }
-        if (!message.mentions.users.size) {
-            await React.error(this, message, `Missing user`, `Please mention a valid user`)
-            return
-        }
-        if (recipient.bot) {
-            await React.error(this, message, `Invalid user`, `You are not allowed to tip bots`)
-            return
-        }
-        if (recipient.id === message.author.id) {
-            await React.error(this, message, `Invalid user`, `You are not allowed to tip yourself`)
-            return
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_incorrect'), true)
         }
 
-        const wallet  = await Wallet.get(this, message, message.author.id)
+        if (amount < 0.01) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.amount_incorrect'), Lang.trans(interaction, 'error.description.amount_low'), true)
+        }
+
+        if (recipient.user.id === process.env.BOT_ID) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.invalid_user'), Lang.trans(interaction, 'tip.tip_me'), true)
+        }
+
+        if (recipient.user.bot) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.invalid_user'), Lang.trans(interaction, 'tip.tip_bot'), true)
+        }
+
+        if (recipient.user.id === interaction.user.id) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.invalid_user'), Lang.trans(interaction, 'tip.tip_self'), true)
+        }
+
+        const wallet  = await Wallet.get(interaction, interaction.user.id)
         const balance = await Wallet.balance(wallet, token)
 
         if (parseFloat(amount + 0.001) > parseFloat(balance)) {
-            await React.error(this, message, `Insufficient funds`, `The amount exceeds your balance + safety margin (0.001 ${Config.get(`tokens.${token}.symbol`)}). Use the \`${Config.get('prefix')}deposit\` command to get your wallet address to send some more ${Config.get(`tokens.${token}.symbol`)}. Or try again with a lower amount`)
-            return
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.amount_exceeds_balance', {symbol: Config.get(`token.symbol`)}), true)
         }
 
         const from = wallet.address
-        const to   = await Wallet.recipientAddress(this, message, recipient.id)
+        const to   = await Wallet.recipientAddress(interaction, recipient.user.id, recipient)
 
-        if (from === to) {
-            await React.error(this, message, `Invalid user`, `You are trying to tip yourself`)
-            return
-        }
-
-        Transaction.addToQueue(this, message, from, to, amount, token, recipient.id).then(() => {
-            Transaction.runQueue(this, message, message.author.id, false, true)
+        Transaction.addToQueue(interaction, from, to, amount, token, recipient.user.id).then(() => {
+            Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'tip'}, {reply: true, react: true, ephemeral: false})
         })
 
-        await React.message(message, 'tip', amount)
-    }
+        await React.message(interaction, 'tip', amount)
+    },
 }
-
-module.exports = TipCommand

@@ -1,28 +1,26 @@
 require('dotenv').config()
-const {Harmony}                                         = require('@harmony-js/core')
-const {Account}                                         = require('@harmony-js/account')
-const {HttpProvider, Messenger}                         = require('@harmony-js/network')
-const {ChainType, ChainID, hexToNumber, fromWei, Units} = require('@harmony-js/utils')
-const {BigNumber}                                       = require('bignumber.js')
-const artifact                                          = require('../artifact.json')
-const CryptoJS                                          = require('crypto-js')
-const Config                                            = require('./Config')
-const DB                                                = require('./DB')
-const React                                             = require('./React')
+const {Account}                 = require('@harmony-js/account')
+const {HttpProvider, Messenger} = require('@harmony-js/network')
+const {ChainType}               = require('@harmony-js/utils')
+const CryptoJS                  = require('crypto-js')
+const Config                    = require('./Config')
+const DB                        = require('./DB')
+const React                     = require('./React')
+const {ethers}                  = require('ethers')
+const Log                       = require('./Log')
+const Lang                      = require('./Lang')
 
 /**
  * Check wallet
  *
- * @param command
- * @param message
- * @param id
+ * @param interaction
  * @return {Promise<boolean>}
  */
-exports.check = async function (command, message, id) {
-    const wallet = await DB.wallets.findOne({where: {user: id}})
+exports.check = async function (interaction) {
+    const wallet = await DB.wallets.findOne({where: {user: interaction.user.id}})
 
     if (wallet == null) {
-        await React.error(command, message, `You do not have a ${Config.get('token.symbol')} Tip Bot wallet yet`, `Please run the \`${Config.get('prefix')}deposit\` command to create a new wallet.`)
+        await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_wallet'), Lang.trans(interaction, 'error.description.create_new_wallet'), true)
 
         return false
     } else {
@@ -33,11 +31,10 @@ exports.check = async function (command, message, id) {
 /**
  * Get wallet
  *
- * @param command
- * @param message
+ * @param interaction
  * @param id
  */
-exports.get = async function (command, message, id) {
+exports.get = async function (interaction, id) {
     return DB.wallets.findOne({where: {user: id}}).then(wallet => {
         if (wallet == null) {
             wallet = this.create(id)
@@ -45,7 +42,8 @@ exports.get = async function (command, message, id) {
 
         return wallet
     }).catch(async error => {
-        await React.error(command, message, `An error has occurred`, `Please contact ${Config.get('error_reporting_users')}`)
+        await Log.error(interaction, 7, error)
+        return await React.error(interaction, 7, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
     })
 }
 
@@ -77,18 +75,13 @@ exports.create = function (id) {
  * @param token
  */
 exports.balance = async function (wallet, token) {
-    const hmy = new Harmony(
-        Config.get('token.rpc_url'),
-        {
-            chainType: ChainType.Harmony,
-            chainId  : Config.get('chain_id'),
-        },
-    )
-    
-    const contract   = hmy.contracts.createContract(artifact.abi, Config.get(`tokens.${token}.contract_address`))
-    const weiBalance = await contract.methods.balanceOf(wallet.address).call()
+    const artifact   = require(`../artifacts/${process.env.ENVIRONMENT}/${token}.json`)
+    const provider   = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
+    const contract   = new ethers.Contract(artifact.address, artifact.abi, provider)
+    const weiBalance = await contract.balanceOf(wallet.address)
+    const balance    = ethers.utils.formatEther(weiBalance)
 
-    return BigNumber(weiBalance).dividedBy(Math.pow(10, Config.get(`tokens.${token}.decimals`))).toFixed(4)
+    return parseFloat(balance).toFixed(4)
 }
 
 /**
@@ -97,19 +90,11 @@ exports.balance = async function (wallet, token) {
  * @return float
  */
 exports.gasBalance = async function (wallet) {
-    const hmy = new Harmony(
-        Config.get('token.rpc_url'),
-        {
-            chainType: ChainType.Harmony,
-            chainId  : Config.get('chain_id'),
-        },
-    )
+    const provider   = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
+    const weiBalance = await provider.getBalance(wallet.address)
+    const balance    = ethers.utils.formatEther(weiBalance)
 
-    return hmy.blockchain
-        .getBalance({address: wallet.address})
-        .then((response) => {
-            return parseFloat(fromWei(hexToNumber(response.result), Units.one)).toFixed(4)
-        })
+    return parseFloat(balance).toFixed(4)
 }
 
 /**
@@ -127,19 +112,25 @@ exports.address = async function (id) {
 /**
  * Get recipient address
  *
- * @param command
- * @param message
- * @param id
  * @return {Promise<*>}
+ * @param interaction
+ * @param id
+ * @param member
  */
-exports.recipientAddress = async function (command, message, id) {
+exports.recipientAddress = async function (interaction, id, member = null) {
     let to = await this.address(id)
 
     if (!to) {
         const newWallet = await this.create(id)
-        const recipient = await command.client.users.cache.get(id)
 
-        recipient.send(`@${message.author.username} tipped you some ${Config.get('token.symbol')}! You don't have a wallet yet, so I have created one for you! Use the \`${Config.get('prefix')}help\` command to find out how to make use of my services.`)
+        try {
+            await member.send(Lang.trans(interaction, 'error.description.tipped_without_wallet', {
+                user  : interaction.user.username,
+                symbol: Config.get('token.symbol'),
+            }))
+        } catch (error) {
+            console.error(error)
+        }
 
         to = newWallet.address
     }
