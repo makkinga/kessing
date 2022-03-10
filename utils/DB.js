@@ -14,6 +14,7 @@ exports.syncDatabase = async function () {
     await this.transactions.truncate()
     await this.pendingGifts.truncate()
     await this.pendingGifts.sync()
+    await this.giftCooldown.sync()
     await this.wallets.sync()
     await this.transactions.sync()
     await this.tipRanks.sync()
@@ -92,6 +93,26 @@ exports.pendingGifts = sequelize.define('pending_gifts', {
         type     : Sequelize.STRING,
         allowNull: false,
     }
+})
+
+/* Gift cooldown */
+exports.giftCooldown = sequelize.define('gift_cooldown', {
+    user     : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    command  : {
+        type   : Sequelize.BOOLEAN,
+        default: false
+    },
+    claim    : {
+        type   : Sequelize.BOOLEAN,
+        default: false
+    },
+    timestamp: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+    },
 })
 
 /* Tip ranking */

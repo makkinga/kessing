@@ -1,6 +1,8 @@
-const {SlashCommandBuilder}                           = require('@discordjs/builders')
+const {SlashCommandBuilder}                                     = require('@discordjs/builders')
 const {MessageEmbed, MessageActionRow, MessageButton}           = require('discord.js')
 const {Config, Transaction, Wallet, React, DB, Lang, Blacklist} = require('../utils')
+const {Op}                                                      = require('sequelize')
+const moment                                                    = require('moment')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -86,7 +88,34 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (i.customId === `claim_${timestamp}` && claimed === false) {
+                const cooldown = await DB.giftCooldown.findOne({
+                    where: {
+                        user     : i.user.id,
+                        claim    : true,
+                        timestamp: {[Op.gt]: moment().unix()}
+                    }
+                })
+
+                if (cooldown) {
+                    i.reply({content: `You are on cooldown for ${moment.unix(cooldown.timestamp).fromNow(true)}`, ephemeral: true})
+                    return
+                } else {
+                    await DB.giftCooldown.destroy({
+                        where: {
+                            user : i.user.id,
+                            claim: true
+                        }
+                    })
+                }
+
                 claimed = true
+
+                await DB.giftCooldown.create({
+                    user     : i.user.id,
+                    claim    : true,
+                    timestamp: moment().add(10, 'minutes').unix()
+                })
+
                 const claimedEmbed = new MessageEmbed()
                     .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: Config.get('token.symbol')}))
                     .setDescription(Lang.trans(interaction, 'gift.description'))
