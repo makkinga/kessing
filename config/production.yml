@@ -5,8 +5,8 @@ imports:
 roles:
   mod: '902630990407671859'
 commands:
-  blacklist: ''
-  whitelist: ''
+  blacklist: '951488028059267104'
+  whitelist: '951488028138946597'
 ## ISO 639-1
 locales:
   ### Chinese
