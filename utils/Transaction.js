@@ -61,7 +61,7 @@ exports.runQueue = async function (interaction, author, options, notification) {
     const queue              = await DB.transactions.findAll({where: {message: interaction.id}})
     const provider           = new ethers.providers.JsonRpcProvider(Config.get('rpc_url'))
     // const transactionOptions = {gasPrice: await provider.getGasPrice(), gasLimit: 250000}
-    const transactionOptions = {gasPrice: 30, gasLimit: 250000}
+    const transactionOptions = {gasPrice: ethers.utils.parseUnits('30', 'gwei'), gasLimit: 300000}
     const signer             = new ethers.Wallet(privateKey, provider)
     const lastNonce          = await signer.getTransactionCount()
 
@@ -222,7 +222,7 @@ exports.sendGas = async function (interaction, to, amount) {
             to      : to,
             value   : ethers.utils.parseEther(amount.toString()),
             // gasPrice: await provider.getGasPrice(),
-            gasPrice: 30,
+            gasPrice: ethers.utils.parseUnits('30', 'gwei'),
             gasLimit: 300000,
         })
 
