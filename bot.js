@@ -76,7 +76,7 @@ client.login(process.env.DISCORD_TOKEN).then(async () => {
         console.log(`${guild.name} | ${guild.id}`)
     })
 
-    await setPermissions()
+    // await setPermissions()
     await DB.syncDatabase()
 
     await getPrice()
