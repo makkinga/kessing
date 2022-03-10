@@ -10,7 +10,8 @@ module.exports = {
         .addStringOption(option => option.setRequired(true).setName('type').setDescription(`Select the rain type`).addChoices([
             ['Active - Split your tip amongst max 10 last active members', 'active'],
             ['Random - Split your tip amongst 10 random wallet owners in this channel', 'random'],
-        ])),
+        ]))
+        .addStringOption(option => option.setRequired(false).setName('message').setDescription(`Attach a message`)),
 
     async execute(interaction)
     {
@@ -18,9 +19,10 @@ module.exports = {
         await interaction.deferReply({ephemeral: false})
 
         // Options
-        const amount = interaction.options.getNumber('amount')
-        const type   = interaction.options.getString('type')
-        const token  = Config.get('token.default')
+        const amount  = interaction.options.getNumber('amount')
+        const type    = interaction.options.getString('type')
+        const message = interaction.options.getString('message')
+        const token   = Config.get('token.default')
 
         // Checks
         if (!await Wallet.check(interaction)) {
@@ -62,11 +64,9 @@ module.exports = {
 
             // return
             for (const [key, message] of messages.entries()) {
-                let match = true
-
                 // No duplicates
                 if (members.includes(message.author.id)) {
-                    match = false
+                    continue
                 }
 
                 // No command interactions
@@ -108,9 +108,7 @@ module.exports = {
                 }
 
                 // Push if the message survived
-                if (match) {
-                    members.push(message.author.id)
-                }
+                members.push(message.author.id)
             }
 
             // We only need max 10
@@ -166,6 +164,6 @@ module.exports = {
             await Transaction.addToQueue(interaction, from, to, splitAmount, token, members[i], amount, members.length)
         }
 
-        await Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'rain'}, {reply: true, react: true, ephemeral: false})
+        await Transaction.runQueue(interaction, interaction.user.id, {transactionType: 'rain', message: message}, {reply: true, react: true, ephemeral: false})
     },
 }
