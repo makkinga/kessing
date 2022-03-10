@@ -6,6 +6,7 @@ const {Sequelize}           = require('sequelize')
 
 module.exports = {
     data: new SlashCommandBuilder()
+        .setDefaultPermission(false)
         .setName(`rank`)
         .setDescription(`Display the message top ranking`)
         .addStringOption(option => option.setRequired(true).setName('listing').setDescription(`Select a server`).addChoices([
