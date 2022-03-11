@@ -2,11 +2,23 @@ imports:
   - { resource: 'default.yml' }
 
 # Discord
+guilds:
+  - "896110833430577162"
+  - "896110833430577162"
 roles:
-  mod: '949562557612564482'
+  "896110833430577162":
+    mod: '949562557612564482'
 commands:
-  blacklist: '948856330960142366'
-  whitelist: '948856330960142367'
+  "896110833430577162":
+    blacklist: '948856330960142366'
+    whitelist: '948856330960142367'
+    rank: '949064527771762718'
+permissions:
+  mod:
+    - 'blacklist'
+    - 'whitelist'
+    - 'rank'
+
 ## ISO 639-1
 locales:
   ### Chinese
