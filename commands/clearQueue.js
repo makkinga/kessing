@@ -13,13 +13,17 @@ module.exports = {
         await interaction.deferReply({ephemeral: true})
 
         // Checks
-        const hasQueue = await DB.transactions.count({where: {author: interaction.user.id}}) > 0
+        const transactions = await DB.transactions.count({where: {author: interaction.user.id}})
+        const gifts = await DB.pendingGifts.count({where: {author: interaction.user.id}})
+        const hasQueue = transactions > 0 || gifts > 0
+
         if (!hasQueue) {
             return await React.error(interaction, null, Lang.trans(interaction, 'queue.nothing_to_clear_title'), Lang.trans(interaction, 'queue.nothing_to_clear_description'), true)
         }
 
-        // Gather data
+        // Destroy data
         await DB.transactions.destroy({where: {author: interaction.user.id}})
+        await DB.pendingGifts.destroy({where: {author: interaction.user.id}})
 
         // Send embed
         const embed = new MessageEmbed()

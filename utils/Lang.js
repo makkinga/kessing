@@ -22,7 +22,7 @@ exports.trans = function (interaction, key, params = {}) {
         string = string.replace(`:${key}`, value)
     }
 
-    return string
+    return string ?? key
 }
 
 /**
