@@ -76,7 +76,7 @@ client.login(process.env.DISCORD_TOKEN).then(async () => {
         console.log(`${guild.name} | ${guild.id}`)
     })
 
-    // await setPermissions()
+    await setPermissions()
     await DB.syncDatabase()
 
     await getPrice()
@@ -115,24 +115,22 @@ async function getPrice()
 
 async function setPermissions()
 {
-    const fullPermissions = [
-        {
-            id         : await Config.get('commands.blacklist'),
-            permissions: [{
-                id        : await Config.get('roles.mod'),
-                type      : 'ROLE',
-                permission: true,
-            }],
-        },
-        {
-            id         : await Config.get('commands.whitelist'),
-            permissions: [{
-                id        : await Config.get('roles.mod'),
-                type      : 'ROLE',
-                permission: true,
-            }],
+    let fullPermissions = []
+
+    for (const guild of Config.get('guilds')) {
+        for (const [role, permissions] of Object.entries(Config.get('permissions'))) {
+            for (const permission of permissions) {
+                fullPermissions.push({
+                    id         : Config.get(`commands.${guild}.${permission}`),
+                    permissions: [{
+                        id        : Config.get(`roles.${guild}.${role}`),
+                        type      : 'ROLE',
+                        permission: true,
+                    }],
+                })
+            }
         }
-    ]
+    }
 
     await client.guilds.cache.get(process.env.GUILD_ID)?.commands.permissions.set({fullPermissions})
 }
