@@ -27,7 +27,7 @@ module.exports = {
             .addField(Lang.trans(interaction, 'about.bugs_features_title'), `${Lang.trans(interaction, 'about.bugs_features_description')}: https://github.com/makkinga/dfk-tipbot/issues`)
             .addField(Lang.trans(interaction, 'about.coffee_title'), Lang.trans(interaction, 'about.coffee_description', {bot: Config.get('bot.name')}) + '```' + '0xb2689E31b229139B52006b6Ec22C991A66c9D257' + '```')
             .addField(Lang.trans(interaction, 'about.contributors'), `<@221734683417772042>, <@607946034546475042>, <@416316384650330115>, <@891355078416543774>, <@842662223721267210>, ${Lang.trans(interaction, 'and')} <@941244290946965584>`)
-            .addField(Lang.trans(interaction, 'about.backlog'), '- ' + Config.get('backlog').join('\n- '))
+            .addField(Lang.trans(interaction, 'about.roadmap'), `https://github.com/makkinga/dfk-tipbot/projects/1`)
 
         await interaction.editReply({embeds: [embed], ephemeral: true})
     },
