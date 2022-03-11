@@ -115,9 +115,9 @@ async function getPrice()
 
 async function setPermissions()
 {
-    let fullPermissions = []
-
     for (const guild of Config.get('guilds')) {
+        let fullPermissions = []
+        
         for (const [role, permissions] of Object.entries(Config.get('permissions'))) {
             for (const permission of permissions) {
                 fullPermissions.push({
