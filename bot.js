@@ -130,7 +130,8 @@ async function setPermissions()
                 })
             }
         }
+
+        await client.guilds.cache.get(guild)?.commands.permissions.set({fullPermissions})
     }
 
-    await client.guilds.cache.get(process.env.GUILD_ID)?.commands.permissions.set({fullPermissions})
 }
