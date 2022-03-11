@@ -10,6 +10,14 @@ bot:
   icon: "https://gateway.pinata.cloud/ipfs/QmfDMuE67XLAkDJ1vmzzcffVvXupyJ5D4bh7vFpy8UQsaf"
   server_icon: "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
 
+# Backlog
+backlog:
+  - 'Gift command cooldown'
+  - 'Rain DM'
+  - 'Rain filter update'
+  - 'Message count'
+  - 'Gift split (opted by @Kupo)'
+
 # Colors
 colors:
   primary: "#FBE375"

@@ -12,7 +12,8 @@
         "bugs_features_description": "Please submit all bug reports and feature requests here",
         "coffee_title": "Buy me a coffee",
         "coffee_description": "Enjoy :bot? Consider buying me a coffee",
-        "contributors": "Contributors"
+        "contributors": "Contributors",
+        "backlog": "Backlog"
     },
     "balance": {
         "title": "Your balances",

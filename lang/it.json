@@ -12,7 +12,8 @@
         "bugs_features_description": "Please submit all bug reports and feature requests here",
         "coffee_title": "Donami un caffè",
         "coffee_description": "Ti piace :bot? Potresti donarmi un caffè",
-        "contributors": "Contributori"
+        "contributors": "Contributori",
+        "backlog": "Arretrato"
     },
     "balance": {
         "title": "I tuoi saldi",
