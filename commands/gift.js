@@ -15,6 +15,25 @@ module.exports = {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 
+        const cooldown = await DB.giftCooldown.findOne({
+            where: {
+                user     : interaction.user.id,
+                command  : true,
+                timestamp: {[Op.gt]: moment().unix()}
+            }
+        })
+
+        if (cooldown) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.not_allowed'), `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`, true)
+        } else {
+            await DB.giftCooldown.destroy({
+                where: {
+                    user   : interaction.user.id,
+                    command: true
+                }
+            })
+        }
+
         // Options
         const amount = interaction.options.getNumber('amount')
 
@@ -70,19 +89,19 @@ module.exports = {
             author: interaction.user.id
         })
 
+        await DB.giftCooldown.create({
+            user     : interaction.user.id,
+            command  : true,
+            timestamp: moment().add(10, 'minutes').unix()
+        })
+
         // Get all wallet owners
         let wallets = await DB.wallets.findAll({
             attributes: ['user']
         })
         wallets     = wallets.filter(wallet => wallet.user !== process.env.BOT_WALLET_ADDRESS).map(wallet => wallet.user)
 
-        const filter = async i => {
-            const beggar = await Blacklist.listed(i.user)
-
-            return wallets.includes(i.user.id) && !beggar
-        }
-
-        const collector = interaction.channel.createMessageComponentCollector({filter})
+        const collector = interaction.channel.createMessageComponentCollector()
 
         let claimed = false
 
@@ -97,7 +116,7 @@ module.exports = {
                 })
 
                 if (cooldown) {
-                    i.reply({content: `You are on cooldown for ${moment.unix(cooldown.timestamp).fromNow(true)}`, ephemeral: true})
+                    i.reply({content: `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`, ephemeral: true})
                     return
                 } else {
                     await DB.giftCooldown.destroy({
@@ -106,6 +125,16 @@ module.exports = {
                             claim: true
                         }
                     })
+                }
+
+                if (await Blacklist.listed(i.user)) {
+                    i.reply({content: Lang.trans(interaction, 'gift.blacklisted'), ephemeral: true})
+                    return
+                }
+
+                if (!wallets.includes(i.user.id)) {
+                    i.reply({content: Lang.trans(interaction, 'gift.no_wallet'), ephemeral: true})
+                    return
                 }
 
                 claimed = true

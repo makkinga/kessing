@@ -12,7 +12,6 @@ bot:
 
 # Backlog
 backlog:
-  - 'Gift command cooldown'
   - 'Rain DM'
   - 'Rain filter update'
   - 'Message count'

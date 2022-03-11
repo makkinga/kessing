@@ -50,7 +50,10 @@
         "button": "Claim this gift!",
         "button_claimed": "This gift was claimed by @:user",
         "pending_title": "Pending gift",
-        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift"
+        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift",
+        "on_cooldown": "You are on cooldown for",
+        "blacklisted": "You can't claim because you have been blacklisted",
+        "no_wallet": "You can't claim because you have no wallet"
     },
     "help": {
         "title": "Help",
@@ -109,7 +112,8 @@
             "invalid_user": "Invalid user",
             "invalid_address": "Invalid address",
             "no_wallet": "No wallet",
-            "transaction_in_progress": "Transactions in progress"
+            "transaction_in_progress": "Transactions in progress",
+            "not_allowed": "Not allowed"
         },
         "description": {
             "amount_incorrect": "The amount is wrongly formatted or missing",

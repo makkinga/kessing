@@ -107,7 +107,8 @@
             "invalid_user": "Utente non valido",
             "invalid_address": "Invalid address",
             "no_wallet": "Nessun portafoglio",
-            "transaction_in_progress": "Transazione in corso"
+            "transaction_in_progress": "Transazione in corso",
+            "not_allowed": "Not allowed"
         },
         "description": {
             "amount_incorrect": "L'importo da bruciare è formattata male o mancante",
