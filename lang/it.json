@@ -8,12 +8,9 @@
         "last_updated": "Ultimo aggiornamento",
         "license": "Licenza",
         "source": "Sorgente",
-        "bugs_features_title": "Bugs and feature requests",
-        "bugs_features_description": "Please submit all bug reports and feature requests here",
         "coffee_title": "Donami un caffè",
         "coffee_description": "Ti piace :bot? Potresti donarmi un caffè",
-        "contributors": "Contributori",
-        "roadmap": "Tabella di marcia"
+        "contributors": "Contributori"
     },
     "balance": {
         "title": "I tuoi saldi",
@@ -37,8 +34,8 @@
         "gas_description": "Per pagare i costi delle transazioni è necessario depositare anche una piccola somma di ONE. \n\n Non hai ONE? Non preoccuparti, puoi usare il comando `/get-gas` e riceverai un pò di gas per iniziare, offre la casa!"
     },
     "gas": {
-        "time-out_title": "Timeout",
-        "time-out_description": "Attendi la scadenza del timeout :end",
+        "time-out_title": "Non autorizzato",
+        "time-out_description": "Questo comando è solo per farti iniziare. Una volta esaurito il gas, dovrai fornire i tuoi ONE usando il comando  `/deposit`",
         "max_balance_title": "Stai cercando di raggirarmi?",
         "max_balance_description": "Hai :balance ONE!",
         "success_title": "Ha funzionato!",
@@ -49,8 +46,8 @@
         "description": "Prova ad essere il primo a fare clic sul pulsante qui sotto e richiedi questo regalo!",
         "button": "Richiedi questo regalo!",
         "button_claimed": "Questo dono è stato ricevuto da @:user",
-        "pending_title": "Pending gift",
-        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift"
+        "pending_title": "Dono in sospeso",
+        "pending_description": "Hai un dono in sospeso, aspetta che venga richiesto prima di mandarne un altro"
     },
     "help": {
         "title": "Aiuto",
@@ -67,14 +64,12 @@
         "contracts": "Indirizzi del contratto da importare"
     },
     "queue": {
-        "title": "Transaction queue",
-        "footer": "Use /clear-queue to clear your queues",
-        "transactions": "Transactions",
-        "gifts": "Gifts",
-        "no_queue": "No queue",
-        "nothing_to_clear_title": "Nothing to clear",
-        "nothing_to_clear_description": "There are no transactions in your queue",
-        "cleared_successfully": "Your transaction queue was cleared successfully"
+        "title": "Coda delle transazioni",
+        "footer": "Usa /clear-queue per svuotare la coda",
+        "no_queue": "Nessuna coda",
+        "nothing_to_clear_title": "Niente da svuotare",
+        "nothing_to_clear_description": "Non ci sono transazioni nella tua coda",
+        "cleared_successfully": "La tua coda di transazioni è stata svuotata con successo."
     },
     "rain": {
         "missed_title": "Hai perso la pioggia :umbrella2:",
@@ -94,7 +89,7 @@
     "transaction": {
         "tip_description": ":dollar: ha dato una mancia a <@:user> di :amount :symbol",
         "rain_title": ":cloud_rain: Stanno piovendo :amount :symbol!",
-        "rain_description": "Sono piovuti :amount :symbol su :count/:total membri",
+        "rain_description": "Stanno piovendo :amount :symbol su :count/:total membri",
         "burn_description": ":fire: bruciati :amount :symbol",
         "send_description": ":money_with_wings: inviati :amount :symbol a :to",
         "tipped_description": "@:user ti ha dato una mancia di :amount :symbol in :channel"
@@ -105,17 +100,16 @@
             "amount_incorrect": "L'importo è sbagliato",
             "insufficient_funds": "Fondi insufficenti",
             "invalid_user": "Utente non valido",
-            "invalid_address": "Invalid address",
+            "invalid_address": "Indirizzo non valido",
             "no_wallet": "Nessun portafoglio",
-            "transaction_in_progress": "Transazione in corso",
-            "not_allowed": "Not allowed"
+            "transaction_in_progress": "Transazione in corso"
         },
         "description": {
-            "amount_incorrect": "L'importo da bruciare è formattata male o mancante",
-            "invalid_address": "Please check for typo's",
+            "amount_incorrect": "L'importo da bruciare è formattato male o mancante",
+            "invalid_address": "Controlla se ci sono errori di battitura",
             "amount_low": "L'importo da bruciare è troppo bassa",
             "amount_exceeds_balance": "L'importo supera il tuo bilancio + il margine di sicurezza (0.001 :symbol). Usa il comando `/deposit` per visualizzare l'indirizzo del tuo portafoglio per mandarti più :symbol. Oppure riprova con un importo minore",
-            "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
+            "amount_exceeds_gas_balance": "Non hai abbastanza gas per inviare questa transazione",
             "contact_admin": "Contatta :user",
             "create_new_wallet": "Devi ancora creare il portafoglio per le mance. Usa il comando `/deposit` per creare un nuovo portafoglio.",
             "wait_for_queue": "Attendi l'elaborazione della coda corrente",

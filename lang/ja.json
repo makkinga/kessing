@@ -1,0 +1,179 @@
+{
+    "or": "or",
+    "and": "and",
+    "about": {
+        "title": "ボットについて",
+        "description": ":bot は DeFi Kingdoms Discord コミュニティのために :user によって :heart: をこめて作られました。機能要望、バグレポート、その他質問、提案などお気軽にお寄せください!",
+        "version": "バージョン",
+        "last_updated": "最終更新日時",
+        "license": "ライセンス",
+        "source": "ソース",
+        "coffee_title": "儂にコーヒーを買う",
+        "coffee_description": ":bot を楽しんでいるなら儂にコーヒーを買ってくれんかのう",
+        "contributors": "コントリビューター"
+    },
+    "balance": {
+        "title": "あなたの残高",
+        "gas": "ガス"
+    },
+    "blacklist": {
+        "successfully_blacklisted": "@:user ブラックリストに登録したぞ",
+        "already_blacklisted": "@:user すでにブラックリストに登録されておるようじゃ"
+    },
+    "whitelist": {
+        "successfully_whitelisted": "@:user ホワイトリストに登録したぞ",
+        "already_whitelisted": "@:user すでにホワイトリストに登録されておるようじゃ"
+    },
+    "deposit": {
+        "disclaimer_title": "免責事項",
+        "disclaimer_description": "このウォレットはメインのウォレットとして使用せず、Discord でのチップ用としてのみ使用してください。このウォレットに大量の :symbol を入金しないでください。このウォレットは自己責任で使用してください！",
+        "title": "あなたのウォレットアドレス",
+        "add_funds_title": "資金の追加",
+        "add_funds_description": "このウォレットに資金を追加するには、メインウォレットから、:tokensSummary をこのアドレスに送信するのじゃ。 資金の追加が成功したかどうかは、 `/ balance` コマンドを使用して残高を確認するといいぞ。さぁ、チップを楽しむのじゃ！",
+        "gas_title": "ガス",
+        "gas_description": "ネットワーク料金の支払いには、少額の ONE を預ける必要がある。\n\n ONE を持っていないって？心配無用じゃ。`/get-gas` コマンドを使えば、無料でガスを手に入れられるぞ。"
+    },
+    "gas": {
+        "time-out_title": "Not allowed",
+        "time-out_description": "This command is for initial onboarding only. Once you run out of gas you will have to provide your own ONE using the `/deposit` command",
+        "max_balance_title": "儂を騙す気か？",
+        "max_balance_description": "すでに :balance ONE を持っているぞ！",
+        "success_title": "成功！",
+        "success_description": "お前さんのウォレットにガスを送ったぞ"
+    },
+    "gift": {
+        "title": "@:user が :amount :symbol のギフトを贈りました。",
+        "description": "下のボタンをクリックして、いち早くギフトを受け取るのじゃ！",
+        "button": "このギフトを受け取る！",
+        "button_claimed": "このギフトは @:user が受け取りました。",
+        "pending_title": "保留中のギフト",
+        "pending_description": "保留中のギフトがあるようじゃ。新しいギフトを送る前に保留中のギフトが請求されるのを待つのじゃ。"
+    },
+    "help": {
+        "title": "ヘルプ",
+        "getting_started_title": "はじめに",
+        "getting_started_description": ":bot は Discord に内蔵されたスラッシュコマンドを使用します。`/` と入力すると、使用可能なコマンドのリストと、それを使用するための様々なオプションが表示されます。すべての機密情報は非公開で送信され、あなただけが見ることができます。.",
+        "bug_reporting_title": "バグ報告",
+        "bug_reporting_description": "バグがあった場合、 :user まで報告してください。このボットの設定または使用に関する質問は、Discord のモデレーターまでご連絡ください。"
+    },
+    "private_key": {
+        "title": "この秘密鍵は安全な場所に保管巣のじゃ。このメッセージはお前さんだけが見ることができて、自動的に削除されるぞ。",
+        "description": "注 : この秘密鍵は、MetaMask や他のウォレットにインポートすることができるのじゃ。ただし、秘密鍵は絶対に他人と共有してはならぬぞ。",
+        "address": "あなたのアドレス",
+        "key": "あなたの秘密鍵",
+        "contracts": "インポートするコントラクトアドレス"
+    },
+    "queue": {
+        "title": "トランザクションキュー",
+        "footer": "キューをクリアするには /clear-queue を使用するのじゃ。",
+        "no_queue": "キューなし",
+        "nothing_to_clear_title": "クリアするものが無いぞ",
+        "nothing_to_clear_description": "キューにトランザクションが無いようじゃ",
+        "cleared_successfully": "トランザクションキューは正常にクリアされたのじゃ"
+    },
+    "rain": {
+        "missed_title": "お前さんはレインを取り逃したよ :umbrella2:",
+        "missed_description": "@:user が :channel にレインしたぞ。…残念じゃが、お前さんはまだチップ用のウォレットを設定していないようじゃのう。次のレインを獲得したいなら、`/deposit` を使って新しいウォレットを作成するのじゃ。",
+        "no_users_title": "すまんのう",
+        "no_users_description": "レインを贈るユーザーが見つからんかったわい。チャットがもうちょっと活発になってから再度試して見るのじゃ。",
+        "wake_up": "みんな起きるのじゃ！ @:user がレインを試したんじゃが、ここには誰もおらんぞ！"
+    },
+    "rank": {
+        "title": ":listing のトップ :length",
+        "total": "全てのサーバー",
+        "this_server": "このサーバー"
+    },
+    "tip": {
+        "tip_me": "お世辞でも嬉しいが、儂は受け取れん。",
+        "tip_bot": "ボットへのチップは禁止されているのじゃ",
+        "tip_self": "バカモーン！それはお前さんじゃないか！"
+    },
+    "transaction": {
+        "tip_description": ":dollar: チップが送られたぞ <@:user> :amount :symbol",
+        "rain_title": ":cloud_rain: レインじゃ :amount :symbol!",
+        "rain_description": "レインじゃ :amount :symbol  :count/:total 人",
+        "burn_description": ":fire: バーン完了 :amount :symbol",
+        "send_description": ":money_with_wings:  :amount :symbol が :to へ送られたぞ",
+        "tipped_description": "@:user が :channel でお前さんにチップを送ったぞ :amount :symbol"
+    },
+    "error": {
+        "title": {
+            "error_occurred": "エラーが発生したようじゃ",
+            "amount_incorrect": "金額が正しくないぞ",
+            "insufficient_funds": "残高が不足してるぞ",
+            "invalid_user": "無効なユーザーじゃ",
+            "invalid_address": "無効なアドレスじゃ",
+            "no_wallet": "ウォレットがないぞ",
+            "transaction_in_progress": "トランザクションが実行中じゃ"
+        },
+        "description": {
+            "amount_incorrect": "金額の指定に誤りがあるか、金額が不足しているのじゃ",
+            "invalid_address": "タイプミスしていないかのう？",
+            "amount_low": "指定した金額が少なすぎるのじゃ",
+            "amount_exceeds_balance": "残高＋安全なマージン（0.001 :symbol ）を超えた金額が入力されたようじゃ。`/deposit` コマンドでウォレットアドレスを取得して :symbol を送金するのじゃ。それか、もう少し低い金額で試してみてはどうかのう？",
+            "amount_exceeds_gas_balance": "ガス残量が少なすぎて、このトランザクションを実行することができないようじゃ。",
+            "contact_admin": "問い合わせ先 :user",
+            "create_new_wallet": "お前さんはまだチップ用のウォレットを持っていないようじゃのう。`/deposit` を使って新しいウォレットを作成するのじゃ。",
+            "wait_for_queue": "現在のキューが処理されるまで待つのじゃ。",
+            "tipped_without_wallet": "@:user がチップを送ったぞ :symbol！ お前さんはまだウォレットを持っていなかったから、儂がお前さんのウォレットを作っておいたよ。`/help` コマンドを使って儂の使い方を確認するのじゃ。"
+        }
+    },
+    "response": {
+        "titles": [
+            "冒険家さん",
+            "旅人さん",
+            "市民さん",
+            "ヒーローさん"
+        ],
+        "small_tip": [
+            "お望み通りに",
+            "仰せのままに",
+            "お好きなように",
+            "直ちに！",
+            "どうぞなんなりと",
+            "なんとかやってみるかのう",
+            "すぐにやるよ",
+            ":title 了解じゃよ。",
+            "あいよー :title。",
+            "本気か？",
+            "承知した。",
+            "素晴らしいアイデアじゃな。",
+            "大歓迎じゃ :title！"
+        ],
+        "large_tip": [
+            "富を分け与える、なるほどのう。",
+            "気前が良いのう。",
+            "お前さんの名前は伝説になるじゃろう :title.",
+            "お前さんはガイアの真の信者じゃな。",
+            "ガイアはこのことを忘れないじゃろう。",
+            "大見得を切ったのう :title.",
+            "見ろよ この筋肉！"
+        ],
+        "burn": [
+            "まあ、お前さんが望むならいいか。",
+            "もしかして、不評だったかのう？",
+            "おお、儂はいつでも寄付を受け付けているんじゃよ。",
+            "おっ！これは綺麗に燃えるじゃろう"
+        ],
+        "stats": [
+            "金持ちの資産、、信じられんのう。",
+            "みんな大都会に住んでるんじゃろうな。",
+            "大漁じゃのう。",
+            "他人と比べるんじゃない！。",
+            ":title は何位だった？",
+            "ヒーローの時代の幕開けじゃ。"
+        ],
+        "price": [
+            "実に面白い。",
+            "これなら、さっきの男も納得するじゃろ…。",
+            "なんと！銀行に準備していたお金が底を尽きたのかい？",
+            "ガイアは泣くかな？"
+        ],
+        "get_gas": [
+            "ガイアからのささやかな祝福じゃ。",
+            "一度に使いきるんじゃないぞ！",
+            "おごりだ！",
+            "プレゼントじゃ :title."
+        ]
+    }
+}

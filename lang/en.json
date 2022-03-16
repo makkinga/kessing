@@ -37,8 +37,8 @@
         "gas_description": "In order to pay network fee you need to deposit a small amount of ONE too. \n\n Don't have ONE? Don't worry, you can use the `/get-gas` command and get some gas on the house to get you started!"
     },
     "gas": {
-        "time-out_title": "Time-out",
-        "time-out_description": "Please wait for your time-out to end :end",
+        "time-out_title": "Not allowed",
+        "time-out_description": "This command is for initial onboarding only. Once you run out of gas you will have to provide your own ONE using the `/deposit` command",
         "max_balance_title": "Are you trying to scam me?",
         "max_balance_description": "You have :balance ONE!",
         "success_title": "Success!",
