@@ -23,35 +23,6 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command)
 }
 
-// client.on('messageCreate', async message => {
-//     if (!message.author.bot && message.content.split(' ').length >= 3) {
-//         const count = await DB.messageCount.findAll({
-//             where: {
-//                 user : message.author.id,
-//                 guild: message.guildId,
-//             },
-//             limit: 1,
-//         })
-//
-//         if (count.length === 0) {
-//             await DB.messageCount.create({
-//                 user : message.author.id,
-//                 guild: message.guildId,
-//                 count: 1
-//             })
-//         } else {
-//             await DB.messageCount.update({
-//                 count: count[0].count + 1
-//             }, {
-//                 where: {
-//                     user : message.author.id,
-//                     guild: message.guildId,
-//                 }
-//             })
-//         }
-//     }
-// })
-
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return
 
@@ -81,14 +52,15 @@ client.login(process.env.DISCORD_TOKEN).then(async () => {
 
     await getPrice()
     await setPresence()
-    setInterval(getPrice, 60000)
+    setInterval(getPrice, 30000)
     setInterval(setPresence, 5000)
 })
 
 // Set price presence
-let priceUsd = 0
-let priceOne = 0
-let presence = 'usd'
+let priceUsd  = 0
+let priceOne  = 0
+let priceEuro = 0
+let presence  = 'usd'
 
 async function setPresence()
 {
@@ -96,8 +68,14 @@ async function setPresence()
         await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at ${priceOne} ONE`, type: 3}]})
 
         presence = 'one'
-    } else {
+    }
+    else if (presence === 'one') {
         await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at $${priceUsd}`, type: 3}]})
+
+        presence = 'euro'
+    }
+    else if (presence === 'euro') {
+        await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at €${priceEuro}`, type: 3}]})
 
         presence = 'usd'
     }
@@ -105,12 +83,14 @@ async function setPresence()
 
 async function getPrice()
 {
-    const tokenPrice = await Token.tokenPrice()
-    const onePrice   = await Token.onePrice()
-    const priceInOne = tokenPrice.usd / onePrice
+    const tokenPrice  = await Token.tokenPrice()
+    const onePrice    = await Token.onePrice()
+    const priceInOne  = tokenPrice.usd / onePrice
+    const priceInEuro = await Token.tokenPriceInEuro(tokenPrice.usd)
 
-    priceUsd = parseFloat(tokenPrice.usd).toFixed(2)
-    priceOne = parseFloat(priceInOne).toFixed(2)
+    priceUsd  = parseFloat(tokenPrice.usd).toFixed(2)
+    priceOne  = parseFloat(priceInOne).toFixed(2)
+    priceEuro = parseFloat(priceInEuro).toFixed(2)
 }
 
 async function setPermissions()

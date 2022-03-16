@@ -199,3 +199,13 @@ exports.tokenPrice = async function () {
 
     return response.data['0x72cb10c6bfa5624dd07ef608027e366bd690048f']
 }
+
+/**
+ * Token price in Euro
+ */
+exports.tokenPriceInEuro = async function (usdPrice) {
+    const response  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=EURBUSD')
+    const euroPrice = parseFloat(response.data.price)
+
+    return parseFloat(usdPrice * euroPrice).toFixed(6)
+}
