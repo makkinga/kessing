@@ -207,5 +207,5 @@ exports.tokenPriceInEuro = async function (usdPrice) {
     const response  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=EURBUSD')
     const euroPrice = parseFloat(response.data.price)
 
-    return parseFloat(usdPrice * euroPrice).toFixed(6)
+    return parseFloat(usdPrice / euroPrice).toFixed(6)
 }
