@@ -34,8 +34,8 @@
         "gas_description": "ネットワーク料金の支払いには、少額の ONE を預ける必要がある。\n\n ONE を持っていないって？心配無用じゃ。`/get-gas` コマンドを使えば、無料でガスを手に入れられるぞ。"
     },
     "gas": {
-        "time-out_title": "Not allowed",
-        "time-out_description": "This command is for initial onboarding only. Once you run out of gas you will have to provide your own ONE using the `/deposit` command",
+        "time-out_title": "許可できん！",
+        "time-out_description": "このコマンドは最初の一回だけなんじゃ。 ガスがなくなったら、`/deposit` コマンドを使って自分で ONE を用意するんじゃな",
         "max_balance_title": "儂を騙す気か？",
         "max_balance_description": "すでに :balance ONE を持っているぞ！",
         "success_title": "成功！",
