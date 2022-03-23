@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+**Before submitting this issue please make sure no similar issues were already created. If so please comment on that issue to provide any missing or additional information**
+
 **Date**
 The date this error occurred
 
@@ -20,11 +22,7 @@ If given by the bot, enter the reference
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behaviour:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See an error
+Steps to reproduce the behaviour
 
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
