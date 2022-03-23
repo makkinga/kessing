@@ -1,7 +1,6 @@
 const {SlashCommandBuilder}  = require('@discordjs/builders')
 const {React, Token, Config} = require('../utils')
 const {MessageEmbed}         = require('discord.js')
-const axios                  = require("axios")
 
 module.exports = {
     data: new SlashCommandBuilder()
