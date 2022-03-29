@@ -50,6 +50,10 @@ commands:
     blacklist: '953612059956899853'
     rank: '953612060145618966'
     whitelist: '953612060145618969'
+  "914196871923253308":
+    blacklist: '958432259269083228'
+    rank: '958432259344597034'
+    whitelist: '958432259344597038'
 permissions:
   mod:
     - 'blacklist'
