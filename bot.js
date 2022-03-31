@@ -57,40 +57,41 @@ client.login(process.env.DISCORD_TOKEN).then(async () => {
 })
 
 // Set price presence
-let priceUsd  = 0
-let priceOne  = 0
-let priceEuro = 0
-let presence  = 'usd'
+let priceUsd        = 0
+let crystalPriceUsd = 0
+// let priceOne  = 0
+// let priceEuro = 0
+let presence = 'jewel'
 
 async function setPresence()
 {
-    if (presence === 'usd') {
-        await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at ${priceOne} ONE`, type: 3}]})
-
-        presence = 'one'
-    }
-    else if (presence === 'one') {
+    if (presence === 'jewel') {
         await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at $${priceUsd}`, type: 3}]})
 
-        presence = 'euro'
-    }
-    else if (presence === 'euro') {
-        await client.user.setPresence({activities: [{name: `${Config.get('token.symbol')} at €${priceEuro}`, type: 3}]})
+        presence = 'crystal'
+    } else if (presence === 'crystal') {
+        await client.user.setPresence({activities: [{name: `CRYSTAL at $${crystalPriceUsd}`, type: 3}]})
 
-        presence = 'usd'
+        presence = 'jewel'
     }
 }
 
 async function getPrice()
 {
-    const tokenPrice  = await Token.tokenPrice()
-    const onePrice    = await Token.onePrice()
-    const priceInOne  = tokenPrice.usd / onePrice
-    const priceInEuro = await Token.tokenPriceInEuro(tokenPrice.usd)
+    try {
+        const tokenPrice   = await Token.tokenPrice()
+        const crystalPrice = await Token.crystalPrice()
+        // const onePrice    = await Token.onePrice()
+        // const priceInOne  = tokenPrice.usd / onePrice
+        // const priceInEuro = await Token.tokenPriceInEuro(tokenPrice.usd)
 
-    priceUsd  = parseFloat(tokenPrice.usd).toFixed(2)
-    priceOne  = parseFloat(priceInOne).toFixed(2)
-    priceEuro = parseFloat(priceInEuro).toFixed(2)
+        priceUsd        = parseFloat(tokenPrice.usd).toFixed(2)
+        crystalPriceUsd = parseFloat(crystalPrice * tokenPrice.usd).toFixed(2)
+        // priceOne  = parseFloat(priceInOne).toFixed(2)
+        // priceEuro = parseFloat(priceInEuro).toFixed(2)
+    } catch (error) {
+        console.warn('Unable to get price')
+    }
 }
 
 async function setPermissions()

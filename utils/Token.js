@@ -201,6 +201,20 @@ exports.tokenPrice = async function () {
 }
 
 /**
+ * Crystal price
+ *
+ * @return {Promise<*>}
+ */
+exports.crystalPrice = async function () {
+    const response = await axios({
+        url   : 'https://api.dexscreener.io/latest/dex/pairs/avalanchedfk/0x48658e69d741024b4686c8f7b236d3f1d291f386',
+        method: 'get',
+    })
+
+    return response.data.pair.priceNative
+}
+
+/**
  * Token price in Euro
  */
 exports.tokenPriceInEuro = async function (usdPrice) {
