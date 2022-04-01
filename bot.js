@@ -48,7 +48,9 @@ client.login(process.env.DISCORD_TOKEN).then(async () => {
     })
 
     await setPermissions()
+    console.log('Permissions set')
     await DB.syncDatabase()
+    console.log('Database synced')
 
     await getPrice()
     await setPresence()
@@ -101,14 +103,21 @@ async function setPermissions()
 
         for (const [role, permissions] of Object.entries(Config.get('permissions'))) {
             for (const permission of permissions) {
-                fullPermissions.push({
-                    id         : Config.get(`commands.${guild}.${permission}`),
-                    permissions: [{
-                        id        : Config.get(`roles.${guild}.${role}`),
-                        type      : 'ROLE',
-                        permission: true,
-                    }],
-                })
+
+                const guildRoles = typeof Config.get(`roles.${guild}.${role}`) === 'object'
+                  ? Config.get(`roles.${guild}.${role}`)
+                  : [Config.get(`roles.${guild}.${role}`)]
+
+                for (const guildRole of guildRoles) {
+                    fullPermissions.push({
+                        id         : Config.get(`commands.${guild}.${permission}`),
+                        permissions: [{
+                            id        : guildRole,
+                            type      : 'ROLE',
+                            permission: true,
+                        }],
+                    })
+                }
             }
         }
 
