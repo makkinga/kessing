@@ -27,6 +27,8 @@
     "deposit": {
         "disclaimer_title": "免責事項",
         "disclaimer_description": "このウォレットはメインのウォレットとして使用せず、Discord でのチップ用としてのみ使用してください。このウォレットに大量の :symbol を入金しないでください。このウォレットは自己責任で使用してください！",
+        "network_title": "Network",
+        "network_description": "Ensure that the selected network in MetaMask is Harmony Mainnet. Otherwise, your assets may be lost.",
         "title": "あなたのウォレットアドレス",
         "add_funds_title": "資金の追加",
         "add_funds_description": "このウォレットに資金を追加するには、メインウォレットから、:tokensSummary をこのアドレスに送信するのじゃ。 資金の追加が成功したかどうかは、 `/ balance` コマンドを使用して残高を確認するといいぞ。さぁ、チップを楽しむのじゃ！",

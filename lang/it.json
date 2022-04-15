@@ -27,6 +27,8 @@
     "deposit": {
         "disclaimer_title": "Esclusione di responsabilità",
         "disclaimer_description": "Si prega di non utilizzarlo come portafoglio principale, ma solo per dare una mancia su Discord. Non depositare grandi somme di :symbol su questo portafoglio. Usa questo portafoglio a tuo rischio",
+        "network_title": "Network",
+        "network_description": "Ensure that the selected network in MetaMask is Harmony Mainnet. Otherwise, your assets may be lost.",
         "title": "L'indirizzo del tuo portafoglio",
         "add_funds_title": "Aggiungi fondi",
         "add_funds_description": "Per aggiungere fondi a questo portafoglio, vai sul tuo portafoglio principale e invia alcuni :tokensSummary a questo indirizzo. Per confermare la transazione, puoi controllare il tuo saldo usando il comando `/balance`. Divertiti a dare la mancia!",

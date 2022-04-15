@@ -25,8 +25,13 @@ module.exports = {
         // Send embeds
         const disclaimer = new MessageEmbed()
             .setColor(Config.get('colors.error'))
-            .setTitle(`:warning: ${Lang.trans(interaction, 'deposit.disclaimer_title')}`)
+            .setTitle(`${Lang.trans(interaction, 'deposit.disclaimer_title')}`)
             .setDescription(Lang.trans(interaction, 'deposit.disclaimer_description', {symbol: Config.get('token.symbol')}))
+
+        const network = new MessageEmbed()
+            .setColor(Config.get('colors.error'))
+            .setTitle(`${Lang.trans(interaction, 'deposit.network_title')}`)
+            .setDescription(Lang.trans(interaction, 'deposit.network_description'))
 
         const localWarning = new MessageEmbed()
             .setColor(Config.get('colors.error'))
@@ -40,6 +45,6 @@ module.exports = {
             .addField(Lang.trans(interaction, 'deposit.add_funds_title'), Lang.trans(interaction, 'deposit.add_funds_description', {tokensSummary: tokensSummary}))
             .addField(Lang.trans(interaction, 'deposit.gas_title'), Lang.trans(interaction, 'deposit.gas_description'))
 
-        await interaction.reply({embeds: process.env.ENVIRONMENT === 'local' ? [disclaimer, localWarning, address] : [disclaimer, address], ephemeral: true})
+        await interaction.reply({embeds: process.env.ENVIRONMENT === 'local' ? [disclaimer, network, localWarning, address] : [disclaimer, network, address], ephemeral: true})
     },
 }

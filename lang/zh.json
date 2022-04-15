@@ -30,6 +30,8 @@
     "deposit": {
         "disclaimer_title": "免责声明",
         "disclaimer_description": "请勿将此钱包用作您的主要钱包，请仅将钱包用于 Discord 上发送小费。请勿将巨额:symbol存入此钱包，使用此钱包风险自负！",
+        "network_title": "Network",
+        "network_description": "Ensure that the selected network in MetaMask is Harmony Mainnet. Otherwise, your assets may be lost.",
         "title": "您的钱包地址",
         "add_funds_title": "添加资金",
         "add_funds_description": "想要向此钱包添加资金，请从您的主要钱包发送一些:tokensSummary到此钱包地址。您可以使用 `/balance` 指令查看余额从而确认。祝您给小费给的开心！",

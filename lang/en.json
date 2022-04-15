@@ -30,6 +30,8 @@
     "deposit": {
         "disclaimer_title": "Disclaimer",
         "disclaimer_description": "Please do not use this as your main wallet, only for tipping on Discord. Do not deposit large amounts of :symbol to this wallet. Use this wallet at your own risk!",
+        "network_title": "Network",
+        "network_description": "Ensure that the selected network in MetaMask is Harmony Mainnet. Otherwise, your assets may be lost.",
         "title": "Your wallet address",
         "add_funds_title": "Add funds",
         "add_funds_description": "To add funds to this wallet, go to your main wallet and send some :tokensSummary to this address. To confirm the transaction, you can check your balance using the `/balance` command. Have fun tipping!",
