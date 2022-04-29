@@ -121,7 +121,11 @@ async function setPermissions()
             }
         }
 
-        await client.guilds.cache.get(guild)?.commands.permissions.set({fullPermissions})
+        try {
+            await client.guilds.cache.get(guild)?.commands.permissions.set({fullPermissions})
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 }
