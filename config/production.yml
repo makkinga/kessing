@@ -97,4 +97,4 @@ tokens:
 
 # Network
 network_explorer: "https://explorer.harmony.one/#"
-rpc_url: "https://rpc.gainzstation.one/"
+rpc_url: "https://harmony-0-rpc.gateway.pokt.network"
