@@ -27,7 +27,7 @@ module.exports = {
                 i + 1,
                 parseFloat(transactions[i].amount).toFixed(2),
                 Config.get(`tokens.${transactions[i].token}.symbol`),
-                `@${recipient.username}`,
+                `@${recipient.username ?? '-'}`,
                 transactions[i].processing ? '⏳' : '',
             ])
         }
