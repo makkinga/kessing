@@ -87,8 +87,8 @@ async function getPrice()
         // const priceInOne  = tokenPrice.usd / onePrice
         // const priceInEuro = await Token.tokenPriceInEuro(tokenPrice.usd)
 
-        priceUsd        = parseFloat(tokenPrice.usd).toFixed(2)
-        crystalPriceUsd = parseFloat(crystalPrice * tokenPrice.usd).toFixed(2)
+        priceUsd        = parseFloat(tokenPrice).toFixed(2)
+        crystalPriceUsd = parseFloat(crystalPrice).toFixed(2)
         // priceOne  = parseFloat(priceInOne).toFixed(2)
         // priceEuro = parseFloat(priceInEuro).toFixed(2)
     } catch (error) {

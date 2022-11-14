@@ -193,11 +193,11 @@ exports.totalSupply = async function () {
  */
 exports.tokenPrice = async function () {
     const response = await axios({
-        url   : 'https://api.coingecko.com/api/v3/simple/token_price/harmony-shard-0?contract_addresses=0x72Cb10C6bfA5624dD07Ef608027E366bd690048F&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
+        url   : 'https://api.dexscreener.com/latest/dex/pairs/avalanchedfk/0xcf329b34049033de26e4449aebcb41f1992724d3',
         method: 'get',
     })
 
-    return response.data['0x72cb10c6bfa5624dd07ef608027e366bd690048f']
+    return response.data.pair.priceUsd
 }
 
 /**
@@ -207,11 +207,11 @@ exports.tokenPrice = async function () {
  */
 exports.crystalPrice = async function () {
     const response = await axios({
-        url   : 'https://api.dexscreener.io/latest/dex/pairs/avalanchedfk/0x48658e69d741024b4686c8f7b236d3f1d291f386',
+        url   : 'https://api.dexscreener.io/latest/dex/pairs/avalanchedfk/0x04dec678825b8dfd2d0d9bd83b538be3fbda2926',
         method: 'get',
     })
 
-    return response.data.pair.priceNative
+    return response.data.pair.priceUsd
 }
 
 /**
