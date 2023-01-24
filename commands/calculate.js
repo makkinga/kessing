@@ -66,12 +66,12 @@ module.exports = {
         switch (currency) {
             case 'eur' :
                 const euroPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=EUR&amount=${value}`)
-                value           = parseFloat(euroPrice).toFixed(2)
+                value           = parseFloat(euroPrice.data.result).toFixed(2)
 
                 break
             case 'gbp' :
                 const gbpPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=GBP&amount=${value}`)
-                value           = parseFloat(gbpPrice).toFixed(2)
+                value           = parseFloat(gbpPrice.data.result).toFixed(2)
 
                 break
         }
