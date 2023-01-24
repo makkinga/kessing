@@ -65,15 +65,13 @@ module.exports = {
 
         switch (currency) {
             case 'eur' :
-                const eurResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=EURBUSD')
-                const euroPrice = parseFloat(eurResponse.data.price)
-                value           = parseFloat(value / euroPrice).toFixed(2)
+                const euroPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=EUR&amount=${value}`)
+                value           = parseFloat(euroPrice).toFixed(2)
 
                 break
             case 'gbp' :
-                const gbpResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=GBPUSDT')
-                const gbpPrice = parseFloat(gbpResponse.data.price)
-                value           = parseFloat(value / gbpPrice).toFixed(2)
+                const gbpPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=GBP&amount=${value}`)
+                value           = parseFloat(gbpPrice).toFixed(2)
 
                 break
         }
