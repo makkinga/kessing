@@ -71,7 +71,7 @@ module.exports = {
 
                 break
             case 'gbp' :
-                const gbpResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=GBPBUSD')
+                const gbpResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=GBPUSDT')
                 const gbpPrice = parseFloat(gbpResponse.data.price)
                 value           = parseFloat(value / gbpPrice).toFixed(2)
 
