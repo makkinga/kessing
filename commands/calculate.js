@@ -11,10 +11,12 @@ module.exports = {
         .addStringOption(option => option.setRequired(true).setName('of').setDescription(`Select a token`).addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
             {name: 'JEWEL', value: 'JEWEL'},
+            {name: 'JADE', value: 'JADE'},
         ))
         .addStringOption(option => option.setRequired(true).setName('in').setDescription(`Select a currency`).addChoices(
-            {name: 'Dollar', value: 'usd'},
-            {name: 'Euro', value: 'eur'},
+            {name: '$', value: 'usd'},
+            {name: '€', value: 'eur'},
+            {name: '£', value: 'gbp'},
         )),
 
     async execute(interaction)
@@ -31,14 +33,17 @@ module.exports = {
         const tokenSymbols    = {
             JEWEL  : 'JEWEL',
             CRYSTAL: 'CRYSTAL',
+            JADE: 'JADE',
         }
         const tokenIcons      = {
             JEWEL  : 'https://storageapi2.fleek.co/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jewel.png',
             CRYSTAL: 'https://storageapi2.fleek.co/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_crystal.png',
+            JADE: 'https://storage.fleek.zone/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jade.png',
         }
         const currencySymbols = {
             usd: '$:price',
             eur: '€:price',
+            gbp: '£:price',
         }
 
         // Get data
@@ -50,17 +55,25 @@ module.exports = {
                 break
             case 'CRYSTAL' :
                 const crystalInfo = await Token.crystalInfo()
-                ray(crystalInfo).red()
-                value = parseFloat(crystalInfo.priceUsd).toFixed(2)
-                ray(value).green()
+                value             = parseFloat(crystalInfo.priceUsd).toFixed(2)
+                break
+            case 'JADE' :
+                const jadeInfo = await Token.jadeInfo()
+                value             = parseFloat(jadeInfo.priceUsd).toFixed(2)
                 break
         }
 
         switch (currency) {
             case 'eur' :
-                const response  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=EURBUSD')
-                const euroPrice = parseFloat(response.data.price)
+                const eurResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=EURBUSD')
+                const euroPrice = parseFloat(eurResponse.data.price)
                 value           = parseFloat(value / euroPrice).toFixed(2)
+
+                break
+            case 'gbp' :
+                const gbpResponse  = await axios('https://api.binance.com/api/v3/ticker/price?symbol=GBPBUSD')
+                const gbpPrice = parseFloat(gbpResponse.data.price)
+                value           = parseFloat(value / gbpPrice).toFixed(2)
 
                 break
         }

@@ -7,6 +7,6 @@ module.exports = {
 
     async execute(interaction)
     {
-        await interaction.reply({content: `Pong!`, ephemeral: true})
+        await interaction.reply({content: `<:jewel:937734755418517525>`, ephemeral: true})
     },
 }

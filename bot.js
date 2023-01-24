@@ -39,9 +39,6 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
     console.log('Connected as:')
     console.log(`${client.user.username} #${client.user.discriminator}`)
 
-    await DB.syncDatabase()
-    console.log('Database synced')
-
     await getTokenInfo()
     await setPresence()
     setInterval(getTokenInfo, 30000)
@@ -49,17 +46,21 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
 })
 
 // Set price presence
-let jewelPriceUsd, jewelPriceChange, crystalPriceUsd, crystalPriceChange = 0
-let presence                                                             = 'jewel'
+let jewelPriceUsd, jewelPriceChange, crystalPriceUsd, crystalPriceChange, jadePriceUsd, jadePriceChange = 0
+let presence                                                                                            = 'jewel'
 
 async function setPresence()
 {
     if (presence === 'jewel') {
-        await client.user.setPresence({activities: [{name: `1J at $${jewelPriceUsd} (${jewelPriceChange}%)`, type: 3}]})
+        await client.user.setPresence({activities: [{name: `1JE at $${jewelPriceUsd} (${jewelPriceChange}%)`, type: 3}]})
 
         presence = 'crystal'
     } else if (presence === 'crystal') {
-        await client.user.setPresence({activities: [{name: `1C at $${crystalPriceUsd} (${crystalPriceChange}%)`, type: 3}]})
+        await client.user.setPresence({activities: [{name: `1CR at $${crystalPriceUsd} (${crystalPriceChange}%)`, type: 3}]})
+
+        presence = 'jade'
+    } else if (presence === 'jade') {
+        await client.user.setPresence({activities: [{name: `1JA at $${jadePriceUsd} (${jadePriceChange}%)`, type: 3}]})
 
         presence = 'jewel'
     }
@@ -70,11 +71,14 @@ async function getTokenInfo()
     try {
         const jewelInfo   = await Token.jewelInfo()
         const crystalInfo = await Token.crystalInfo()
+        const jadeInfo    = await Token.jadeInfo()
 
-        jewelPriceUsd      = parseFloat(jewelInfo.priceUsd).toFixed(2)
+        jewelPriceUsd      = parseFloat(jewelInfo.priceUsd).toFixed(3)
         jewelPriceChange   = jewelInfo.priceChange.h24
-        crystalPriceUsd    = parseFloat(crystalInfo.priceUsd).toFixed(2)
+        crystalPriceUsd    = parseFloat(crystalInfo.priceUsd).toFixed(3)
         crystalPriceChange = crystalInfo.priceChange.h24
+        jadePriceUsd       = parseFloat(jadeInfo.priceUsd).toFixed(3)
+        jadePriceChange    = jadeInfo.priceChange.h24
     } catch (error) {
         console.warn('Unable to get price')
     }

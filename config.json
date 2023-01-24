@@ -7,11 +7,13 @@
     "embed_thumbnail": "https://gateway.pinata.cloud/ipfs/QmNXDd7dvusn1fDxr1txiyqUtkg58hPibnVKysfEMmePCJ",
     "tokens": [
         "CRYSTAL",
-        "JEWEL"
+        "JEWEL",
+        "JADE"
     ],
     "token_icons": {
         "CRYSTAL": "https://storageapi.fleek.one/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_crystal.png",
-        "JEWEL": "https://storageapi.fleek.one/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jewel.png"
+        "JEWEL": "https://storageapi.fleek.one/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jewel.png",
+        "JADE": "https://storage.fleek.zone/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jade.png"
     },
     "locales": {
         "914196871923253308": "zh",
