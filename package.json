@@ -1,0 +1,31 @@
+{
+  "name": "sir-reginald-2",
+  "description": "Discord bot for Freyala",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gydo Makkinga",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.2.2",
+    "bignumber.js": "^9.0.2",
+    "bn.js": "^5.2.0",
+    "crypto-js": "^4.1.1",
+    "discord-api-types": "^0.26.1",
+    "discord-fetch-all": "^3.0.2",
+    "discord.js": "^14.0.0",
+    "dotenv": "^10.0.0",
+    "eth-revert-reason": "^1.0.3",
+    "ethers": "^5.5.2",
+    "git-rev-sync": "^3.0.2",
+    "lodash.get": "^4.4.2",
+    "mariadb": "^3.0.2",
+    "moment": "^2.29.2",
+    "node-ray": "^1.19.4",
+    "sequelize": "^6.28.0",
+    "simple-node-logger": "^21.8.12",
+    "text-table": "^0.2.0",
+    "web3": "^1.6.1"
+  }
+}

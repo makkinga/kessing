@@ -1,0 +1,190 @@
+{
+    "or": "或",
+    "and": "和",
+    "about": {
+        "title": "关于",
+        "description": ":bot 由 :user 满怀 :heart: 为了 DeFi Kingdoms Discord 社区制作。如有任何功能请求、bug提交、问题、建议都欢迎随时私聊我！",
+        "version": "版本",
+        "last_updated": "最近更新时间",
+        "license": "许可",
+        "source": "来源",
+        "bugs_features_title": "Bugs and feature requests",
+        "bugs_features_description": "Please submit all bug reports and feature requests here",
+        "coffee_title": "请我杯咖啡",
+        "coffee_description": ":bot 用起来还行? 考虑帮我买杯咖啡吧",
+        "contributors": "贡献者",
+        "roadmap": "Roadmap"
+    },
+    "balance": {
+        "title": "您的余额",
+        "gas": "Gas"
+    },
+    "blacklist": {
+        "successfully_blacklisted": "成功将 @:user 加入黑名单",
+        "already_blacklisted": "@:user 已在黑名单中"
+    },
+    "whitelist": {
+        "successfully_whitelisted": "成功将 @:user 加入白名单",
+        "already_whitelisted": "@:user 已在白名单中"
+    },
+    "deposit": {
+        "disclaimer_title": "免责声明",
+        "disclaimer_description": "请勿将此钱包用作您的主要钱包，请仅将钱包用于 Discord 上发送小费。请勿将巨额:symbol存入此钱包，使用此钱包风险自负！",
+        "network_title": "Network",
+        "network_description": "Ensure that the selected network in MetaMask is Harmony Mainnet. Otherwise, your assets may be lost.",
+        "title": "您的钱包地址",
+        "add_funds_title": "添加资金",
+        "add_funds_description": "想要向此钱包添加资金，请从您的主要钱包发送一些:tokensSummary到此钱包地址。您可以使用 `/balance` 指令查看余额从而确认。祝您给小费给的开心！",
+        "gas_title": "Gas",
+        "gas_description": "为了支付网络手续费，你需要存入少量的ONE。\n\n没有ONE？别担心，您可以使用 `/get-gas` 指令获取一些Gas！"
+    },
+    "gas": {
+        "time-out_title": "禁言",
+        "time-out_description": "请等待你的禁言时间结束 :end",
+        "max_balance_title": "你这是想讹我？",
+        "max_balance_description": "你有 :balance 个ONE！",
+        "success_title": "成功！",
+        "success_description": "一些gas已送往你的钱包"
+    },
+    "gift": {
+        "title": "@:user 送出了 :amount :symbol 作为礼物",
+        "description": "当第一位点击按钮的人并领取礼物！",
+        "button": "领取礼物！",
+        "button_claimed": "礼物已被 @:user 领取",
+        "pending_title": "Pending gift",
+        "pending_description": "You have a pending gift, please wait for it to be claimed before sending a new gift",
+        "on_cooldown": "You are on cooldown for",
+        "blacklisted": "You can't claim because you have been blacklisted",
+        "no_wallet": "You can't claim because you have no wallet"
+    },
+    "help": {
+        "title": "帮助",
+        "getting_started_title": "入门指南",
+        "getting_started_description": ":bot 会使用 Discord 内置的 `/` 指令，输入 `/` 它就会显示指令列表以及各种可以在指令内附加的选项。所有敏感信息都会以仅您可见的方式显示。",
+        "bug_reporting_title": "错误报告",
+        "bug_reporting_description": "请提交任何bug给 :user。有关将此bot加入频道或是使用bot的问题，请向该 Discord 的管理员们寻求帮助。"
+    },
+    "private_key": {
+        "title": "请将此私匙保管于安全的地方。只有您可以看到这条消息，它之后会被自动移除。",
+        "description": "提示：您可以用这私匙在 MetaMask 或是其他钱包内载入，但请勿将次私匙分享给任何人。",
+        "address": "您的地址",
+        "key": "您的私匙",
+        "contracts": "可用于载入的合约地址"
+    },
+    "queue": {
+        "title": "Transaction queue",
+        "footer": "Use /clear-queue to clear your queues",
+        "transactions": "Transactions",
+        "gifts": "Gifts",
+        "no_queue": "No queue",
+        "nothing_to_clear_title": "Nothing to clear",
+        "nothing_to_clear_description": "There are no transactions in your queue",
+        "cleared_successfully": "Your transaction queue was cleared successfully"
+    },
+    "rain": {
+        "missed_title": "你错过了一场钱雨 ☂️",
+        "missed_description": "@:user 在 :channel 里下了一场钱雨。很可惜，由于你尚未建立小费钱包错过了这场雨。若你想接住下次的钱雨请使用 `/deposit` 指令创建新的钱包。",
+        "no_users_title": "很抱歉",
+        "no_users_description": "没有足够的用户降下这场钱雨，请在聊天频道更加活跃后再进行尝试。",
+        "wake_up": "你们快起来！ @:user 在尝试下钱雨可没人接啊！"
+    },
+    "rank": {
+        "title": ":listing 里第 :length 名",
+        "total": "all servers",
+        "this_server": "this server"
+    },
+    "tip": {
+        "tip_me": "我很受宠若惊，但是我不能收下",
+        "tip_bot": "给bot小费是不被允许的",
+        "tip_self": "那是你啊，你个小白！"
+    },
+    "transaction": {
+        "tip_description": ":dollar: 给了 <@:user> :amount :symbol 小费",
+        "rain_title": ":cloud_rain: 下着 :amount :symbol 钱雨!",
+        "rain_description": "钱雨 :amount :symbol 降在了 :count/:total 成员身上",
+        "burn_description": ":fire: 已燃烧 :amount :symbol",
+        "send_description": ":money_with_wings: 已发送 :amount :symbol 给 :to",
+        "tipped_description": "@:user 在 :channel 给了你 :amount :symbol 小费"
+    },
+    "error": {
+        "title": {
+            "error_occurred": "发生了错误",
+            "amount_incorrect": "数额错误",
+            "insufficient_funds": "余额不足",
+            "invalid_user": "无效用户",
+            "no_wallet": "钱包不存在",
+            "transaction_in_progress": "交易进行中",
+            "not_allowed": "Not allowed"
+        },
+        "description": {
+            "amount_incorrect": "未填入燃烧数额或是格式错误",
+            "invalid_address": "Please check for typo's",
+            "amount_low": "燃烧数额过低",
+            "amount_exceeds_balance": "数额超过了你的余额 + 安全余量(0.001 :symbol)。使用 `/deposit` 指令取得你的钱包地址再存入一些 :symbol，或是用更少量的数额再次尝试",
+            "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
+            "contact_admin": "请联系 :user",
+            "create_new_wallet": "你还未有小费钱包，请使用 `/deposit` 指令创建新钱包。",
+            "wait_for_queue": "请等待当前队列处理完成",
+            "tipped_without_wallet": "@:user 给了你些许 :symbol 小费! 你还未创建钱包，所以我帮你创建了一个！使用 `/help` 指令查看我的其他服务。"
+        }
+    },
+    "response": {
+        "titles": [
+            "冒险者",
+            "旅行者",
+            "市民",
+            "好伙计",
+            "先生"
+        ],
+        "small_tip": [
+            "如你所愿。",
+            "如你所需。",
+            "如你所求！",
+            "马上。",
+            "乐意效劳。",
+            "让我看看我能做什么。",
+            "我马上就走。",
+            "会的，:title.",
+            "是的，:title.",
+            "你确定吗？",
+            "当然。",
+            "好主意！",
+            "你好，:title!"
+        ],
+        "large_tip": [
+            "噢~，你在传播财富啊。",
+            "真是慷慨！",
+            "你的名字值得铭记，:title.",
+            "盖亚的忠诚追随者。",
+            "盖亚不会忘记这事的，我敢肯定。",
+            "真是盛大的姿态，:title.",
+            "看看你身上的肌肉！"
+        ],
+        "burn": [
+            "好吧，既然你愿意",
+            "这是不受欢迎的东西吗？",
+            "哇呜，我的口袋永远欢迎捐款。",
+            "哇！这火烧的猛烈。"
+        ],
+        "stats": [
+            "有些人的财富真是不可思议。",
+            "我敢打赌他们都住在首都里。",
+            "总会有更大的鱼。",
+            "不要把自己跟别人比较。",
+            "你排名如何，:title?",
+            "这真是英雄时代的一个好开端。"
+        ],
+        "price": [
+            "确实很有趣。",
+            "这解释了早些时候进来的那个男人……",
+            "天啊！银行的储备是不是枯竭了？",
+            "你认为盖亚会哭泣吗？"
+        ],
+        "get_gas": [
+            "来自盖亚的小小祝福。",
+            "别一股脑全花了！",
+            "由我来请！",
+            "把这当成份小礼物，:title."
+        ]
+    }
+}

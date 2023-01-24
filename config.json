@@ -1,0 +1,31 @@
+{
+    "bot": {
+        "name": "Barkeep Kessing",
+        "icon": "https://gateway.pinata.cloud/ipfs/QmfDMuE67XLAkDJ1vmzzcffVvXupyJ5D4bh7vFpy8UQsaf",
+        "server_icon": "https://gateway.pinata.cloud/ipfs/QmRT1KRALWRbtwmmDVwGnwts3Qc6KCEwa7vtrWFvsY9DqB"
+    },
+    "embed_thumbnail": "https://gateway.pinata.cloud/ipfs/QmNXDd7dvusn1fDxr1txiyqUtkg58hPibnVKysfEMmePCJ",
+    "tokens": [
+        "CRYSTAL",
+        "JEWEL"
+    ],
+    "token_icons": {
+        "CRYSTAL": "https://storageapi.fleek.one/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_crystal.png",
+        "JEWEL": "https://storageapi.fleek.one/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/logo_jewel.png"
+    },
+    "locales": {
+        "914196871923253308": "zh",
+        "892196699165052958": "ja",
+        "897510706537177139": "it",
+        "000000000000000004": "ms",
+        "000000000000000005": "ru",
+        "000000000000000006": "es",
+        "000000000000000007": "tl"
+    },
+    "colors": {
+        "primary": "#FBE375",
+        "info": "#0EA5E9",
+        "error": "#FF0000",
+        "warning": "#E7C000"
+    }
+}
