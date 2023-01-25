@@ -11,6 +11,17 @@
         "coffee_title": "Buy me a coffee",
         "coffee_description": "Enjoy :bot? Consider buying me a coffee"
     },
+    "statistics": {
+        "1h": "1h",
+        "24h": "24h",
+        "price_change": "Price Change",
+        "buys": "Buys",
+        "sells": "Sells",
+        "volume": "Volume",
+        "chart_link_label": "Open :symbol chart",
+        "chart_link_title": "Open :symbol: chart on DEX Screener",
+        "footer": "Source: DEX Screener"
+    },
     "balance": {
         "title": "Your balances"
     },
@@ -136,12 +147,6 @@
             "This explains the man that came in earlier...",
             "Oh my! Are the Bank's reserves running dry?",
             "Do you think Gaia weeps?"
-        ],
-        "get_gas": [
-            "A small blessing from Gaia herself.",
-            "Don't spend these all at once!",
-            "On the house!",
-            "Consider this a gift, :title."
         ]
     }
 }
