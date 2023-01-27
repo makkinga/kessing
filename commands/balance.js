@@ -1,8 +1,8 @@
-const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
-const table                               = require('text-table')
-const config                              = require('../config.json')
-const dotenv                              = require('dotenv')
-const {Token, Account, Lang}              = require('../utils')
+const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
+const table                                                                = require('text-table')
+const config                                                               = require('../config.json')
+const dotenv                                                               = require('dotenv')
+const {Token, Account, Lang}                                               = require('../utils')
 dotenv.config()
 
 module.exports = {
@@ -45,6 +45,30 @@ module.exports = {
             )
             .setTimestamp()
 
-        await interaction.editReply({embeds: [toNotification]})
+        const accountButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel('Show account')
+                    .setURL('http://localhost:8082')
+                    .setStyle('Link')
+            )
+
+        const depositButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel('Deposit')
+                    .setURL('http://localhost:8082')
+                    .setStyle('Link')
+            )
+
+        const withdrawButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel('Withdraw')
+                    .setURL('http://localhost:8082')
+                    .setStyle('Link')
+            )
+
+        await interaction.editReply({embeds: [toNotification], components: [accountButton, depositButton, withdrawButton]})
     },
 }

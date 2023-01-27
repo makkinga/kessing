@@ -23,7 +23,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Create my account')
-                    .setURL(`http://localhost:8081/?id=${id.replaceAll('+', ':p:')}`)
+                    .setURL(`http://localhost:8082/?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`)
                     .setStyle('Link')
             )
 

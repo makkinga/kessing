@@ -38,7 +38,7 @@ app.post('/verify-account', async function (request, response) {
     }
 
     try {
-        const id      = await CryptoJS.AES.decrypt(request.body['id'].replace(':p:', '+'), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString(CryptoJS.enc.Utf8)
+        const id      = await CryptoJS.AES.decrypt(request.body['id'].replace(':p:', '+').replace(':s:', '/'), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString(CryptoJS.enc.Utf8)
         const address = await request.body['address']
 
         if (await Account.verified(address)) {
