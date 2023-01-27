@@ -4,9 +4,29 @@ const {ethers}                    = require('ethers')
 const getRevertReason             = require('eth-revert-reason')
 const {EmbedBuilder, userMention} = require('discord.js')
 const Token                       = require('./token')
-const {ray}                       = require('node-ray')
 const config                      = require('../config.json')
+const {IncomingWebhook}           = require('@slack/webhook')
+const webhook                     = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
+const {ray}                       = require('node-ray')
 dotenv.config()
+
+/**
+ * Check gas balance
+ *
+ * @param provider
+ * @param signer
+ * @returns {Promise<void>}
+ */
+async function checkGas(provider, signer)
+{
+    let balance = await provider.getBalance(signer.address)
+    balance     = ethers.utils.formatEther(balance)
+    if (balance < 10) {
+        await webhook.send({
+            text: `Help <@U039W35R943>! I\'m running low on gas here! Only ${parseFloat(balance).toFixed(2)} JEWEL left before I completely run out!`,
+        })
+    }
+}
 
 /**
  * Make a single transaction
@@ -26,6 +46,8 @@ exports.make = async function (interaction, member, from, to, token, amount) {
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
+
+    await checkGas(provider, signer)
 
     try {
         const transaction = await tipper.tip(

@@ -2,14 +2,13 @@ const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const table                               = require('text-table')
 const config                              = require('../config.json')
 const dotenv                              = require('dotenv')
-const {Token, Account}                    = require('../utils')
+const {Token, Account, Lang}              = require('../utils')
 dotenv.config()
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('balance')
-        .setDescription('See your current balance')
-        .addMentionableOption(option => option.setRequired(false).setName('member').setDescription('Select a member')),
+        .setDescription('See your current balance'),
 
     async execute(interaction)
     {
@@ -37,7 +36,7 @@ module.exports = {
         }
 
         const toNotification = new EmbedBuilder()
-            .setTitle(`Your balances`)
+            .setTitle(Lang.trans(interaction, 'balance.title'))
             .setDescription('```' + table(balanceRows) + '```')
             .addFields(
                 {name: `Tipped`, value: '```' + table(tippedRows) + '```'},

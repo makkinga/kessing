@@ -79,3 +79,36 @@ async function getTokenInfo()
         console.warn('Unable to get price')
     }
 }
+
+// async function setPermissions()
+// {
+//     for (const guild of Config.get('guilds')) {
+//         let fullPermissions = []
+//
+//         for (const [role, permissions] of Object.entries(Config.get('permissions'))) {
+//             for (const permission of permissions) {
+//
+//                 const guildRoles = typeof Config.get(`roles.${guild}.${role}`) === 'object'
+//                     ? Config.get(`roles.${guild}.${role}`)
+//                     : [Config.get(`roles.${guild}.${role}`)]
+//
+//                 for (const guildRole of guildRoles) {
+//                     fullPermissions.push({
+//                         id         : Config.get(`commands.${guild}.${permission}`),
+//                         permissions: [{
+//                             id        : guildRole,
+//                             type      : 'ROLE',
+//                             permission: true,
+//                         }],
+//                     })
+//                 }
+//             }
+//         }
+//
+//         try {
+//             await client.guilds.cache.get(guild)?.commands.permissions.set({fullPermissions})
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }

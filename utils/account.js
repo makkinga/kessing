@@ -60,6 +60,17 @@ exports.verified = async function (address) {
 }
 
 /**
+ * Verify an account
+ *
+ * @returns {Promise<boolean>}
+ * @param address
+ * @param id
+ */
+exports.verify = async function (address, id) {
+    return await bank.verifyAccount(address, id)
+}
+
+/**
  * Returns whether the account is banned
  *
  * @returns {Promise<boolean>}

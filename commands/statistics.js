@@ -22,7 +22,7 @@ module.exports = {
         const selectedToken = interaction.options.getString('token')
 
         // Defer reply
-        await interaction.deferReply({ephemeral: false})
+        await interaction.deferReply({ephemeral: (interaction.channel.id !== config.price_discussion_channel)})
 
         // Gather data
         const jewelInfo   = await Token.jewelInfo()

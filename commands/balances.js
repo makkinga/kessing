@@ -9,7 +9,8 @@ dotenv.config()
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('balances')
-        .setDescription('See all balances'),
+        .setDescription('See all balances')
+        .setDefaultMemberPermissions(0),
 
     async execute(interaction)
     {

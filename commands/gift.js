@@ -166,8 +166,6 @@ module.exports = {
                         .setDisabled(true)
                     )
                 await i.update({embeds: [claimedEmbed], components: [claimedButton]})
-
-
                 // Make transaction
                 await Transaction.make(interaction, i.user, from, to, token, amount)
             }

@@ -5,6 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('unban')
         .setDescription('Unban members from tipping')
+        .setDefaultMemberPermissions(0)
         .addUserOption(option => option.setRequired(true).setName('member').setDescription('Select a member to unban')),
 
     async execute(interaction)

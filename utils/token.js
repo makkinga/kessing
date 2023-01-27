@@ -38,3 +38,17 @@ exports.crystalInfo = async function () {
 
     return response.data.pair
 }
+
+/**
+ * JADE price
+ *
+ * @return {Promise<*>}
+ */
+exports.jadeInfo = async function () {
+    const response = await axios({
+        url   : 'https://api.dexscreener.com/latest/dex/pairs/klaytn/0x85db3cc4bcdb8bffa073a3307d48ed97c78af0ae',
+        method: 'get',
+    })
+
+    return response.data.pair
+}
