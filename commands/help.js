@@ -41,7 +41,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel(Lang.trans(interaction, 'help.getting_started'))
-                    .setURL(process.env.GITBOOK_URL)
+                    .setURL(`${process.env.GITBOOK_URL}getting-started`)
                     .setStyle('Link')
             )
             .addComponents(
