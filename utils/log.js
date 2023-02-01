@@ -18,6 +18,7 @@ exports.error = function (interaction, code, error) {
     log.info({
         'user'     : interaction.user.id,
         'guild'    : interaction.guildId,
+        'command'  : interaction.commandName,
         'code'     : `E${code.toString().padStart(3, '0')}`,
         'reference': reference,
         'error'    : error,

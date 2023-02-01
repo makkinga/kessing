@@ -30,7 +30,8 @@ client.on('interactionCreate', async interaction => {
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
-        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.error_occurred'), Lang.trans(interaction, 'error.description.contact_admin', {user: `<@490122972124938240>`}), true)
+
+        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.general'), Lang.trans(interaction, 'error.description.error_occurred'), true)
     }
 })
 
@@ -49,17 +50,26 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
 })
 
 // Set price presence
-let jewelPriceUsd, jewelPriceChange, crystalPriceUsd, crystalPriceChange = 0
-let presence                                                             = 'jewel'
+let jewelPriceUsd,
+    jewelPriceChange,
+    crystalPriceUsd,
+    crystalPriceChange,
+    jadePriceUsd,
+    jadePriceChange = 0
+let presence        = 'jewel'
 
 async function setPresence()
 {
     if (presence === 'jewel') {
-        await client.user.setPresence({activities: [{name: `1J at $${jewelPriceUsd} (${jewelPriceChange}%)`, type: 3}]})
+        await client.user.setPresence({activities: [{name: `1JE at $${jewelPriceUsd} (${jewelPriceChange}%)`, type: 3}]})
 
         presence = 'crystal'
     } else if (presence === 'crystal') {
-        await client.user.setPresence({activities: [{name: `1C at $${crystalPriceUsd} (${crystalPriceChange}%)`, type: 3}]})
+        await client.user.setPresence({activities: [{name: `1CR at $${crystalPriceUsd} (${crystalPriceChange}%)`, type: 3}]})
+
+        presence = 'jade'
+    } else if (presence === 'jade') {
+        await client.user.setPresence({activities: [{name: `1JA at $${jadePriceUsd} (${jadePriceChange}%)`, type: 3}]})
 
         presence = 'jewel'
     }
@@ -70,13 +80,18 @@ async function getTokenInfo()
     try {
         const jewelInfo   = await Token.jewelInfo()
         const crystalInfo = await Token.crystalInfo()
+        const jadeInfo    = await Token.jadeInfo()
 
-        jewelPriceUsd      = parseFloat(jewelInfo.priceUsd).toFixed(2)
+        jewelPriceUsd      = parseFloat(jewelInfo.priceUsd).toFixed(3)
         jewelPriceChange   = jewelInfo.priceChange.h24
-        crystalPriceUsd    = parseFloat(crystalInfo.priceUsd).toFixed(2)
+        crystalPriceUsd    = parseFloat(crystalInfo.priceUsd).toFixed(3)
         crystalPriceChange = crystalInfo.priceChange.h24
+        jadePriceUsd       = parseFloat(jadeInfo.priceUsd).toFixed(3)
+        jadePriceChange    = jadeInfo.priceChange.h24
     } catch (error) {
         console.warn('Unable to get price')
+
+        jewelPriceUsd, jewelPriceChange, crystalPriceUsd, crystalPriceChange, jadePriceUsd, jadePriceChange = 0
     }
 }
 

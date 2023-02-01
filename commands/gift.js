@@ -1,8 +1,8 @@
-const {SlashCommandBuilder, EmbedBuilder, MessageActionRow, MessageButton, ButtonStyle} = require('discord.js')
-const {Transaction, React, Lang, Account, Token, DB}                                    = require('../utils')
-const config                                                                            = require('../config.json')
-const {Op}                                                                              = require('sequelize')
-const moment                                                                            = require('moment')
+const {SlashCommandBuilder, EmbedBuilder, MessageActionRow, MessageButton, ButtonStyle, ActionRowBuilder, ButtonBuilder} = require('discord.js')
+const {Transaction, React, Lang, Account, Token, DB}                                                                     = require('../utils')
+const config                                                                                                             = require('../config.json')
+const {Op}                                                                                                               = require('sequelize')
+const moment                                                                                                             = require('moment')
 
 
 module.exports = {
@@ -75,8 +75,8 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: artifact.name}))
             .setDescription(Lang.trans(interaction, 'gift.description'))
 
-        const button = new MessageActionRow()
-            .addComponents(new MessageButton()
+        const button = new ActionRowBuilder()
+            .addComponents(new ButtonBuilder()
                 .setCustomId(`claim_${timestamp}`)
                 .setLabel(Lang.trans(interaction, 'gift.button'))
                 .setStyle(ButtonStyle.Success)
@@ -157,8 +157,8 @@ module.exports = {
                     .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: artifact.name}))
                     .setDescription(Lang.trans(interaction, 'gift.description'))
 
-                const claimedButton = new MessageActionRow()
-                    .addComponents(new MessageButton()
+                const claimedButton = new ActionRowBuilder()
+                    .addComponents(new ButtonBuilder()
                         .setCustomId(`claimed_${timestamp}`)
                         .setLabel(Lang.trans(interaction, 'gift.button_claimed', {user: i.user.username}))
                         .setStyle(ButtonStyle.Secondary)

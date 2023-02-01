@@ -4,7 +4,7 @@ const {ethers}              = require('ethers')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('gas-balance')
-        .setDescription('Returns the gas balance in Kessing wallet')
+        .setDescription('Kessing\'s gas balance')
         .setDefaultMemberPermissions(0),
 
     async execute(interaction)
@@ -19,6 +19,6 @@ module.exports = {
         balance        = ethers.utils.formatEther(balance)
 
         // Reply
-        await interaction.editReply({content: `Ξ ${parseFloat(balance).toFixed(2)}`})
+        await interaction.editReply({content: `${parseFloat(balance).toFixed(2)} JEWEL`})
     },
 }

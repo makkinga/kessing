@@ -6,7 +6,7 @@ const axios                               = require('axios')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(`calculate`)
-        .setDescription(`Get the value of your tokens`)
+        .setDescription(`Calculate the value of your tokens`)
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount`))
         .addStringOption(option => option.setRequired(true).setName('of').setDescription(`Select a token`).addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
