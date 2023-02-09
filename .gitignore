@@ -1,6 +1,5 @@
 /.idea
 /.github
-/artifacts
 /node_modules/
 /.env
 /package-lock.json

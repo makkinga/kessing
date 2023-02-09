@@ -51,11 +51,11 @@ app.post('/verify-account', async function (request, response) {
 
         await Account.verify(address, id)
 
-        // await DB.accountHolders.create({
-        //     user   : id,
-        //     address: address,
-        //     role   : false
-        // })
+        await DB.accountHolders.create({
+            user   : id,
+            address: address,
+            role   : false
+        })
 
         response.writeHead(200, {'Content-Type': 'application/json'})
         response.write(JSON.stringify({success: true, id: id}))

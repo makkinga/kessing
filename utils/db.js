@@ -11,11 +11,28 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  * Sync database
  */
 exports.syncDatabase = async function () {
+    await this.accountHolders.sync()
     await this.pendingGifts.truncate()
     await this.pendingGifts.sync()
     await this.giftCooldown.sync()
     await this.messageCount.sync()
 }
+
+/* Account holders */
+exports.accountHolders = sequelize.define('account_holders', {
+    user   : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    address: {
+        type     : Sequelize.STRING,
+        allowNull: false,
+    },
+    role   : {
+        type   : Sequelize.BOOLEAN,
+        default: false
+    }
+})
 
 /* Pending gifts */
 exports.pendingGifts = sequelize.define('pending_gifts', {
