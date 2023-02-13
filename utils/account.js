@@ -1,6 +1,6 @@
 const bankArtifact = require('../artifacts/bank.json')
 const dotenv       = require('dotenv')
-const {ethers}     = require("ethers")
+const {ethers}     = require('ethers')
 dotenv.config()
 
 // Ethers
