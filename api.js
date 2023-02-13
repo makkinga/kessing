@@ -1,3 +1,16 @@
+/*************************************************************/
+/* Update NGINX config
+/*************************************************************/
+/*
+ * https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04
+ * https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04
+ *
+ * $ nano /etc/nginx/sites-available/default
+ * or
+ * $ nano /etc/nginx/sites-available/node
+ * $ systemctl restart nginx
+ */
+
 require('dotenv').config()
 const express       = require('express')
 const app           = express()
@@ -12,7 +25,7 @@ app.use(express.json())
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
+    // Website you wish to allow connecting
     res.setHeader('Access-Control-Allow-Origin', '*')
 
     // Request methods you wish to allow
@@ -25,8 +38,16 @@ app.use(function (req, res, next) {
     next()
 })
 
+app.get('/ping', async function (request, response) {
+    response.writeHead(200, {'Content-Type': 'application/json'})
+    response.write(JSON.stringify({success: true, message: `pong`}))
+    response.end()
+
+    return
+})
+
 app.post('/verify-account', async function (request, response) {
-    // await DB.accountHolders.sync()
+    await DB.accountHolders.sync()
     for (const param of ['id', 'address']) {
         if (typeof request.body[param] === 'undefined') {
             response.writeHead(400, {'Content-Type': 'application/json'})
