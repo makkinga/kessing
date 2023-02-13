@@ -2,7 +2,6 @@ const fs                                                = require('fs')
 const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
 const dotenv                                            = require('dotenv')
 const {DB, React, Token, Lang, Log}                     = require('./utils')
-const CryptoJS                                          = require('crypto-js')
 dotenv.config()
 
 // Create a new client instance
