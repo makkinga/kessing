@@ -1,5 +1,5 @@
-const {SlashCommandBuilder}  = require('discord.js')
-const {Transaction, Account} = require('../utils')
+const {SlashCommandBuilder}                = require('discord.js')
+const {Transaction, Account, React, Token} = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,9 +13,30 @@ module.exports = {
         await interaction.deferReply({ephemeral: false})
 
         // Options
-        const amount = interaction.options.getNumber('amount')
-        const token  = 'JEWEL'
-        const from   = await Account.address(interaction.user.id)
+        const amount       = interaction.options.getNumber('amount')
+        const token        = 'JEWEL'
+        const artifact     = await Token.artifact(token)
+        const tokenAddress = artifact.bank_address
+        const from         = await Account.address(interaction.user.id)
+
+        // Checks
+        if (!await Account.canTip(from)) {
+            if (!await Account.active(from)) {
+                return await React.error(interaction, null, `No account`, `You have not yet registered your account, please visit https://kessing.dfk.gyd0x.nl/`, true)
+            }
+
+            if (!await Account.verified(from)) {
+                return await React.error(interaction, null, `Account not verified`, `You have not yet verified your account, please visit https://kessing.dfk.gyd0x.nl/`, true)
+            }
+
+            if (await Account.banned(from)) {
+                return await React.error(interaction, null, `Banned`, `Your account has been banned from tipping. Visit https://kessing.dfk.gyd0x.nl/ to withdraw your tokens`, true)
+            }
+        }
+
+        if (!await Account.hasBalance(from, amount, tokenAddress)) {
+            return await React.error(interaction, null, `Insufficient funds`, `Your current balance doesn't allow you to make this transaction.`, true)
+        }
 
         // Get last 10 active members
         let members    = []

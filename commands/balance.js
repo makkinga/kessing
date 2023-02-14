@@ -22,7 +22,7 @@ module.exports = {
 
         for (const token of config.tokens) {
             const artifact        = await Token.artifact(token)
-            const contractAddress = artifact.address
+            const contractAddress = (token === 'jewel') ? artifact.bank_address : artifact.address
             const userAddress     = await Account.address(interaction.user.id)
 
             let balance  = await Account.balance(userAddress, contractAddress)
@@ -49,7 +49,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Show account')
-                    .setURL('http://localhost:8082')
+                    .setURL('https://kessing.dfk.gyd0x.nl/')
                     .setStyle('Link')
             )
 
@@ -57,7 +57,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Deposit')
-                    .setURL('http://localhost:8082')
+                    .setURL('https://kessing.dfk.gyd0x.nl/')
                     .setStyle('Link')
             )
 
@@ -65,7 +65,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Withdraw')
-                    .setURL('http://localhost:8082')
+                    .setURL('https://kessing.dfk.gyd0x.nl/')
                     .setStyle('Link')
             )
 

@@ -19,8 +19,6 @@ module.exports = {
 
         const tableRows = []
 
-        ray(await Account.address(interaction.user.id))
-
         for (const token of config.tokens) {
             const artifact = await Token.artifact(token)
             let balance    = await Account.balance(await Account.address(interaction.user.id), artifact.address)

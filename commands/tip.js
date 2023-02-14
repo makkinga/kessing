@@ -24,10 +24,9 @@ module.exports = {
         const member   = interaction.options.getUser('member')
         const token    = interaction.options.getString('token') ?? 'CRYSTAL'
         const artifact = await Token.artifact(token)
+        const tokenAddress = (token === 'jewel') ? artifact.bank_address : artifact.address
         const from     = await Account.address(interaction.user.id)
         const to       = await Account.address(member.id)
-
-        ray(member)
 
         // Checks
         if (!await Account.canTip(from)) {
@@ -58,7 +57,7 @@ module.exports = {
             }
         }
 
-        if (!await Account.hasBalance(from, amount, artifact.address)) {
+        if (!await Account.hasBalance(from, amount, tokenAddress)) {
             return await React.error(interaction, null, `Insufficient funds`, `Your current balance doesn't allow you to make this transaction.`, true)
         }
 
