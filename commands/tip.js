@@ -24,7 +24,7 @@ module.exports = {
         const member   = interaction.options.getUser('member')
         const token    = interaction.options.getString('token') ?? 'CRYSTAL'
         const artifact = await Token.artifact(token)
-        const tokenAddress = (token === 'jewel') ? artifact.bank_address : artifact.address
+        const tokenAddress = (token === 'JEWEL') ? artifact.bank_address : artifact.address
         const from     = await Account.address(interaction.user.id)
         const to       = await Account.address(member.id)
 

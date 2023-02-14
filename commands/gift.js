@@ -43,7 +43,7 @@ module.exports = {
         const amount       = interaction.options.getNumber('amount')
         const token        = interaction.options.getString('token') ?? 'CRYSTAL'
         const artifact     = await Token.artifact(token)
-        const tokenAddress = (token === 'jewel') ? artifact.bank_address : artifact.address
+        const tokenAddress = (token === 'JEWEL') ? artifact.bank_address : artifact.address
         const from         = await Account.address(interaction.user.id)
 
         // Checks

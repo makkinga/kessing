@@ -22,7 +22,7 @@ module.exports = {
 
         for (const token of config.tokens) {
             const artifact        = await Token.artifact(token)
-            const contractAddress = (token === 'jewel') ? artifact.bank_address : artifact.address
+            const contractAddress = (token === 'JEWEL') ? artifact.bank_address : artifact.address
             const userAddress     = await Account.address(interaction.user.id)
 
             let balance  = await Account.balance(userAddress, contractAddress)
