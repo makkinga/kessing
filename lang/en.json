@@ -138,7 +138,7 @@
             "unable_to_tip": {
                 "unverified": ":username has not yet verified his/her account",
                 "banned": ":username has been banned from tipping",
-                "no_account": ":username has not yet registered an account`"
+                "no_account": ":username has not yet registered an account"
             }
         }
     },

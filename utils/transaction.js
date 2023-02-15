@@ -57,7 +57,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
             from,
             to,
             ethers.utils.parseEther(amount.toString()),
-            (token === 'jewel') ? artifact.bank_address : artifact.address,
+            (token === 'JEWEL') ? artifact.bank_address : artifact.address,
             options
         )
 
@@ -106,7 +106,7 @@ exports.split = async function (interaction, members, from, to, token, amount) {
             from,
             to,
             ethers.utils.parseEther(amount.toString()),
-            (token === 'jewel') ? artifact.bank_address : artifact.address,
+            (token === 'JEWEL') ? artifact.bank_address : artifact.address,
             options
         )
 
@@ -146,7 +146,7 @@ exports.burn = async function (interaction, from, token, amount) {
         const transaction = await tipper.burn(
             from,
             ethers.utils.parseEther(amount.toString()),
-            (token === 'jewel') ? artifact.bank_address : artifact.address,
+            (token === 'JEWEL') ? artifact.bank_address : artifact.address,
             options
         )
 
