@@ -3,17 +3,217 @@
     "address": "0x07bA54aA65bEe0F6d6EBDfB627af8614d02FeE3b",
     "abi": [
         {
-            "inputs": [],
-            "name": "accounts",
-            "outputs": [],
+            "inputs": [
+                {
+                    "internalType": "contract TipBank",
+                    "name": "_bank",
+                    "type": "address"
+                }
+            ],
             "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_address",
+                    "type": "address"
+                }
+            ],
+            "name": "AppAdded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_address",
+                    "type": "address"
+                }
+            ],
+            "name": "AppRemoved",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "previousAdminRole",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "newAdminRole",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "RoleAdminChanged",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                }
+            ],
+            "name": "RoleGranted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                }
+            ],
+            "name": "RoleRevoked",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_from",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_to",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_token",
+                    "type": "address"
+                }
+            ],
+            "name": "Tipped",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_address",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "_token",
+                    "type": "address"
+                }
+            ],
+            "name": "TokensBurned",
+            "type": "event"
+        },
+        {
+            "inputs": [],
+            "name": "BOT_ROLE",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "DEFAULT_ADMIN_ROLE",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "bank",
+            "outputs": [
+                {
+                    "internalType": "contract TipBank",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
             "type": "function"
         },
         {
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_address",
+                    "name": "_from",
                     "type": "address"
                 },
                 {
@@ -33,8 +233,38 @@
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "createAccount",
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "getRoleAdmin",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "grantRole",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -42,22 +272,41 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "_address",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
                 },
                 {
                     "internalType": "address",
-                    "name": "_token",
+                    "name": "account",
                     "type": "address"
                 }
             ],
-            "name": "decreaseAccountBalance",
+            "name": "hasRole",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
+                }
+            ],
+            "name": "renounceRole",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -65,17 +314,17 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "_token",
-                    "type": "address"
+                    "internalType": "bytes32",
+                    "name": "role",
+                    "type": "bytes32"
                 },
                 {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
+                    "internalType": "address",
+                    "name": "account",
+                    "type": "address"
                 }
             ],
-            "name": "deposit",
+            "name": "revokeRole",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -83,12 +332,12 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "_address",
-                    "type": "address"
+                    "internalType": "bytes4",
+                    "name": "interfaceId",
+                    "type": "bytes4"
                 }
             ],
-            "name": "getAccountActive",
+            "name": "supportsInterface",
             "outputs": [
                 {
                     "internalType": "bool",
@@ -103,57 +352,12 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_address",
+                    "name": "_from",
                     "type": "address"
                 },
                 {
                     "internalType": "address",
-                    "name": "_token",
-                    "type": "address"
-                }
-            ],
-            "name": "getAccountBalance",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_address",
-                    "type": "address"
-                }
-            ],
-            "name": "getAccountVerified",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getAllowance",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_address",
+                    "name": "_to",
                     "type": "address"
                 },
                 {
@@ -167,7 +371,7 @@
                     "type": "address"
                 }
             ],
-            "name": "increaseAccountBalance",
+            "name": "tip",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -176,26 +380,13 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_address",
+                    "name": "_from",
                     "type": "address"
                 },
                 {
-                    "internalType": "string",
-                    "name": "_discordId",
-                    "type": "string"
-                }
-            ],
-            "name": "verifyAccount",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_token",
-                    "type": "address"
+                    "internalType": "address[]",
+                    "name": "_to",
+                    "type": "address[]"
                 },
                 {
                     "internalType": "uint256",
@@ -203,12 +394,40 @@
                     "type": "uint256"
                 },
                 {
-                    "internalType": "bool",
-                    "name": "_max",
-                    "type": "bool"
+                    "internalType": "address",
+                    "name": "_token",
+                    "type": "address"
                 }
             ],
-            "name": "withdraw",
+            "name": "tipMulti",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_from",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address[]",
+                    "name": "_to",
+                    "type": "address[]"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_token",
+                    "type": "address"
+                }
+            ],
+            "name": "tipSplit",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
