@@ -1,8 +1,13 @@
-const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
-const {Lang}                                                               = require('../utils')
-const config                                                               = require('../config.json')
-const git                                                                  = require('git-rev-sync')
-const moment                                                               = require('moment')
+const {
+          SlashCommandBuilder,
+          EmbedBuilder,
+          ActionRowBuilder,
+          ButtonBuilder
+      }      = require('discord.js')
+const {Lang} = require('../utils')
+const config = require('../config.json')
+const git    = require('git-rev-sync')
+const moment = require('moment')
 
 module.exports = {
     data: new SlashCommandBuilder()

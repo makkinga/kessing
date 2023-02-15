@@ -1,5 +1,5 @@
 const {SlashCommandBuilder, EmbedBuilder, userMention} = require('discord.js')
-const {Account, React}                                 = require('../utils')
+const {Account, React, Lang}                           = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,10 +21,10 @@ module.exports = {
         // Checks
         if (!await Account.canBeTipped(address)) {
             if (await Account.banned(address)) {
-                return await React.error(interaction, null, `Already banned`, `${memberMention} has already been banned from tipping`, true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'ban.title.already_banned'), Lang.trans(interaction, 'ban.description.already_banned', {member: memberMention}), true)
             }
 
-            return await React.error(interaction, null, `No active account`, `${memberMention} has no active tipping account`, true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'ban.title.no_active_account'), Lang.trans(interaction, 'ban.description.no_active_account', {member: memberMention}), true)
         }
 
         // Ban member
@@ -32,8 +32,8 @@ module.exports = {
 
         // Respond
         const embed = new EmbedBuilder()
-            .setTitle(`Member banned`)
-            .setDescription(`${memberMention} has been banned from sending and receiving tips`)
+            .setTitle(Lang.trans(interaction, 'ban.title.member_banned'))
+            .setDescription(Lang.trans(interaction, 'ban.description.member_banned', {member: memberMention}))
 
         await interaction.editReply({embeds: [embed]})
     },

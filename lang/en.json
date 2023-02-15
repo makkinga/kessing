@@ -22,6 +22,33 @@
         "select_command": "Select a command",
         "read_full_docs": "Read the full documentation"
     },
+    "create": {
+        "title": "Create your tipping account",
+        "description": "Please create your account using MetaMask by clicking the link below.",
+        "button": "Create my account"
+    },
+    "ban": {
+        "title": {
+            "already_banned": "Already banned",
+            "no_active_account": "No active account",
+            "member_banned": "Member banned"
+        },
+        "description": {
+            "already_banned": ":member has already been banned from tipping",
+            "no_active_account": ":member has no active tipping account",
+            "member_banned": ":member has been banned from sending and receiving tips"
+        }
+    },
+    "unban": {
+        "title": {
+            "not_banned": "Not banned",
+            "member_unbanned": "Member unbanned"
+        },
+        "description": {
+            "not_banned": ":member has not been banned from tipping",
+            "member_unbanned": ":member can now send and receive tips"
+        }
+    },
     "statistics": {
         "1h": "1h",
         "24h": "24h",
@@ -85,13 +112,18 @@
             "invalid_address": "Invalid address",
             "no_wallet": "No wallet",
             "transaction_in_progress": "Transactions in progress",
-            "not_allowed": "Not allowed"
+            "not_allowed": "Not allowed",
+            "no_account": "No account",
+            "banned": "Banned",
+            "unverified": "Not verified",
+            "unable_to_tip": "Unable to send tip"
         },
         "description": {
             "error_occurred": "An error has occurred",
             "bug_report": "To report a bug, please use the `/about` command",
             "amount_incorrect": "The amount is wrongly formatted or missing",
             "invalid_address": "Please check for typo's",
+            "insufficient_funds": "Your current balance doesn't allow you to make this transaction.",
             "amount_low": "The amount is too low",
             "amount_exceeds_balance": "The amount exceeds your balance + safety margin (0.001 :symbol). Use the `/deposit` command to get your wallet address to send some more :symbol. Or try again with a lower amount",
             "amount_exceeds_gas_balance": "Your gas balance is too low to make this transaction",
@@ -101,7 +133,13 @@
             "tipped_without_wallet": "@:user tipped you some :symbol! You don't have a wallet yet, so I have created one for you! Use the `/help` command to find out how to make use of my services.",
             "inactive": "You have not activated your account yet",
             "unverified": "Your account has not been verified yet",
-            "banned": "You have been banned from sending and receiving tips"
+            "banned": "Your account has been banned from sending and receiving tips. Please contact an admin if you think was done by mistake. Or visit https://kessing.dfk.gyd0x.nl/ to withdraw your tokens",
+            "no_account": "You have not yet registered your account. Please use the `/create-command` to register",
+            "unable_to_tip": {
+                "unverified": ":username has not yet verified his/her account",
+                "banned": ":username has been banned from tipping",
+                "no_account": ":username has not yet registered an account`"
+            }
         }
     },
     "response": {

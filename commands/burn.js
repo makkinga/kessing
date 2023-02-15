@@ -1,5 +1,5 @@
-const {SlashCommandBuilder}                = require('discord.js')
-const {Account, React, Token, Transaction} = require('../utils')
+const {SlashCommandBuilder}                      = require('discord.js')
+const {Account, React, Token, Transaction, Lang} = require('../utils')
 
 
 module.exports = {
@@ -27,20 +27,20 @@ module.exports = {
         // Checks
         if (!await Account.canTip(from)) {
             if (!await Account.active(from)) {
-                return await React.error(interaction, null, `No account`, `You have not yet registered your account, please visit...`, true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
             }
 
             if (!await Account.verified(from)) {
-                return await React.error(interaction, null, `Account not verified`, `You have not yet verified your account, please visit...`, true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), true)
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, `Banned`, `Your account has been banned from tipping. Visit .... to withdraw your tokens`, true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), true)
             }
         }
 
         if (!await Account.hasBalance(from, amount, tokenAddress)) {
-            return await React.error(interaction, null, `Insufficient funds`, `Your current balance doesn't allow you to make this transaction.`, true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), true)
         }
 
         // Make transaction

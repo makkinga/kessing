@@ -1,4 +1,4 @@
-const {Account, React}                                 = require('../utils')
+const {Account, React, Lang}                           = require('../utils')
 const {SlashCommandBuilder, EmbedBuilder, userMention} = require('discord.js')
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
 
         // Checks
         if (!await Account.banned(address)) {
-            return await React.error(interaction, null, `Not allowed`, `${memberMention} has not been banned from tipping`, true)
+            return await React.error(interaction, null, Lang.trans(interaction, 'unban.title.not_banned'), Lang.trans(interaction, 'unban.description.not_banned', {member: memberMention}), true)
         }
 
         // Ban member
@@ -28,8 +28,8 @@ module.exports = {
 
         // Respond
         const embed = new EmbedBuilder()
-            .setTitle(`Member unbanned`)
-            .setDescription(`${memberMention} can now send and receive tips`)
+            .setTitle(Lang.trans(interaction, 'unban.title.member_banned'))
+            .setDescription(Lang.trans(interaction, 'unban.description.member_banned', {member: memberMention}))
 
         await interaction.editReply({embeds: [embed]})
     },

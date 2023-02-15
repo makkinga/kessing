@@ -1,5 +1,6 @@
 const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
 const CryptoJS                                                             = require('crypto-js')
+const {Lang}                                                               = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,13 +17,13 @@ module.exports = {
 
         // Send embed
         const embed = new EmbedBuilder()
-            .setTitle(`Create your tipping account`)
-            .setDescription(`Please create your account using MetaMask by clicking the link below.`)
+            .setTitle(Lang.trans(interaction, 'create.title'))
+            .setDescription(Lang.trans(interaction, 'create.description'))
 
         const button = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setLabel('Create my account')
+                    .setLabel(Lang.trans(interaction, 'create.button'))
                     .setURL(`https://kessing.dfk.gyd0x.nl?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`)
                     .setStyle('Link')
             )
