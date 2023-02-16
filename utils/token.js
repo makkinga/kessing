@@ -8,7 +8,7 @@ const {ray} = require('node-ray')
  * @returns {Promise<void>}
  */
 exports.artifact = async function (name) {
-    return require(`../artifacts/${name}.json`)
+    return require(`../${process.env.ENV === 'local' ? 'artifacts-local' : 'artifacts'}/${name}.json`)
 }
 
 /**

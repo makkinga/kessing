@@ -45,7 +45,7 @@ module.exports = {
 
         for (const [key, message] of messages.entries()) {
             // No duplicates
-            if (members.includes(message.author.id)) {
+            if (members.includes(message.author)) {
                 continue
             }
 
@@ -71,7 +71,7 @@ module.exports = {
             }
 
             // Push if the message survived
-            members.push(message.author.id)
+            members.push(message.author)
         }
 
         // We only need max 10

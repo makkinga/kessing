@@ -81,7 +81,12 @@
         "missed_description": "@:user rained in :channel. Unfortunately you missed the rain because you have not set up your tipping wallet yet. If you want to catch the next rain, please use the `/deposit` to create a new wallet",
         "no_users_title": "Sorry",
         "no_users_description": "I couldn't find any users to rain on. Please try again when the chat is a bit more active",
-        "wake_up": "Wake up people! @:user is trying to rain, but nobody is here!"
+        "wake_up": "Wake up people! @:user is trying to rain, but nobody is here!",
+        "receipt_title": ":rain receipt",
+        "users_tipped": "These users were each tipped :amount",
+        "total_tipped": "Total tipped",
+        "channel": "In channel",
+        "explorer_button": "View transaction"
     },
     "rank": {
         "title": "Top :length on :listing",

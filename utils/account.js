@@ -1,7 +1,7 @@
-const bankArtifact = require('../artifacts/bank.json')
-const dotenv       = require('dotenv')
-const {ethers}     = require('ethers')
+const {ethers} = require('ethers')
+const dotenv   = require('dotenv')
 dotenv.config()
+const bankArtifact = require(`../${process.env.ENV === 'local' ? 'artifacts-local' : 'artifacts'}/bank.json`)
 
 // Ethers
 const provider     = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
