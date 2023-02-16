@@ -44,8 +44,9 @@ async function checkGas(provider, signer)
  */
 exports.make = async function (interaction, member, from, to, token, amount) {
     const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000}
     const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce          = await provider.getTransactionCount(signer.address)
+    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -95,8 +96,9 @@ exports.make = async function (interaction, member, from, to, token, amount) {
  */
 exports.split = async function (interaction, members, from, to, token, amount) {
     const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000}
     const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce          = await provider.getTransactionCount(signer.address)
+    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -136,8 +138,9 @@ exports.split = async function (interaction, members, from, to, token, amount) {
  */
 exports.burn = async function (interaction, from, token, amount) {
     const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000}
     const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce          = await provider.getTransactionCount(signer.address)
+    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
