@@ -43,9 +43,10 @@ async function checkGas(provider, signer)
  * @returns {Promise<void>}
  */
 exports.make = async function (interaction, member, from, to, token, amount) {
-    const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce          = await provider.getTransactionCount(signer.address)
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+    const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce    = await provider.getTransactionCount(signer.address)
+    console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
@@ -95,9 +96,10 @@ exports.make = async function (interaction, member, from, to, token, amount) {
  * @returns {Promise<void>}
  */
 exports.split = async function (interaction, members, from, to, token, amount) {
-    const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce          = await provider.getTransactionCount(signer.address)
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+    const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce    = await provider.getTransactionCount(signer.address)
+    console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
@@ -137,9 +139,10 @@ exports.split = async function (interaction, members, from, to, token, amount) {
  * @returns {Promise<void>}
  */
 exports.burn = async function (interaction, from, token, amount) {
-    const provider       = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const signer         = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce          = await provider.getTransactionCount(signer.address)
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+    const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce    = await provider.getTransactionCount(signer.address)
+    console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
