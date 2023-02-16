@@ -10,7 +10,7 @@ const webhook           = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
 const React             = require('./react')
 const Lang              = require('./lang')
 const Log               = require('./log')
-const {DB}              = require('../utils')
+const DB                = require('./db')
 dotenv.config()
 
 /**
