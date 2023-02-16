@@ -39,13 +39,14 @@ module.exports = {
         }
 
         // Get last 10 active members
+        let ids        = []
         let members    = []
         let to         = []
         const messages = await interaction.channel.messages.fetch({limit: 100})
 
         for (const [key, message] of messages.entries()) {
             // No duplicates
-            if (members.includes(message.author)) {
+            if (ids.includes(message.author.id)) {
                 continue
             }
 
@@ -71,13 +72,15 @@ module.exports = {
             }
 
             // Push if the message survived
+            ids.push(message.author.id)
             members.push(message.author)
         }
 
         // We only need max 10
+        ids     = ids.slice(0, 10)
         members = members.slice(0, 10)
 
-        for (const id of members) {
+        for (const id of ids) {
             to.push(await Account.address(id))
         }
 

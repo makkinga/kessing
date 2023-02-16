@@ -164,7 +164,7 @@ exports.split = async function (interaction, members, from, to, token, amount) {
     const receiptEmbed = new EmbedBuilder()
         .setAuthor({name: Lang.trans(interaction, 'rain.receipt_title', {rain}), iconURL: config.token_icons[artifact.name]})
         .setFields(
-            {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${amount / members.length} ${artifact.name}`}), value: membersList},
+            {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: membersList},
             {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},
             {name: Lang.trans(interaction, 'rain.channel'), value: `#${interaction.channel.name}`, inline: true}
         )
