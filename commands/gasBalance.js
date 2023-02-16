@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('gas-balance')
         .setDescription('Kessing\'s gas balance')
-        .setDefaultMemberPermissions(0),
+        .setDefaultPermission(false),
 
     async execute(interaction)
     {
