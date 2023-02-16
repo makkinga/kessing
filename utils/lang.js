@@ -15,7 +15,7 @@ exports.trans = function (interaction, key, params = {}) {
     const lang = require(`../lang/${locale}.json`)
     let string = get(lang, key)
 
-    if (typeof string === 'undefined') {
+    if (typeof string === undefined) {
         string = get(require(`../lang/en.json`), key)
     }
 

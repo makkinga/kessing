@@ -28,8 +28,8 @@ module.exports = {
 
         // Respond
         const embed = new EmbedBuilder()
-            .setTitle(Lang.trans(interaction, 'unban.title.member_banned'))
-            .setDescription(Lang.trans(interaction, 'unban.description.member_banned', {member: memberMention}))
+            .setTitle(Lang.trans(interaction, 'unban.title.member_unbanned'))
+            .setDescription(Lang.trans(interaction, 'unban.description.member_unbanned', {member: memberMention}))
 
         await interaction.editReply({embeds: [embed]})
     },
