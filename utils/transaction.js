@@ -1,16 +1,16 @@
-const tipperArtifact    = require('../artifacts/tipper.json')
-const dotenv            = require('dotenv')
-const {ethers}          = require('ethers')
-const getRevertReason   = require('eth-revert-reason')
-const {EmbedBuilder}    = require('discord.js')
-const Token             = require('./token')
-const config            = require('../config.json')
-const {IncomingWebhook} = require('@slack/webhook')
-const webhook           = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
-const React             = require('./react')
-const Lang              = require('./lang')
-const Log               = require('./log')
-const DB                = require('./db')
+const tipperArtifact                                  = require('../artifacts/tipper.json')
+const dotenv                                          = require('dotenv')
+const {ethers}                                        = require('ethers')
+const getRevertReason                                 = require('eth-revert-reason')
+const {EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
+const Token                                           = require('./token')
+const config                                          = require('../config.json')
+const {IncomingWebhook}                               = require('@slack/webhook')
+const webhook                                         = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
+const React                                           = require('./react')
+const Lang                                            = require('./lang')
+const Log                                             = require('./log')
+const DB                                              = require('./db')
 dotenv.config()
 
 /**
@@ -132,9 +132,10 @@ exports.split = async function (interaction, members, from, to, token, amount) {
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
+    let transaction
 
     try {
-        const transaction = await tipper.tipSplit(
+        transaction = await tipper.tipSplit(
             from,
             to,
             ethers.utils.parseEther(amount.toString()),
@@ -150,15 +151,39 @@ exports.split = async function (interaction, members, from, to, token, amount) {
         return await React.error(interaction, 3, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
     }
 
+    const rain   = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
     const rained = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
     const embed  = new EmbedBuilder()
         .setAuthor({name: `@${interaction.user.username} ${rained} ${amount} ${artifact.name}`, iconURL: config.token_icons[artifact.name]})
 
+    let membersList = ''
+    for (const member of members) {
+        membersList += `- @${member.username}#${member.discriminator}\n`
+    }
+
+    const receiptEmbed = new EmbedBuilder()
+        .setAuthor({name: Lang.trans(interaction, 'rain.receipt_title', {rain}), iconURL: config.token_icons[artifact.name]})
+        .setFields(
+            {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${amount / members.length} ${artifact.name}`}), value: membersList},
+            {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},
+            {name: Lang.trans(interaction, 'rain.channel'), value: `#${interaction.channel.name}`, inline: true}
+        )
+        .setTimestamp()
+
+    const explorerLink = new ActionRowBuilder()
+        .addComponents(
+            new ButtonBuilder()
+                .setLabel(Lang.trans(interaction, 'rain.explorer_button'))
+                .setURL(`https://subnets.avax.network/defi-kingdoms/tx/${transaction.hash}`)
+                .setStyle('Link')
+        )
+
+    await interaction.user.send({embeds: [receiptEmbed], components: [explorerLink]})
     await interaction.editReply({embeds: [embed]})
 }
 
 /**
- * Make a single transaction
+ * Burn tokens
  *
  * @param interaction
  * @param from
