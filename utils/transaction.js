@@ -10,8 +10,36 @@ const webhook           = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
 const React             = require('./react')
 const Lang              = require('./lang')
 const Log               = require('./log')
-const {ray}             = require('node-ray')
+const {DB}              = require('../utils')
 dotenv.config()
+
+/**
+ * Get nonce
+ *
+ * @param provider
+ * @param signer
+ * @returns {Promise<void>}
+ */
+async function getNonce(provider, signer)
+{
+    let nonce
+    nonce = await DB.nonceCount.findOne({where: {name: 'nonce'}})
+
+    if (!nonce) {
+        nonce = await provider.getTransactionCount(signer.address)
+
+        await DB.nonceCount.create({
+            name: 'nonce',
+            nonce
+        })
+
+        return nonce.nonce
+    }
+
+    await DB.nonceCount.increment({nonce: 1}, {where: {name: 'nonce'}})
+
+    return nonce.nonce + 1
+}
 
 /**
  * Check gas balance
@@ -45,7 +73,7 @@ async function checkGas(provider, signer)
 exports.make = async function (interaction, member, from, to, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await provider.getTransactionCount(signer.address)
+    const nonce    = await getNonce(provider, signer)
     console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
@@ -98,7 +126,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
 exports.split = async function (interaction, members, from, to, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await provider.getTransactionCount(signer.address)
+    const nonce    = await getNonce(provider, signer)
     console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
@@ -141,7 +169,7 @@ exports.split = async function (interaction, members, from, to, token, amount) {
 exports.burn = async function (interaction, from, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await provider.getTransactionCount(signer.address)
+    const nonce    = await getNonce(provider, signer)
     console.log(`nonce: ${nonce}`) // REMOVE
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)

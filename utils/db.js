@@ -11,12 +11,26 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
  * Sync database
  */
 exports.syncDatabase = async function () {
+    await this.nonceCount.sync()
     await this.accountHolders.sync()
     await this.pendingGifts.sync()
     await this.pendingGifts.truncate()
     await this.giftCooldown.sync()
     await this.messageCount.sync()
 }
+
+/* Nonce counter */
+exports.nonceCount = sequelize.define('nonce', {
+    name : {
+        type     : Sequelize.STRING,
+        allowNull: false,
+        unique   : true
+    },
+    nonce: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+    },
+})
 
 /* Account holders */
 exports.accountHolders = sequelize.define('account_holders', {
