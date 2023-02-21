@@ -47,6 +47,7 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
     await setPresence()
     setInterval(getTokenInfo, 30000)
     setInterval(setPresence, 5000)
+    setInterval(async () => await accountRoles(client), 5000)
 })
 
 // Set price presence
@@ -95,35 +96,23 @@ async function getTokenInfo()
     }
 }
 
-// async function setPermissions()
-// {
-//     for (const guild of Config.get('guilds')) {
-//         let fullPermissions = []
-//
-//         for (const [role, permissions] of Object.entries(Config.get('permissions'))) {
-//             for (const permission of permissions) {
-//
-//                 const guildRoles = typeof Config.get(`roles.${guild}.${role}`) === 'object'
-//                     ? Config.get(`roles.${guild}.${role}`)
-//                     : [Config.get(`roles.${guild}.${role}`)]
-//
-//                 for (const guildRole of guildRoles) {
-//                     fullPermissions.push({
-//                         id         : Config.get(`commands.${guild}.${permission}`),
-//                         permissions: [{
-//                             id        : guildRole,
-//                             type      : 'ROLE',
-//                             permission: true,
-//                         }],
-//                     })
-//                 }
-//             }
-//         }
-//
-//         try {
-//             await client.guilds.cache.get(guild)?.commands.permissions.set({fullPermissions})
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-// }
+async function accountRoles()
+{
+    const accounts = await DB.accountHolders.findAll({
+        where: {
+            role: false
+        }
+    })
+
+    for (const account of accounts) {
+        try {
+            const role   = client.guilds.cache.get(process.env.GUILD_ID).roles.cache.find(role => role.id === process.env.ACCOUNT_ROLE)
+            const member = client.guilds.cache.get(process.env.GUILD_ID).members.cache.find(member => member.id === account.user)
+            await member.roles.add(role)
+
+            await account.update({role: true})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
