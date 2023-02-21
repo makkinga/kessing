@@ -49,7 +49,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Show account')
-                    .setURL('https://kessing.dfk.gyd0x.nl/')
+                    .setURL(process.env.GITBOOK_URL)
                     .setStyle('Link')
             )
 
@@ -57,7 +57,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Deposit')
-                    .setURL('https://kessing.dfk.gyd0x.nl/')
+                    .setURL(process.env.GITBOOK_URL)
                     .setStyle('Link')
             )
 
@@ -65,7 +65,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Withdraw')
-                    .setURL('https://kessing.dfk.gyd0x.nl/')
+                    .setURL(process.env.GITBOOK_URL)
                     .setStyle('Link')
             )
 

@@ -39,7 +39,7 @@ module.exports = {
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, true)
             }
         }
 

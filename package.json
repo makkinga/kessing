@@ -1,6 +1,6 @@
 {
-  "name": "sir-reginald-2",
-  "description": "Discord bot for Freyala",
+  "name": "kessing",
+  "description": "DFK Tipping bot",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

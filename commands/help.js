@@ -161,7 +161,7 @@ module.exports = {
                 .addComponents(
                     new ButtonBuilder()
                         .setLabel(Lang.trans(interaction, 'help.read_full_docs'))
-                        .setURL(`https://docs.kessing.gyd0x.nl/commands/${page.data.slug}`)
+                        .setURL(`${process.env.GITBOOK_URL}/commands/${page.data.slug}`)
                         .setStyle('Link')
                 )
 

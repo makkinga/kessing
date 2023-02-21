@@ -24,7 +24,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel(Lang.trans(interaction, 'create.button'))
-                    .setURL(`https://kessing.dfk.gyd0x.nl?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`)
+                    .setURL(`${process.env.GITBOOK_URL}?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`)
                     .setStyle('Link')
             )
 
