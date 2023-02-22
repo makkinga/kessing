@@ -30,7 +30,7 @@ module.exports = {
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned', {accountDashboard: process.env.DASHBOARD_URL}), true)
+                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, true)
             }
         }
 
@@ -39,16 +39,19 @@ module.exports = {
         }
 
         // Get last 10 active members
-        let ids        = []
-        let members    = []
-        let to         = []
-        const messages = await interaction.channel.messages.fetch({limit: 100})
+        let checked        = []
+        let ids            = []
+        let members        = []
+        let to             = []
+        const guildMembers = await interaction.guild.members.fetch()
+        const messages     = await interaction.channel.messages.fetch({limit: 100})
 
         for (const [key, message] of messages.entries()) {
             // No duplicates
-            if (ids.includes(message.author.id)) {
+            if (checked.includes(message.author.id)) {
                 continue
             }
+            checked.push(message.author.id)
 
             // No command interactions
             if (message.type === 'APPLICATION_COMMAND') {
@@ -65,7 +68,13 @@ module.exports = {
                 continue
             }
 
-            // Wallet owners only
+            // Only account role holders
+            const author = await guildMembers.find(m => m.id === message.author.id)
+            if (!!!author.roles.cache.find(r => r.id === process.env.ACCOUNT_ROLE)) {
+                continue
+            }
+
+            // Only those who are worthy
             const address = Account.address(message.author.id)
             if (!await Account.canBeTipped(address)) {
                 continue
