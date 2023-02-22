@@ -5,7 +5,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('rain')
         .setDescription('Split your JEWEL between 10 active members in the last 100 messages')
-        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount to tip')),
+        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount to tip'))
+        .addRoleOption(option => option.setRequired(false).setName('role').setDescription('Select a role to rain on')),
 
     async execute(interaction)
     {
@@ -15,6 +16,7 @@ module.exports = {
         // Options
         const amount       = interaction.options.getNumber('amount')
         const token        = 'JEWEL'
+        const role         = interaction.options.getRole('role') ?? null
         const artifact     = await Token.artifact(token)
         const tokenAddress = artifact.bank_address
         const from         = await Account.address(interaction.user.id)
@@ -68,10 +70,18 @@ module.exports = {
                 continue
             }
 
-            // Only account role holders
             const author = await guildMembers.find(m => m.id === message.author.id)
+
+            // Only account role holders
             if (!!!author.roles.cache.find(r => r.id === process.env.ACCOUNT_ROLE)) {
                 continue
+            }
+
+            // Only selected role holders
+            if (role) {
+                if (!!!author.roles.cache.find(r => r.id === role)) {
+                    continue
+                }
             }
 
             // Only those who are worthy
