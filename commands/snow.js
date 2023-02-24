@@ -21,7 +21,7 @@ module.exports = {
         // Options
         const amount       = interaction.options.getNumber('amount')
         const token        = 'CRYSTAL'
-        const role         = config.rain_roles[interaction.options.getRole('role')] ?? null
+        const role         = config.rain_roles[interaction.options.getString('role')] ?? null
         const artifact     = await Token.artifact(token)
         const tokenAddress = artifact.address
         const from         = await Account.address(interaction.user.id)
