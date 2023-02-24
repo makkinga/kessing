@@ -1,5 +1,6 @@
 const {SlashCommandBuilder, EmbedBuilder}            = require('discord.js')
 const {Transaction, Account, React, Token, Lang, DB} = require('../utils')
+const config                                         = require('../config.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,7 +21,7 @@ module.exports = {
         // Options
         const amount       = interaction.options.getNumber('amount')
         const token        = 'JEWEL'
-        const role         = interaction.options.getRole('role') ?? null
+        const role         = config.rain_roles[interaction.options.getRole('role')] ?? null
         const artifact     = await Token.artifact(token)
         const tokenAddress = artifact.bank_address
         const from         = await Account.address(interaction.user.id)
