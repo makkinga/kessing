@@ -1,5 +1,5 @@
-const {SlashCommandBuilder}                      = require('discord.js')
-const {Transaction, Account, React, Token, Lang} = require('../utils')
+const {SlashCommandBuilder}                          = require('discord.js')
+const {Transaction, Account, React, Token, Lang, DB} = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -45,10 +45,16 @@ module.exports = {
         let ids            = []
         let members        = []
         let to             = []
-        const guildMembers = await interaction.guild.members.fetch()
         const messages     = await interaction.channel.messages.fetch({limit: 100})
+        let accountHolders = await DB.accountHolders.findAll({where: {role: true}, attributes: ['user']})
+        accountHolders     = accountHolders.map(r => r.user)
 
         for (const [key, message] of messages.entries()) {
+            // Stop when we reach 10
+            if (ids.length === 10) {
+                break
+            }
+
             // No duplicates
             if (checked.includes(message.author.id)) {
                 continue
@@ -70,16 +76,15 @@ module.exports = {
                 continue
             }
 
-            const author = await guildMembers.find(m => m.id === message.author.id)
-
             // Only account role holders
-            if (!!!author.roles.cache.find(r => r.id === process.env.ACCOUNT_ROLE)) {
+            if (!accountHolders.includes(message.author.id)) {
                 continue
             }
 
             // Only selected role holders
             if (role) {
-                if (!!!author.roles.cache.find(r => r.id === role)) {
+                const author = await interaction.guild.members.fetch(message.author.id)
+                if (!author.roles.cache.find(r => r.id === role.id)) {
                     continue
                 }
             }
@@ -95,14 +100,16 @@ module.exports = {
             members.push(message.author)
         }
 
-        // We only need max 10
-        ids     = ids.slice(0, 10)
-        members = members.slice(0, 10)
-
         for (const id of ids) {
             to.push(await Account.address(id))
         }
 
-        await Transaction.split(interaction, members, from, to, token, amount)
+        if (to.length) {
+            await Transaction.split(interaction, members, from, to, token, amount, role)
+        } else {
+            const noMembersEmbed = new EmbedBuilder().setDescription('No members found to snow upon')
+
+            return await interaction.editReply({embeds: [noMembersEmbed]})
+        }
     }
 }

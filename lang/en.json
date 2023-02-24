@@ -86,6 +86,7 @@
         "users_tipped": "These users were each tipped :amount",
         "total_tipped": "Total tipped",
         "channel": "In channel",
+        "role": "To role",
         "explorer_button": "View transaction"
     },
     "rank": {

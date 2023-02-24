@@ -74,7 +74,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
-    console.log(`nonce: ${nonce}`) // REMOVE
+    console.log(`nonce: ${nonce}`)
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
@@ -121,13 +121,14 @@ exports.make = async function (interaction, member, from, to, token, amount) {
  * @param to
  * @param token
  * @param amount
+ * @param role
  * @returns {Promise<void>}
  */
-exports.split = async function (interaction, members, from, to, token, amount) {
+exports.split = async function (interaction, members, from, to, token, amount, role = null) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
-    console.log(`nonce: ${nonce}`) // REMOVE
+    console.log(`nonce: ${nonce}`)
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
@@ -154,20 +155,21 @@ exports.split = async function (interaction, members, from, to, token, amount) {
     const rain   = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
     const rained = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
     const embed  = new EmbedBuilder()
-        .setAuthor({name: `@${interaction.user.username} ${rained} ${amount} ${artifact.name}`, iconURL: config.token_icons[artifact.name]})
+        .setAuthor({name: `@${interaction.user.username} ${rained} ${amount} ${artifact.name}` + (role ? ` on @${role.name}` : ''), iconURL: config.token_icons[artifact.name]})
+        .setFields({name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username}#${m.discriminator}`).join(', ')},)
 
-    let membersList = ''
-    for (const member of members) {
-        membersList += `- @${member.username}#${member.discriminator}\n`
+    const fields = [
+        {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username}#${m.discriminator}`).join('\n ')},
+        {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},
+        {name: Lang.trans(interaction, 'rain.channel'), value: `#${interaction.channel.name}`, inline: true}
+    ]
+    if (role) {
+        fields.push({name: Lang.trans(interaction, 'rain.role'), value: `@${role.name}`, inline: false})
     }
 
     const receiptEmbed = new EmbedBuilder()
         .setAuthor({name: Lang.trans(interaction, 'rain.receipt_title', {rain}), iconURL: config.token_icons[artifact.name]})
-        .setFields(
-            {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: membersList},
-            {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},
-            {name: Lang.trans(interaction, 'rain.channel'), value: `#${interaction.channel.name}`, inline: true}
-        )
+        .setFields(fields)
         .setTimestamp()
 
     const explorerLink = new ActionRowBuilder()
@@ -195,7 +197,7 @@ exports.burn = async function (interaction, from, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
-    console.log(`nonce: ${nonce}`) // REMOVE
+    console.log(`nonce: ${nonce}`)
     const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
