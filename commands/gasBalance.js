@@ -4,8 +4,7 @@ const {ethers}              = require('ethers')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('gas-balance')
-        .setDescription('Kessing\'s gas balance')
-        .setDefaultPermission(false),
+        .setDescription('Kessing\'s gas balance'),
 
     async execute(interaction)
     {
