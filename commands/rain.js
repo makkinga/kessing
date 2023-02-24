@@ -6,7 +6,11 @@ module.exports = {
         .setName('rain')
         .setDescription('Split your JEWEL between 10 active members in the last 100 messages')
         .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount to tip'))
-        .addRoleOption(option => option.setRequired(false).setName('role').setDescription('Select a role to rain on')),
+        .addStringOption(option => option.setRequired(false).setName('role').setDescription('Select a role to rain on').addChoices(
+            {name: '@Heroes', value: 'hero'},
+            {name: '@Active Hero', value: 'active_hero'},
+            {name: '@True Hero', value: 'true_hero'},
+        )),
 
     async execute(interaction)
     {

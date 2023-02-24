@@ -28,5 +28,19 @@
         "error": "#FF0000",
         "warning": "#E7C000"
     },
-    "price_discussion_channel": "886818740627472436"
+    "price_discussion_channel": "886818740627472436",
+    "rain_roles": {
+        "hero": {
+            "id": "866967936073072680",
+            "name": "Heroes"
+        },
+        "active_hero": {
+            "id": "944791182138044546",
+            "name": "Active Hero"
+        },
+        "true_hero": {
+            "id": "872972246250033173",
+            "name": "True Hero"
+        }
+    }
 }
